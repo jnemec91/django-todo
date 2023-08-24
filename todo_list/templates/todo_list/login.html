@@ -1,0 +1,26 @@
+{% extends 'todo_list/base.html' %}
+{% block page_content %}
+<div class='page-container'>
+    
+    <div class="login-container">
+        <h1>Log in</h1>
+        {% if messages %}
+        {% for message in messages %}
+        <div class='alert alert-danger login-alert' role="alert">
+          <p>{{ message }}</p>
+        </div>
+        {% endfor %}
+        {% endif %}
+        <form action="{% url 'todo_list_app:login' %}" id='login-form' method="post">
+            {% csrf_token %}
+            <label for="username-input">Username</label><br>
+            <input id="username-input" type="text" name='username' required><br>
+            <label for="password-input">Password</label><br>
+            <input id="password-input" type="password" name="password" required><br>
+            <button id="login-button" type="submit">Login</button><br>
+            <a href="">You don`t have an account?</a><br>
+            <a href="">Forgot your password?</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

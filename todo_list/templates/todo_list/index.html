@@ -1,5 +1,31 @@
 {% extends 'todo_list/base.html' %}
 
 {% block page_content %}
+    {% if user.is_authenticated %}
+    <div class="page-container">
+        <div class="page-top">
+            <button class="btn btn-success">Add ToDo list:</button>
+        </div>
+        <div class="lists-page">
+            {% for item in todo_lists %}
+            <div class="sticker">
+                <h1>{{item.name}}</h1>
+                <hr>
+                <ul>
+                    {% for field in item.fields %}
+                    <li><input type="checkbox" name="field_{{ forloop.counter }}" id="field_{{ forloop.counter }}" {% if field.checked %}checked{% endif %}>{{field.name}}</li>
+                    <hr>
+                    {% endfor %}
+                </ul>
+                <button class="sticker-button">Edit ToDo list</button>
+            </div>
+            {% endfor %}
 
+        </div>
+
+       
+    </div>
+    {% else %}
+    <h1>Hi there!</h1>
+    {% endif %}
 {% endblock %}
