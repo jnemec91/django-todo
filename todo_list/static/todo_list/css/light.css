@@ -1,0 +1,11 @@
+:root{
+    --paper-white: linear-gradient(45deg,	rgb(255,255,238), rgb(238,238,221));
+    --background: linear-gradient( 90deg,rgba(138, 87, 147, 0.7), rgba(255, 97, 45, 0.7));
+    --font-color: #000;
+    --navbar-hover: rgb(238,238,221);    
+    --color-a: rgba(255, 97, 45, 0.7);
+    --color-b: rgb(238,238,221);    
+    --sticker-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+    --text-shadow: #fff 0px 0px 3px;
+    --arrow-color: rgb(238,238,221);
+   }

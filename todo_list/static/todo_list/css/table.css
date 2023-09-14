@@ -1,0 +1,31 @@
+table{
+    font-size: 1.5em;   
+    border-collapse: collapse;
+}
+
+thead{
+    color: rgb(238,238,221);
+}
+
+th:first-of-type{
+    background-color: rgba(255, 97, 45, 0.7);
+    border-radius: 20px;
+    width: 25%;
+}
+
+th:nth-of-type(2){
+    background-color: rgba(255, 97, 45, 0.7);
+    border-radius: 20px;
+    width: 55%;
+}
+th:nth-of-type(3){
+    width: 5%;
+}
+
+th:nth-of-type(4){
+    width: 5%;
+}
+
+.row-bb{
+    border-bottom: var(--font-color) solid 2px;
+}

@@ -1,0 +1,27 @@
+.checkbox-label{
+    width: 25px;
+    height: 25px;
+    background: var(--paper-white);
+    border: 2px solid black;
+    display: inline-block;
+    margin: 0px 5px 0 0;
+    font-family: 'Marck Script', 'cursive';
+    font-size: 1.5em;
+    color: var(--font-color);
+}
+
+.mark{
+    transform: translate(3px,-20px);
+    display: block;
+}
+
+.mark:after {
+    content: "x";
+    position: absolute;
+    display: none;
+  }
+  
+  /* Show the checkmark when checked */
+  .checkbox-label input:checked ~ .mark:after {
+    display: block;
+  }
