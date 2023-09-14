@@ -2,7 +2,7 @@
     width: 25px;
     height: 25px;
     background: var(--paper-white);
-    border: 2px solid black;
+    border: 2px solid var(--font-color);
     display: inline-block;
     margin: 0px 5px 0 0;
     font-family: 'Marck Script', 'cursive';
