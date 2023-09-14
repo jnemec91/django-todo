@@ -56,7 +56,7 @@
                                 <input type="checkbox" onclick="check_task('{% url 'todo_list_app:check_task' todo_field_id=field.id %}')" name="field_{{ field.id }}" id="field_{{ field.id }}" {% if field.checked %}checked{% endif %} hidden>
                                 <span class="mark"></span>
                             </label>
-                            {{field.name}}
+                            <h3>{{field.name}}</h3>
                         </li>
                     <p style="font-size:1.3em;">{{ field.text }}</p>
                         <p>Deadline at: {{ field.deadline_at|is_null_or_false }}</p>

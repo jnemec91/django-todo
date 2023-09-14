@@ -31,7 +31,7 @@
                             <input type="checkbox" id="field_{{ field.id }}" {% if field.checked %}checked{% endif %} hidden disabled>
                             <span class="mark"></span>
                         </label>
-                        {{field.name}}
+                        <h3>{{field.name}}</h3>
                     </li>
                 <p style="font-size:1.3em;">{{ field.text }}</p>
                     <p>Deadline at: {{ field.deadline_at|is_null_or_false }}</p>

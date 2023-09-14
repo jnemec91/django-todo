@@ -8,6 +8,7 @@
     font-family: 'Marck Script', 'cursive';
     font-size: 1.5em;
     color: var(--font-color);
+    user-select: none;
 }
 
 .mark{
