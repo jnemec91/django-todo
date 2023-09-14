@@ -1,0 +1,72 @@
+{% extends 'todo_list/base.html' %}
+
+
+{% block page_content %}
+<div class="page-container">
+    <div class="sticker">
+        <h1>Settings</h1>
+
+        {% include 'todo_list/message.html' %}
+
+        <form action="{% url 'todo_list_app:settings' %}" method="post" id="login-form">
+            {% csrf_token %}
+            <label class="sticker-label" for="username">Name:</label>
+            <input type="text" name="username" id="username" value="{{ user.username }}">
+            <label class="sticker-label" for="email">Email:</label>
+            <input type="text" name="email" id="email" value="{{ user.email }}">
+            <label class="sticker-label" for="mobile_number">Mobile number:</label>
+            <select name="country_code" id="country_code">
+                {% for code in country_code %}
+                <option value="{{ code.code }}">{{ code.code }}</option>
+                {% endfor %}
+            </select>
+            <input type="text" name="mobile_number" id="mobile_number" value="{{ user.useroptions.mobile_number }}">
+
+            <label class="sticker-label" for="password">Password:</label>
+            <input type="password" name="password" id="password">
+            <label class="sticker-label" for="password2">Confirm Password:</label>
+            <input type="password" name="password2" id="password2">
+
+            <label class="sticker-label" for="theme">Theme:</label>
+            <select name="theme" id="theme">
+                {% if user.useroptions.dark_mode %}
+                    <option class='select-option'  value="1">Dark</option>
+                    <option class='select-option'  value="0">Light</option>
+                {% else %}
+                    <option class='select-option'  value="0">Light</option>
+                    <option class='select-option'  value="1">Dark</option>
+                {% endif %}
+            </select>
+
+            <label class="sticker-label" for="email_notifications">Email notifications:</label>
+            <select name="email_notifications" id="email_notifications">
+                {% if user.useroptions.email_notifications %}
+                    <option class='select-option' value="1">On</option>
+                    <option class='select-option'  value="0">Off</option>
+                {% else %}
+                    <option class='select-option'  value="0">Off</option>
+                    <option class='select-option'  value="1">On</option>
+                {% endif %}
+            </select>
+            {% if user.useroptions.mobile_number != '' %}
+            <label class="sticker-label" for="mobile_notifications">SMS notifications:</label>
+            <select name="mobile_notifications" id="mobile_notifications">
+                {% if user.useroptions.mobile_notifications %}
+                    <option class='select-option' value="1"><a href='#username'>On</a></option>
+                    <option class='select-option' value="0">Off</option>
+                {% else %}
+                    <option class='select-option' value="0">Off</option>
+                    <option class='select-option' value="1">On</option>
+                {% endif %}
+            </select>
+            {% endif %}
+            <br>
+
+            <button class="sticker-button">Save</button>
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

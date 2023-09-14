@@ -1,0 +1,32 @@
+{% extends 'todo_list/base.html' %}
+{% load static %}
+{% block page_content %}
+<div class='page-container'>
+    <div class="lists-page">
+        <div class="sticker">
+            <h1 class="sticker-heading">Add ToDo list</h1>
+            {% if messages %}
+            {% for message in messages %}
+            <div class='alert' role="alert">
+              <p>{{ message }}</p>
+            </div>
+            {% endfor %}
+            {% endif %}
+            <form action="{% url 'todo_list_app:create_todo_list' %}" id='login-form' method="post">
+                {% csrf_token %}
+                <label for="list-name">Name</label>
+                <input id="list-name" type="text" name='name' required>
+    
+                <div id="task"></div>
+    
+                <button id="add-field-button" class="sticker-button" type="button" onclick="add_field()">Add field</button><br>
+                
+                <script src="{% static 'todo_list/js/field.js' %}"></script>
+    
+                <button id="" class="sticker-button" type="submit">Save</button><br>
+            </form>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

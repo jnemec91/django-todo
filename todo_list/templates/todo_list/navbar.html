@@ -1,20 +1,20 @@
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'todo_list_app:index' %}">ToDo List</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-         aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-         </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
-                <a class="nav-link" aria-current="page" href="{% url 'todo_list_app:index' %}">Home</a>
+<div class="navbar-wrap">
+    <nav class="navbar">
+        <ul>
+            <li>
+                
                 {% if user.is_authenticated %}
-                <a class="nav-link" aria-current="page" href="{% url 'todo_list_app:logout' %}">{{user.username}}:Logout</a>
+                <a class="nav"  href="{% url 'todo_list_app:index' %}">Browse</a>
+                <a class="nav" href="{% url 'todo_list_app:list_of_todo_lists' %}">My lists</a>
+                
+                <a class="nav" href="{% url 'todo_list_app:create_todo_list' %}">Add list</a>
+                <a class="nav" aria-current="page" href="{% url 'todo_list_app:settings' %}">Settings</a>
+                <a class="nav nav-right"  href="{% url 'todo_list_app:logout' %}">{{user.username}}:Logout</a>
                 {% else %}
-                <a class="nav-link" aria-current="page" href="{% url 'todo_list_app:login' %}">Login</a>
+                <h1 class="nav">Online ToDo list</h1>
+                <a class="nav-right" aria-current="page" href="{% url 'todo_list_app:login' %}">Log in</a>
                 {% endif %}
-            </div>
-        </div>
-    </div>
-</nav>
+            </li>
+        </ul>
+    </nav>
+</div>

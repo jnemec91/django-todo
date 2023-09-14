@@ -1,0 +1,48 @@
+{% extends 'todo_list/base.html' %}
+{% load todo_list_tags %}
+{% block page_content %}
+    <div class="page-container">
+
+        <div class="sticker">
+            <hr>
+            {% if todo_lists|is_empty > 0 %}
+            <table>
+                <thead>
+                    <th>Name of ToDo list</th>
+                    <th>Unchecked tasks</th>
+                    <th></th>
+                    <th></th>
+                </thead>
+                <tbody>
+                    {% for todo_list in todo_lists %}
+                    <tr class='row-bb'>
+                        <td>{{ todo_list.name }}</td>
+                        <td>{% for field in todo_list.fields %}{% if field.checked == False %}<p>{{field.name}},</p> {% endif %}{% endfor %}</td>
+                        <td>
+                            <form action="{% url 'todo_list_app:edit_todo_list' todo_list_id=todo_list.id  %}" method="get">
+                                <button class="sticker-button small" type="submit">Edit</button>
+                            </form>
+                        </td>
+                        
+                        <td>
+                            <form action="{% url 'todo_list_app:delete_todo_list' todo_list_id=todo_list.id  %}" method="post">
+                                {% csrf_token %}
+                                <button class="sticker-button small" type="submit">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+                <h1 class="sticker-heading"><a class='sticker-anchor' href="{% url 'todo_list_app:create_todo_list' %}">You don`t have any ToDo lists yet, create one!</a></h1>
+                <hr>                
+            {% endif %}            
+
+        </div>
+
+    </div>
+
+
+{% endblock %}

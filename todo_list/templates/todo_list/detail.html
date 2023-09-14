@@ -1,0 +1,49 @@
+{% extends 'todo_list/base.html' %}
+{% load todo_list_tags %}
+{% load static %}
+
+
+{%  block page_content %}
+
+<div class="page-container">
+
+    <div id="carousel-wrap">
+        {% if todo_lists|is_empty == False %}
+        <div class="slide">
+            <div class="sticker">
+                <h1 class="sticker-heading">There is nothing here!</h1>
+                <p>The list you are looking for never existed or was deleted.</p>
+                <hr>
+            </div>
+        </div>
+        {% else %}
+        {% for todo_list in todo_lists %}
+        <div class="slide">
+            <div class="sticker" id="sticker_{{todo_list.id}}">
+                <h1 class="sticker-heading">{{todo_list.name}}</h1>
+                <hr>
+                <ul>
+                    {% for field in todo_list.fields %}
+                    
+                        <li>
+                            <label class="checkbox-label" for="field_{{ field.id }}">
+                            
+                            <input type="checkbox" id="field_{{ field.id }}" {% if field.checked %}checked{% endif %} hidden disabled>
+                            <span class="mark"></span>
+                        </label>
+                        {{field.name}}
+                    </li>
+                <p style="font-size:1.3em;">{{ field.text }}</p>
+                    <p>Deadline at: {{ field.deadline_at|is_null_or_false }}</p>
+                    <hr>
+                    {% endfor %}
+                </ul>              
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+        
+    
+</div>
+
+{% endblock %}

@@ -1,31 +1,87 @@
 {% extends 'todo_list/base.html' %}
+{% load todo_list_tags %}
+{% load static %}
 
 {% block page_content %}
+
     {% if user.is_authenticated %}
+    {% csrf_token %}
+
     <div class="page-container">
-        <div class="page-top">
-            <button class="btn btn-success">Add ToDo list:</button>
+        {% if todo_lists|is_empty > 1 %}
+        <div class="next-wrap">
+            <button id="next"> &raquo </button>
         </div>
-        <div class="lists-page">
-            {% for item in todo_lists %}
-            <div class="sticker">
-                <h1>{{item.name}}</h1>
-                <hr>
-                <ul>
-                    {% for field in item.fields %}
-                    <li><input type="checkbox" name="field_{{ forloop.counter }}" id="field_{{ forloop.counter }}" {% if field.checked %}checked{% endif %}>{{field.name}}</li>
+        <div class="back-wrap">
+            <button id="back"> &laquo </button>
+        </div>       
+        {% endif %}
+        <div id="share-modal-wrap">
+            {% for todo_list in todo_lists %}
+                <div class="share-modal" id="modal_{{todo_list.id}}">
+                    <div class="modal-header">
+                        <h2>Share list</h2>
+                    </div>
+                    <div class="modal-body">
+                        <p>Share this list with your friends:</p>
+                        <input type="text" value="{{request.scheme}}://{{request.get_host}}{% url 'todo_list_app:list_details' todo_list_hash=todo_list.hash %}" id="share-link_{{todo_list.id}}" readonly>
+                        <button class="sticker-button" onclick="copyToClipboard('share-link_{{todo_list.id}}')">Copy</button><br>
+                        <button class="sticker-button" onclick="hideShareModal('modal_{{todo_list.id}}')">Close</button>
+                    </div>
+                </div>
+            {% endfor %}
+            </div> 
+        <div id="carousel-wrap">
+            {% if todo_lists|is_empty == False %}
+            <div class="slide">
+                <div class="sticker">
+                    <h1  class="sticker-heading">Add new ToDo list</h1>
                     <hr>
-                    {% endfor %}
-                </ul>
-                <button class="sticker-button">Edit ToDo list</button>
+                    <form action="{% url 'todo_list_app:create_todo_list' %}" method="get">
+                    <button class="sticker-button" type="submit">Add</button>
+                </div>
+            </div>
+            {% endif %}
+
+            {% for todo_list in todo_lists %}
+            <div class="slide">
+                <div class="sticker" id="sticker_{{todo_list.id}}">
+                    <h1 class="sticker-heading">{{todo_list.name}}</h1>
+                    <hr>
+                    <ul>
+                        {% for field in todo_list.fields %}
+                        
+                        <li>
+                            <label class="checkbox-label" for="field_{{ field.id }}">
+                                <input type="checkbox" onclick="check_task('{% url 'todo_list_app:check_task' todo_field_id=field.id %}')" name="field_{{ field.id }}" id="field_{{ field.id }}" {% if field.checked %}checked{% endif %} hidden>
+                                <span class="mark"></span>
+                            </label>
+                            {{field.name}}
+                        </li>
+                    <p style="font-size:1.3em;">{{ field.text }}</p>
+                        <p>Deadline at: {{ field.deadline_at|is_null_or_false }}</p>
+                        <hr>
+                        {% endfor %}
+                    </ul>
+                    <form action="{% url 'todo_list_app:edit_todo_list' todo_list_id=todo_list.id  %}" method="get" class="sticker-form">
+                        <button class="sticker-button" type="submit">Edit</button>
+                    </form>
+                    <form action="{% url 'todo_list_app:delete_todo_list' todo_list_id=todo_list.id %}" method="post" class="sticker-form">
+                        {% csrf_token %}
+                        <button class="sticker-button" type="submit">Delete</button>
+                    </form>
+
+                    <button class="sticker-button" type="submit" onclick="showShareModal('modal_{{todo_list.id}}')">Share</button>
+
+                </div>
             </div>
             {% endfor %}
 
-        </div>
-
-       
+        <script src="{% static 'todo_list/js/share.js' %}"></script>
+        <script src="{% static 'todo_list/js/slide.js' %}"></script>
+        <script src="{% static 'todo_list/js/check.js' %}"></script>
+        
     </div>
-    {% else %}
-    <h1>Hi there!</h1>
+
     {% endif %}
 {% endblock %}
