@@ -16,8 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+import django.contrib.auth.views as auth_views
 
 urlpatterns = [
     path('', include('todo_list_app.urls')), # Add todo_list_app to urlpatterns
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls),  
 ]

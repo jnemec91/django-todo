@@ -8,10 +8,6 @@ class UserOptions(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     dark_mode = models.BooleanField(default=False)
     email_notifications = models.BooleanField(default=False)
-    country_code = models.ForeignKey('CountryCode', on_delete=models.CASCADE, null=True, blank=True)
-    mobile_number = models.CharField(max_length=255, null=False, blank=True)
-    mobile_notifications = models.BooleanField(default=False)
-
     def __str__(self) -> str:
         return f'{self.user.username}`s useroptions'
 
@@ -23,6 +19,7 @@ class TodoList(models.Model):
     access_granted = models.ManyToManyField(User, related_name='access_granted', blank=True)
     fields = models.ManyToManyField('TodoField', blank=True)
     hash = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
    
     def _create_hash(self) -> str:
         h = hashlib.new('sha256')
@@ -47,7 +44,3 @@ class TodoField(models.Model):
 
     def __str__(self) -> str:
         return self.name
-    
-class CountryCode(models.Model):
-    code = models.CharField(max_length=255, null=False, blank=False)
-    country = models.CharField(max_length=255, null=False, blank=True)

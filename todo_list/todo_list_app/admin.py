@@ -1,8 +1,7 @@
 from django.contrib import admin
-from .models import TodoList, TodoField, UserOptions, CountryCode
+from .models import TodoList, TodoField, UserOptions
 
 # Register your models here.
 admin.site.register(TodoList)
 admin.site.register(TodoField)
 admin.site.register(UserOptions)
-admin.site.register(CountryCode)

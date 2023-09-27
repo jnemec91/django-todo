@@ -1,5 +1,7 @@
 from django.urls import path
 from . import views
+import django.contrib.auth.views as auth_views
+
 
 app_name = 'todo_list_app'
 
@@ -15,4 +17,9 @@ urlpatterns = [
     path('todo_list/<str:todo_list_hash>/', views.list_details, name='list_details'),
     path('check/<int:todo_field_id>',views.check_task, name='check_task'),
     path('settings/', views.settings, name='settings'),
+
+    path('password_reset/', views.ToDoAppPasswordResetView.as_view(), name='password_reset'),
+    path('password_reset/done/', views.ToDoAppPasswordResetDoneView.as_view(), name='password_reset_done'),
+    path('reset/<uidb64>/<token>/', views.ToDoAppPasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    path('reset/done/', views.ToDoAppPasswordResetCompleteView.as_view(), name='password_reset_complete'),
 ]

@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, JsonResponse
 from django.contrib import messages
-from .models import TodoList, TodoField, UserOptions, CountryCode
+from .models import TodoList, TodoField, UserOptions
 from django.contrib.auth.models import User
 import datetime
+from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView 
 
 # Create your views here.
 
@@ -19,7 +21,7 @@ def index(request):
                 'fields':[a for a in i.fields.all()],
                 'hash':i.hash,
             } 
-            for i in TodoList.objects.filter(owner=request.user)
+            for i in TodoList.objects.filter(owner=request.user).order_by('-created_at')
         ]     
         
         return render(request, 'todo_list/index.html', {'todo_lists':todo_lists})
@@ -69,8 +71,6 @@ def signup(request):
     # form for sign up new  user
     if request.method == 'POST':
         email = request.POST.get('email')
-        country_code = request.POST.get('country_code')
-        mobile_number = request.POST.get('mobile_number')
         username = request.POST.get('username')
         password = request.POST.get('password')
         password2 = request.POST.get('password2')    
@@ -91,8 +91,6 @@ def signup(request):
                 user_options = UserOptions.objects.create(user=user)
                 user_options.dark_mode = False
                 user_options.email_notifications = False
-                user
-                user_options.mobile_notifications = False
                 user_options.save()
 
                 return redirect('todo_list_app:login')
@@ -106,9 +104,8 @@ def signup(request):
 
         return redirect('todo_list_app:index')
     
-    country_codes = CountryCode.objects.all()
     
-    return render(request, 'todo_list/signup.html', {'country_code':country_codes})
+    return render(request, 'todo_list/signup.html')
 
 
 @login_required
@@ -269,16 +266,6 @@ def settings(request):
         user_options = UserOptions.objects.get(user=request.user)
         user_options.theme = request.POST.get('theme')
         user_options.email_notifications = bool(int(request.POST.get('email_notifications')))
-
-        if user_options.mobile_number != '':
-            user_options.mobile_notifications = bool(int(request.POST.get('mobile_notifications')))
-        else:
-            user_options.mobile_notifications = False
-
-        country_code = request.POST.get('country_code')
-        user_options.mobile_number = request.POST.get('mobile_number')
-        if user_options.mobile_number == '':
-            user_options.mobile_notifications = False
         
         user_options.dark_mode = bool(int(request.POST.get('theme')))
         user_options.save()
@@ -297,11 +284,13 @@ def settings(request):
                 messages.add_message(request, messages.ERROR, 'Account with this email already exists.')
                 return redirect('todo_list_app:settings')
             else:
+                user = User.objects.get(id=request.user.id)
                 user.email = request.POST.get('email')
                 user.save()
 
         if request.POST.get('password') != '':
             if request.POST.get('password') == request.POST.get('password2'):
+                user = User.objects.get(id=request.user.id)
                 user.set_password(request.POST.get('password'))
                 user.save()
             else:
@@ -313,7 +302,21 @@ def settings(request):
 
     user = User.objects.get(id=request.user.id)
     user_options = UserOptions.objects.get(user=user)
-    country_codes = CountryCode.objects.all()
 
-    return render(request, 'todo_list/settings.html', {'user_options':user_options, 'country_code':country_codes})
-        
+    return render(request, 'todo_list/settings.html', {'user_options':user_options})
+
+
+class ToDoAppPasswordResetView(PasswordResetView):
+    template_name = 'registration/password_reset_form.html'
+    email_template_name = 'registration/password_reset_email.html'
+    success_url = reverse_lazy('todo_list_app:password_reset_done')
+
+class ToDoAppPasswordResetDoneView(PasswordResetDoneView):
+    template_name = 'registration/password_reset_done.html'
+
+class ToDoAppPasswordResetConfirmView(PasswordResetConfirmView):
+    template_name = 'registration/password_reset_confirm.html'
+    success_url = reverse_lazy('todo_list_app:password_reset_complete')
+
+class ToDoAppPasswordResetCompleteView(PasswordResetCompleteView):
+    template_name = 'registration/password_reset_complete.html'
