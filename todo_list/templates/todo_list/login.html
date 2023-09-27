@@ -1,4 +1,7 @@
 {% extends 'todo_list/base.html' %}
+
+{% block title %}<title>ToDo list App</title>{% endblock %}
+
 {% block page_content %}
 <div class='page-container'>
     
@@ -15,7 +18,7 @@
             <input id="password-input" type="password" name="password" required><br>
             <button id="login-button" type="submit">Login</button><br>
             <a href="{% url 'todo_list_app:signup' %}">You don`t have an account? Sign up here!</a><br>
-            <a href="">Forgot your password?</a>
+            <a href="{% url 'todo_list_app:password_reset' %}">Forgot your password?</a>
         </form>
     </div>
 </div>

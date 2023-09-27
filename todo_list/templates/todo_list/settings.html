@@ -1,5 +1,6 @@
 {% extends 'todo_list/base.html' %}
 
+{% block title %}<title>Settings</title>{% endblock %}
 
 {% block page_content %}
 <div class="page-container">
@@ -14,13 +15,13 @@
             <input type="text" name="username" id="username" value="{{ user.username }}">
             <label class="sticker-label" for="email">Email:</label>
             <input type="text" name="email" id="email" value="{{ user.email }}">
-            <label class="sticker-label" for="mobile_number">Mobile number:</label>
+            {% comment %} <label class="sticker-label" for="mobile_number">Mobile number:</label>
             <select name="country_code" id="country_code">
                 {% for code in country_code %}
                 <option value="{{ code.code }}">{{ code.code }}</option>
                 {% endfor %}
             </select>
-            <input type="text" name="mobile_number" id="mobile_number" value="{{ user.useroptions.mobile_number }}">
+            <input type="text" name="mobile_number" id="mobile_number" value="{{ user.useroptions.mobile_number }}"> {% endcomment %}
 
             <label class="sticker-label" for="password">Password:</label>
             <input type="password" name="password" id="password">
@@ -48,7 +49,7 @@
                     <option class='select-option'  value="1">On</option>
                 {% endif %}
             </select>
-            {% if user.useroptions.mobile_number != '' %}
+            {% comment %} {% if user.useroptions.mobile_number != '' %}
             <label class="sticker-label" for="mobile_notifications">SMS notifications:</label>
             <select name="mobile_notifications" id="mobile_notifications">
                 {% if user.useroptions.mobile_notifications %}
@@ -59,7 +60,7 @@
                     <option class='select-option' value="1">On</option>
                 {% endif %}
             </select>
-            {% endif %}
+            {% endif %} {% endcomment %}
             <br>
 
             <button class="sticker-button">Save</button>

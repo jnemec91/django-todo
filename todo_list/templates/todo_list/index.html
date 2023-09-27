@@ -2,6 +2,8 @@
 {% load todo_list_tags %}
 {% load static %}
 
+{% block title %}<title>Browse ToDo lists</title>{% endblock %}ss
+
 {% block page_content %}
 
     {% if user.is_authenticated %}
@@ -18,17 +20,17 @@
         {% endif %}
         <div id="share-modal-wrap">
             {% for todo_list in todo_lists %}
-                <div class="share-modal" id="modal_{{todo_list.id}}">
-                    <div class="modal-header">
-                        <h2>Share list</h2>
-                    </div>
-                    <div class="modal-body">
-                        <p>Share this list with your friends:</p>
-                        <input type="text" value="{{request.scheme}}://{{request.get_host}}{% url 'todo_list_app:list_details' todo_list_hash=todo_list.hash %}" id="share-link_{{todo_list.id}}" readonly>
-                        <button class="sticker-button" onclick="copyToClipboard('share-link_{{todo_list.id}}')">Copy</button><br>
-                        <button class="sticker-button" onclick="hideShareModal('modal_{{todo_list.id}}')">Close</button>
-                    </div>
+            <div class="share-modal" id="modal_{{todo_list.id}}">
+                <div class="modal-header">
+                    <h2>Share list</h2>
                 </div>
+                <div class="modal-body">
+                    <p>Share this list with your friends:</p>
+                    <input type="text" value="{{request.scheme}}://{{request.get_host}}{% url 'todo_list_app:list_details' todo_list_hash=todo_list.hash %}" id="share-link_{{todo_list.id}}" readonly>
+                    <button class="sticker-button" onclick="copyToClipboard('share-link_{{todo_list.id}}')">Copy</button><br>
+                    <button class="sticker-button" onclick="hideShareModal('modal_{{todo_list.id}}')">Close</button>
+                </div>
+            </div>
             {% endfor %}
             </div> 
         <div id="carousel-wrap">
@@ -81,7 +83,8 @@
         <script src="{% static 'todo_list/js/slide.js' %}"></script>
         <script src="{% static 'todo_list/js/check.js' %}"></script>
         
+        </div>
     </div>
-
     {% endif %}
+
 {% endblock %}
