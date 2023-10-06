@@ -6,7 +6,7 @@
     display: inline-block;
     margin: 0px 5px 0 0;
     font-family: 'Marck Script', 'cursive';
-    font-size: 1.5em;
+    font-size: 1.5em!important;
     color: var(--font-color);
     user-select: none;
 }
@@ -14,6 +14,12 @@
 .mark{
     transform: translate(3px,-20px);
     display: block;
+}
+
+@media only screen and (max-width: 1100px) {
+  .mark{
+    transform: translate(3px,-10px);
+  }
 }
 
 .mark:after {

@@ -28,7 +28,12 @@
 }
 
 .active{
-    z-index: 998!important;
+    z-index: 10!important;
+    opacity: 1!important;
+}
+
+.wrap-active{
+    z-index: 9!important;
     opacity: 1!important;
 }
 

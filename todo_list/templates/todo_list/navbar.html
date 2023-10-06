@@ -1,4 +1,4 @@
-<div class="navbar-wrap">
+<div class="navbar-wrap collapsed"  id='navbar'>
     <nav class="navbar">
         <ul>
             <li>
@@ -11,10 +11,12 @@
                 <a class="nav" aria-current="page" href="{% url 'todo_list_app:settings' %}">Settings</a>
                 <a class="nav nav-right"  href="{% url 'todo_list_app:logout' %}">{{user.username}}:Logout</a>
                 {% else %}
-                <h1 class="nav">Online ToDo list</h1>
+                <h1 class="nav" id="logo-text">Online ToDo list</h1>
                 <a class="nav-right" aria-current="page" href="{% url 'todo_list_app:login' %}">Log in</a>
                 {% endif %}
             </li>
         </ul>
     </nav>
 </div>
+<button id='nav-enabler' type="button" onclick="ToggleMenu()"><i class="fa fa-bars"></i></button>
+<div id="navbar-toggler" class='navbar-toggler' onclick="ToggleMenu()"></div>
