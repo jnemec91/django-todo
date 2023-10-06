@@ -7,22 +7,22 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Marck+Script&display=swap" rel="stylesheet">
+    <link type="text/css" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Marck+Script&display=swap" rel="stylesheet">
 
 
     {% if user.useroptions.dark_mode == True %}
-        <link rel="stylesheet" href="{% static 'todo_list/css/dark.css' %}">
+        <link rel="stylesheet" href="{% static 'todo_list/css/dark.css' %}" type="text/css">
     {% else %}
-        <link rel="stylesheet" href="{% static 'todo_list/css/light.css' %}">
+        <link rel="stylesheet" href="{% static 'todo_list/css/light.css' %}" type="text/css">
     {% endif %}
 
 
-    <link rel="stylesheet" href="{% static 'todo_list/css/main.css' %}">
-    <link rel="stylesheet" href="{% static 'todo_list/css/navbar.css' %}">
-    <link rel="stylesheet" href="{% static 'todo_list/css/table.css' %}">
-    <link rel="stylesheet" href="{% static 'todo_list/css/share-modal.css' %}">
-    <link rel="stylesheet" href="{% static 'todo_list/css/footer.css' %}">
-    <link rel="stylesheet" href="{% static 'todo_list/css/checkbox.css' %}">    
+    <link rel="stylesheet" type="text/css" href="{% static 'todo_list/css/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'todo_list/css/navbar.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'todo_list/css/table.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'todo_list/css/share-modal.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'todo_list/css/footer.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'todo_list/css/checkbox.css' %}">    
 
     {% block title %}
     {% endblock %}

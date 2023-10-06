@@ -27,7 +27,7 @@ SECRET_KEY = os.environ.get('KEY')
 DEBUG = True
 
 # Only allow localhost in production environment
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['django-todo-application-a83c3f526c28.herokuapp.com']
 
 
 # Application definition
