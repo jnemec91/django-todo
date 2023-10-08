@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # Only allow localhost in production environment
 ALLOWED_HOSTS = ['django-todo-application-a83c3f526c28.herokuapp.com']
@@ -107,8 +107,15 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 #email settings
-EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
-EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
+# Email configuration, read from app.ini file or from defaults.ini file
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+DEFAULT_FROM_EMAIL =  str(os.environ.get('DEFAULT_EMAIL'))
+EMAIL_HOST = str(os.environ.get('SMTP_SERVER'))
+EMAIL_PORT = int(os.environ.get('SMTP_PORT'))
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER =  str(os.environ.get('EMAIL_USER'))
+EMAIL_HOST_PASSWORD = str(os.environ.get('EMAIL_PASSWORD'))
+EMAIL_TIMEOUT = 10.0
 
 #Login settings
 LOGIN_URL = '/login/'
