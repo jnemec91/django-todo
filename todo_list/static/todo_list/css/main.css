@@ -409,3 +409,13 @@ select{
 .reset-help ul li::before{
     content: "- ";
 }
+
+#footer-anchor{
+    color: var(--font-color);
+    text-decoration: none;
+    font-size: 1em;
+}
+
+#footer-anchor:hover{
+    color: var(--color-a);
+}
