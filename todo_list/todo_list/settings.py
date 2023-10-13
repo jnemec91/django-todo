@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,13 +22,19 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'secret-key'
+SECRET_KEY = os.environ.get('KEY')
+
+SECURE_SSL_REDIRECT = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
+DEBUG_PROPAGATE_EXCEPTIONS = False
 
 # Only allow localhost in production environment
-ALLOWED_HOSTS = ['*', '127.0.0.1']
+ALLOWED_HOSTS = ['127.0.0.1','www.todo-list.cz']
 
 
 # Application definition
@@ -43,6 +51,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -79,11 +88,13 @@ WSGI_APPLICATION = 'todo_list.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db_test.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
     }
 }
+db_from_env = dj_database_url.config(conn_max_age=600)
+DATABASES['default'].update(db_from_env)
+
 
 
 # Password validation
@@ -105,8 +116,15 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 #email settings
-EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
-EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
+# Email configuration, read from app.ini file or from defaults.ini file
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+DEFAULT_FROM_EMAIL =  str(os.environ.get('DEFAULT_EMAIL'))
+EMAIL_HOST = str(os.environ.get('SMTP_SERVER'))
+EMAIL_PORT = int(os.environ.get('SMTP_PORT'))
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER =  str(os.environ.get('EMAIL_USER'))
+EMAIL_HOST_PASSWORD = str(os.environ.get('EMAIL_PASSWORD'))
+EMAIL_TIMEOUT = 10.0
 
 #Login settings
 LOGIN_URL = '/login/'
@@ -126,9 +144,15 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
-STATIC_DIR = BASE_DIR / 'static'
-STATICFILES_DIRS = [STATIC_DIR]
+STATIC_ROOT = BASE_DIR / 'static'
 STATIC_URL = 'static/'
+
+STORAGES = {
+    # ...
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+    },
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
