@@ -10,7 +10,7 @@
     {% csrf_token %}
 
     <div class="page-container">
-        {% if todo_lists|is_empty > 1 %}
+        {% if todo_lists|get_length_or_empty > 1 %}
         <div class="next-wrap">
             <button id="next"> &raquo </button>
         </div>
@@ -34,7 +34,7 @@
             {% endfor %}
             </div> 
         <div id="carousel-wrap">
-            {% if todo_lists|is_empty == False %}
+            {% if todo_lists|get_length_or_empty == False %}
             <div class="slide">
                 <div class="sticker">
                     <h1  class="sticker-heading">Add new ToDo list</h1>

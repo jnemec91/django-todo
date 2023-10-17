@@ -12,6 +12,13 @@ from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, 
 # Create your views here.
 
 def index(request):
+    """
+    View function for home page of site. 
+    
+    If user is authenticated, returns list of todo lists.
+
+    If user isnt authenticated redirects to login page.
+    """
     if request.user.is_authenticated:
         todo_lists = [
             {
@@ -29,7 +36,14 @@ def index(request):
     else:
         return redirect('todo_list_app:login')
 
-def list_details(request, todo_list_hash):
+def list_details(request, todo_list_hash: str):
+        """
+        View function for todo list details page.
+        
+        Returns todo list details.
+        
+        Todo list hash is used to get todo list and is required parameter.
+        """
         todo_lists = [
             {
                 'id':i.id,
@@ -39,13 +53,20 @@ def list_details(request, todo_list_hash):
                 'hash':i.hash,
             } 
             for i in TodoList.objects.filter(hash=todo_list_hash)
-        ]     
+        ]
         
         return render(request, 'todo_list/detail.html', {'todo_lists':todo_lists})
 
 
 
 def user_login(request):
+    """
+    View function for login page.
+
+    If user is authenticated, redirects to index page.
+
+    If user is not authenticated, returns login page.
+    """
     if request.method =='POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -68,7 +89,13 @@ def user_login(request):
 
 
 def signup(request):
-    # form for sign up new  user
+    """
+    View function for signup page.
+
+    If user is authenticated, redirects to index page.
+
+    If user is not authenticated, returns signup page.
+    """
     if request.method == 'POST':
         email = request.POST.get('email')
         username = request.POST.get('username')
@@ -110,6 +137,11 @@ def signup(request):
 
 @login_required
 def log_out(request):
+    """
+    Logout function.
+
+    Logs out user and redirects to login page.
+    """
     logout(request)
     
     return redirect('todo_list_app:login')
@@ -117,6 +149,13 @@ def log_out(request):
 
 @login_required
 def create_todo_list(request):
+    """
+    Create todo list page view.
+
+    If method is POST, creates todo list and redirects to index page. 
+
+    If method is GET, returns create todo list page.
+    """
     if request.method == 'POST':
         name = request.POST.get('name')
         new_fields = request.POST.getlist('fields_new')
@@ -139,7 +178,14 @@ def create_todo_list(request):
 
 
 @login_required
-def delete_todo_list(request, todo_list_id):
+def delete_todo_list(request, todo_list_id: int):
+    """
+    Delete todo list function. 
+    
+    Deletes todo list and redirects to index page.
+
+    Requires todo_list_id as parameter.
+    """
     if request.method == 'POST':
         todo_list = TodoList.objects.get(id=todo_list_id)
         if todo_list:
@@ -153,7 +199,16 @@ def delete_todo_list(request, todo_list_id):
 
 
 @login_required
-def edit_todo_list(request,todo_list_id):
+def edit_todo_list(request,todo_list_id: int):
+    """
+    Edit todo list page view.
+    
+    If method is POST, edits todo list and redirects to index page. 
+    
+    If method is GET, returns edit todo list page.
+
+    Requires todo_list_id as parameter.
+    """
     if request.method == 'POST':
         todo_list = TodoList.objects.get(id=todo_list_id)
         if todo_list:
@@ -227,6 +282,11 @@ def edit_todo_list(request,todo_list_id):
 
 @login_required
 def list_of_todo_lists(request):
+    """
+    List of todo lists page view. 
+    
+    Returns list all of todo lists wich owner is the user that sent the request.
+    """
     todo_lists = [
         {
             'id':i.id,
@@ -241,7 +301,14 @@ def list_of_todo_lists(request):
 
 
 @login_required
-def check_task(request, todo_field_id):
+def check_task(request, todo_field_id: int):
+    """
+    Check task function.
+
+    Checks task and returns success response.
+
+    Requires todo_field_id as parameter.
+    """
     field = TodoField.objects.get(id=todo_field_id)
 
     user_fields = []
@@ -262,6 +329,13 @@ def check_task(request, todo_field_id):
 
 @login_required
 def settings(request):
+    """
+    Settings page view.
+
+    If method is POST, edits user options and redirects to settings page.
+
+    If method is GET, returns settings page.
+    """
     if request.method == 'POST':
         user_options = UserOptions.objects.get(user=request.user)
         user_options.theme = request.POST.get('theme')
@@ -307,16 +381,28 @@ def settings(request):
 
 
 class ToDoAppPasswordResetView(PasswordResetView):
+    """
+    Django built-in PasswordResetView with custom template.
+    """
     template_name = 'registration/password_reset_form.html'
     email_template_name = 'registration/password_reset_email.html'
     success_url = reverse_lazy('todo_list_app:password_reset_done')
 
 class ToDoAppPasswordResetDoneView(PasswordResetDoneView):
+    """
+    Django built-in PasswordResetDoneView with custom template.
+    """
     template_name = 'registration/password_reset_done.html'
 
 class ToDoAppPasswordResetConfirmView(PasswordResetConfirmView):
+    """
+    Django built-in PasswordResetConfirmView with custom template.
+    """
     template_name = 'registration/password_reset_confirm.html'
     success_url = reverse_lazy('todo_list_app:password_reset_complete')
 
 class ToDoAppPasswordResetCompleteView(PasswordResetCompleteView):
+    """
+    Django built-in PasswordResetCompleteView with custom template.
+    """
     template_name = 'registration/password_reset_complete.html'

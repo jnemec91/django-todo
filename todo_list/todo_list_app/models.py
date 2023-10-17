@@ -4,16 +4,40 @@ import hashlib
 
 # UserOptions model
 class UserOptions(models.Model):
-    """Model for user options, which can be changed by user"""
+    """
+    Model for user options, which can be changed by user in settings page.
+    
+    Fields:\n
+        user - user, which options are stored in this model\n
+        dark_mode - boolean field, which indicates if user uses dark mode\n
+        email_notifications - boolean field, which indicates if user wants to receive email notifications\n
+    """
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     dark_mode = models.BooleanField(default=False)
     email_notifications = models.BooleanField(default=False)
+
     def __str__(self) -> str:
+        """
+        returns string representation of UserOptions object
+        """
         return f'{self.user.username}`s useroptions'
 
 # TodoList model
 class TodoList(models.Model):
-    """Model for todo list, which can be created by user and contains todo fields"""
+    """
+    Model for todo list, which can be created by user and contains information about tasks.
+
+    Fields:\n
+        name - name of todo list\n
+        owner - user, which created this todo list\n
+        access_granted - users, which have access to this todo list\n
+        fields - fields, which are in this todo list\n
+        hash - hash of todo list, which is used to access todo list without authorization\n
+        created_at - date and time when todo list was created\n
+
+    Methods:\n
+        _create_hash - creates hash of todo list, which is used to access todo list without authorization\n
+    """
     name = models.CharField(max_length=255, null=False, blank=False)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False)
     access_granted = models.ManyToManyField(User, related_name='access_granted', blank=True)
@@ -22,18 +46,35 @@ class TodoList(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
    
     def _create_hash(self) -> str:
+        """
+        Creates hash of todo list, which is used to access todo list without authorization.
+        """
         h = hashlib.new('sha256')
         id_bytes = bytes(str(self.id),'utf-8')
         h.update(id_bytes)
         return h.hexdigest()
 
     def __str__(self) -> str:
+        """
+        Returns string representation of TodoList object
+        """
         return self.name
     
 
 # TodoField model
 class TodoField(models.Model):
-    """Model for todo field, which can be added to todo list and contains information about task"""
+    """
+    Model for todo field, which can be added to todo list and contains information about task.
+
+    Fields:\n
+        name - name of todo field\n
+        text - text of todo field\n
+        checked - boolean field, which indicates if todo field is checked\n
+        links_list - boolean field, which indicates if todo field is links list\n
+        list_link - todo list, which is linked to this todo field\n
+        created_at - date and time when todo field was created\n
+        deadline_at - date and time when todo field should be done\n
+    """
     name = models.CharField(max_length=255, null=False, blank=False)
     text = models.TextField(null=False, blank=True)
     checked = models.BooleanField(default=False)
@@ -43,4 +84,7 @@ class TodoField(models.Model):
     deadline_at = models.DateField(null=True, blank=True)
 
     def __str__(self) -> str:
+        """
+        Returns string representation of TodoField object
+        """
         return self.name

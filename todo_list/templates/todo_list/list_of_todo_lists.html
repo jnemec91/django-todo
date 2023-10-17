@@ -8,7 +8,7 @@
 
         <div class="sticker">
             <hr>
-            {% if todo_lists|is_empty > 0 %}
+            {% if todo_lists|get_length_or_empty > 0 %}
             <table>
                 <thead>
                     <th>Name</th>
