@@ -1,13 +1,14 @@
 {% extends 'todo_list/base.html' %}
 {% load static %}
 
-{% block title %}<title>Add ToDo list</title>{% endblock %}
+
+{% block title %}{% if new == True %}<title>Add ToDo list</title>{% else %}<title>Edit ToDo list</title>{% endif %}{% endblock %}
 
 {% block page_content %}
 <div class='page-container'>
     <div class="lists-page">
         <div class="sticker">
-            <h1 class="sticker-heading">Add ToDo list</h1>
+            <h1 class="sticker-heading">{% if new == True %}Add ToDo list{% else %}Edit ToDo list{% endif %}</h1>
             {% if messages %}
             {% for message in messages %}
             <div class='alert' role="alert">
@@ -15,21 +16,64 @@
             </div>
             {% endfor %}
             {% endif %}
+            {% if new == True %}
             <form action="{% url 'todo_list_app:create_todo_list' %}" id='login-form' method="post">
                 {% csrf_token %}
                 <label for="list-name">Name</label>
-                <input id="list-name" type="text" name='name' required>
-    
+                <input id="list-name" type="text" name='name' autocomplete="off" required>
+                
+                <label for="is-shared">Shared</label>
+                <select name="is-shared" id="is-shared">
+                    <option class='select-option' value="False">Personal</option>
+                    <option class='select-option' value="True">Shared</option>
+                </select>
+
                 <div id="task"></div>
     
                 <button id="add-field-button" class="sticker-button" type="button" onclick="add_field()">Add field</button><br>
-                
-                <script type="text/javascript" src="{% static 'todo_list/js/field.js' %}"></script>
     
-                <button id="" class="sticker-button" type="submit">Save</button><br>
+                <button id="save-button" class="sticker-button" type="submit">Save</button><br>
             </form>
-        </div>
-    </div>
+            {% else %}
+            <form action="{% url 'todo_list_app:edit_todo_list' todo_list.id %}" method="post" id="login-form">
+                {% csrf_token %}
+                <label class="sticker-label" for="name">Name:</label>
+                <input type="text" name="name" id="name" value="{{ todo_list.name }}"><br>
+                <div id="task">
+                {% for field in todo_fields %}
+    
+                    <div id="form_field_{{field.id}}" class="sticker long task-field field-hidden">
+                        <h1>Edit task</h1><label class="sticker-label" for="name-field_{{field.id}}">Task name</label>
+                        <input id="field-id_{{field.id}}" type="number" name='fields' value="{{field.id}}" hidden>
+                        <input id="name-field_{{field.id}}" type="text" name="names" class="" required="true" value="{{field.name}}">
+                        <label class="sticker-label" for="text-field_{{field.id}}">Task description</label>
+                        <textarea id="text-field_{{field.id}}" type="text" name="descriptions" class="">{{field.text}}</textarea>
+                        <label class="sticker-label" for="deadline_{{field.id}}">Deadline</label>
+                        <input id="deadline_{{field.id}}" type="date" name="deadlines" value="{{field.deadline}}"><hr>
+                        <button type="button" class="sticker-button top-sticker-button" onclick="remove_field('form_field_{{field.id}}')"><i class="fa-solid fa-xmark"></i></button>
+                        <button type="button" class="sticker-button" onclick="toggle_fields('{{field.id}}');">Save</button>
+                    </div>
+                    <div id="small_field_description_{{field.id}}" class="sticker long">
+                        <h1>{{field.name}}</h1>
+                        <p id="description_text">{{field.description}}</p>
+                        <p id="description_deadline">{{field.deadline}}</p>
+                        <button type="button" class="sticker-button top-sticker-button" onclick="toggle_fields('{{field.id}}');"><i class="fa-regular fa-window-maximize"></i></button>
 
+                    </div>
+               
+                {% endfor %}
+                </div>
+                <br>
+                <button id="add-field-button" class="sticker-button" type="button" onclick="add_field()">Add field</button><br>
+        
+                <button class="sticker-button" type="submit" id="save-button">Save</button>
+                <button class="sticker-button" type="button">Cancel</button>
+            </form>
+            {% endif %}
+        </div>
+
+        <script type="text/javascript" src="{% static 'todo_list/js/field.js' %}"></script>
+
+    </div>
 </div>
 {% endblock %}

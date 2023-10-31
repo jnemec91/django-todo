@@ -195,23 +195,43 @@ body{
 .sticker-button{
     font-family: 'Marck Script', 'cursive';
     margin-top: 5%;
-    background: var(--paper-white);
+    background: transparent;
     color: var(--font-color);
     border: solid 2px var(--font-color);;
     font-size: 1.5em;
     border-radius: 10px;
 }
 
-.small{
-    font-size: 0.9em!important;
-}
-
 .sticker-button:hover{
     background: var(--paper-white);
     border: solid 2px var(--color-a);
     color: var(--color-a);
-    animation: scale_button 3s ease-in-out infinite;
+    /* animation: scale_button 3s ease-in-out infinite; */
     cursor: pointer;
+}
+
+.top-sticker-button{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    margin: 0;
+    border: none;
+    padding: 0;
+
+}
+
+.top-sticker-button:hover{
+    color: var(--color-a);
+    border: none;
+}
+
+
+.field-hidden{
+    display: none;
+}
+
+.small{
+    font-size: 0.9em!important;
 }
 
 textarea{
@@ -228,7 +248,8 @@ textarea{
     margin: 20px auto;
     width: 70%;
     box-shadow: none;
-    border: 2px solid var(--font-color);;
+    border: 2px solid var(--font-color);
+    position: relative;
 }
 
 
@@ -381,6 +402,7 @@ select{
     .sticker{
         width: 95%;
         padding: 5px;
+        min-height: 50px;
         margin: auto;
     }
 
@@ -391,7 +413,7 @@ select{
     .long{
         width: 95%;
         padding: 5px;
-        margin: 0;
+        margin: 20px auto;
     }
 
     .login-container{

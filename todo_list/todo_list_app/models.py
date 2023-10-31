@@ -30,7 +30,7 @@ class TodoList(models.Model):
     Fields:\n
         name - name of todo list\n
         owner - user, which created this todo list\n
-        access_granted - users, which have access to this todo list\n
+        access_granted - boolean field, which indicates if users that access list via share link can edit it.\n
         fields - fields, which are in this todo list\n
         hash - hash of todo list, which is used to access todo list without authorization\n
         created_at - date and time when todo list was created\n
@@ -40,7 +40,7 @@ class TodoList(models.Model):
     """
     name = models.CharField(max_length=255, null=False, blank=False)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False)
-    access_granted = models.ManyToManyField(User, related_name='access_granted', blank=True)
+    access_granted = models.BooleanField(default=False)
     fields = models.ManyToManyField('TodoField', blank=True)
     hash = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)

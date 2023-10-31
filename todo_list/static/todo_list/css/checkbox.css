@@ -11,6 +11,12 @@
     user-select: none;
 }
 
+.checkbox-label:hover{
+    cursor: pointer;
+    border-color: var(--color-a);
+    color: var(--color-a);
+}
+
 .mark{
     transform: translate(3px,-20px);
     display: block;

@@ -157,14 +157,16 @@ def create_todo_list(request):
     If method is GET, returns create todo list page.
     """
     if request.method == 'POST':
+        print(request.POST)
         name = request.POST.get('name')
         new_fields = request.POST.getlist('fields_new')
         new_descriptions = request.POST.getlist('descriptions_new')
         new_deadlines = request.POST.getlist('deadlines_new')
+        shared = request.POST.get('is-shared')
         new_deadlines = [i if i != '' else None for i in new_deadlines]
-        todo_list = TodoList.objects.create(name=name, owner=request.user)
-        todo_list.save()
+        todo_list = TodoList.objects.create(name=name, owner=request.user, access_granted=shared)
         todo_list.hash = todo_list._create_hash()
+        todo_list.save()
         if new_fields:
             for c,i in enumerate(new_fields):
                 field = TodoField.objects.create(name=i, text=new_descriptions[c], checked=False, deadline_at=new_deadlines[c])
@@ -174,7 +176,7 @@ def create_todo_list(request):
                 
         return redirect('todo_list_app:index')
         
-    return render(request, 'todo_list/create_todo_list.html')
+    return render(request, 'todo_list/create_todo_list.html', {'new':True})
 
 
 @login_required
@@ -210,19 +212,20 @@ def edit_todo_list(request,todo_list_id: int):
     Requires todo_list_id as parameter.
     """
     if request.method == 'POST':
+        print(request.POST)
         todo_list = TodoList.objects.get(id=todo_list_id)
         if todo_list:
             if todo_list.owner == request.user:
                 todo_list.name = request.POST.get('name')
                 new_fields = request.POST.getlist('fields_new')
                 new_descriptions = request.POST.getlist('descriptions_new')
-                new_deadlines = request.POST.getlist('deadlines_new')  
+                new_deadlines = request.POST.getlist('deadlines_new')
                 new_deadlines = [i if i != '' else None for i in new_deadlines]
                 fields = [int(i) for i in request.POST.getlist('fields')]
                 names = request.POST.getlist('names')
                 descriptions = request.POST.getlist('descriptions')
                 deadlines = request.POST.getlist('deadlines')  
-                deadlines = [i if i != '' else None for i in deadlines]                
+                deadlines = [i if i != '' else None for i in deadlines]         
                 todo_list.save()
 
                 todo_list_fields = todo_list.fields.all()
@@ -230,7 +233,7 @@ def edit_todo_list(request,todo_list_id: int):
                 for i in todo_list_fields:
                     if i.id not in fields:
                         i.delete()
-
+                print(fields)
                 if fields:
                     for c,field in enumerate(fields):
 
@@ -275,7 +278,7 @@ def edit_todo_list(request,todo_list_id: int):
                     for i in todo_list.fields.all()
                 ]
 
-                return render(request, 'todo_list/edit_todo_list.html', {'todo_list':todo_list, 'todo_fields':todo_fields})
+                return render(request, 'todo_list/create_todo_list.html', {'todo_list':todo_list, 'todo_fields':todo_fields})
             
     return redirect('todo_list_app:index')
 
