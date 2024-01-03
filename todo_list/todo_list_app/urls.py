@@ -17,6 +17,8 @@ urlpatterns = [
     path('todo_list/<str:todo_list_hash>/', views.list_details, name='list_details'),
     path('check/<int:todo_field_id>',views.check_task, name='check_task'),
     path('settings/', views.settings, name='settings'),
+    path('add_to_my_list/<int:todo_list_id>/', views.add_to_my_list, name='add_to_my_list'),
+
 
     path('password_reset/', views.ToDoAppPasswordResetView.as_view(), name='password_reset'),
     path('password_reset/done/', views.ToDoAppPasswordResetDoneView.as_view(), name='password_reset_done'),

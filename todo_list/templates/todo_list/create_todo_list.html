@@ -24,8 +24,8 @@
                 
                 <label for="is-shared">Shared</label>
                 <select name="is-shared" id="is-shared">
-                    <option class='select-option' value="False">Personal</option>
-                    <option class='select-option' value="True">Shared</option>
+                    <option class='select-option' value=0>Personal</option>
+                    <option class='select-option' value=1>Shared</option>
                 </select>
 
                 <div id="task"></div>
@@ -39,6 +39,16 @@
                 {% csrf_token %}
                 <label class="sticker-label" for="name">Name:</label>
                 <input type="text" name="name" id="name" value="{{ todo_list.name }}"><br>
+                <label for="is-shared">Shared</label>
+                <select name="is-shared" id="is-shared">
+                    {% if not todo_list.access_granted %}
+                    <option class='select-option' value=0>Personal</option>
+                    <option class='select-option' value=1>Shared</option>
+                    {% else %}
+                    <option class='select-option' value=1>Shared</option>
+                    <option class='select-option' value=0>Personal</option>                
+                    {% endif %}
+                </select>
                 <div id="task">
                 {% for field in todo_fields %}
     
@@ -67,7 +77,12 @@
                 <button id="add-field-button" class="sticker-button" type="button" onclick="add_field()">Add field</button><br>
         
                 <button class="sticker-button" type="submit" id="save-button">Save</button>
-                <button class="sticker-button" type="button">Cancel</button>
+                <button
+                    class="sticker-button"
+                    action="action"
+                    onclick="window.history.go(-1); return false;"
+                    type="submit"
+                >Cancel</button>
             </form>
             {% endif %}
         </div>

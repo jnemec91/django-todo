@@ -84,10 +84,10 @@ function toggle_fields(id) {
     let deadlineElement = field2.querySelector("#description_deadline");
     let deadline = field1.querySelector("#deadline_"+id);
 
-    // if (document.getElementById("name-field_"+id).value == "") {
-    //     alert("Task name cannot be empty!");
-    // }
-    if (0 === 1){}
+    // check if task name is empty, so user cant add  empty tasks.
+    if (document.getElementById("name-field_"+id).value == "") {
+        alert("Task name cannot be empty!");
+    }
     else{
         headingElement.innerHTML = heading_text.value;
         textElement.innerHTML = text.value;

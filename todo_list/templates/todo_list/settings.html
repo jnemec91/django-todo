@@ -38,29 +38,6 @@
                     <option class='select-option'  value="1">Dark</option>
                 {% endif %}
             </select>
-
-            <label class="sticker-label" for="email_notifications">Email notifications:</label>
-            <select name="email_notifications" id="email_notifications">
-                {% if user.useroptions.email_notifications %}
-                    <option class='select-option' value="1">On</option>
-                    <option class='select-option'  value="0">Off</option>
-                {% else %}
-                    <option class='select-option'  value="0">Off</option>
-                    <option class='select-option'  value="1">On</option>
-                {% endif %}
-            </select>
-            {% comment %} {% if user.useroptions.mobile_number != '' %}
-            <label class="sticker-label" for="mobile_notifications">SMS notifications:</label>
-            <select name="mobile_notifications" id="mobile_notifications">
-                {% if user.useroptions.mobile_notifications %}
-                    <option class='select-option' value="1"><a href='#username'>On</a></option>
-                    <option class='select-option' value="0">Off</option>
-                {% else %}
-                    <option class='select-option' value="0">Off</option>
-                    <option class='select-option' value="1">On</option>
-                {% endif %}
-            </select>
-            {% endif %} {% endcomment %}
             <br>
 
             <button class="sticker-button">Save</button>

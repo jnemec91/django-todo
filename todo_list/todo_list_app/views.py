@@ -8,6 +8,7 @@ from .models import TodoList, TodoField, UserOptions
 from django.contrib.auth.models import User
 import datetime
 from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView 
+from django.db.models import Q
 
 # Create your views here.
 
@@ -51,6 +52,7 @@ def list_details(request, todo_list_hash: str):
                 'owner':i.owner,
                 'fields':[a for a in i.fields.all()],
                 'hash':i.hash,
+                'access_granted':i.access_granted,
             } 
             for i in TodoList.objects.filter(hash=todo_list_hash)
         ]
@@ -157,14 +159,13 @@ def create_todo_list(request):
     If method is GET, returns create todo list page.
     """
     if request.method == 'POST':
-        print(request.POST)
         name = request.POST.get('name')
         new_fields = request.POST.getlist('fields_new')
         new_descriptions = request.POST.getlist('descriptions_new')
         new_deadlines = request.POST.getlist('deadlines_new')
         shared = request.POST.get('is-shared')
         new_deadlines = [i if i != '' else None for i in new_deadlines]
-        todo_list = TodoList.objects.create(name=name, owner=request.user, access_granted=shared)
+        todo_list = TodoList.objects.create(name=name, owner=request.user, access_granted=bool(int(shared)))
         todo_list.hash = todo_list._create_hash()
         todo_list.save()
         if new_fields:
@@ -212,11 +213,11 @@ def edit_todo_list(request,todo_list_id: int):
     Requires todo_list_id as parameter.
     """
     if request.method == 'POST':
-        print(request.POST)
         todo_list = TodoList.objects.get(id=todo_list_id)
         if todo_list:
             if todo_list.owner == request.user:
                 todo_list.name = request.POST.get('name')
+                todo_list.access_granted = bool(int(request.POST.get('is-shared')))
                 new_fields = request.POST.getlist('fields_new')
                 new_descriptions = request.POST.getlist('descriptions_new')
                 new_deadlines = request.POST.getlist('deadlines_new')
@@ -233,7 +234,7 @@ def edit_todo_list(request,todo_list_id: int):
                 for i in todo_list_fields:
                     if i.id not in fields:
                         i.delete()
-                print(fields)
+
                 if fields:
                     for c,field in enumerate(fields):
 
@@ -315,7 +316,8 @@ def check_task(request, todo_field_id: int):
     field = TodoField.objects.get(id=todo_field_id)
 
     user_fields = []
-    user_list = TodoList.objects.filter(owner=request.user)
+    user_list = TodoList.objects.filter(Q(owner=request.user)|Q(access_granted=True))
+
     for i in user_list:
         for f in i.fields.all():
             user_fields.append(f)
@@ -328,6 +330,26 @@ def check_task(request, todo_field_id: int):
             field.save()
 
             return JsonResponse({'response':'success'})
+        
+@login_required
+def add_to_my_list(request, todo_list_id: int):
+    """
+    Add to my list function.
+
+    Adds todo list to user's list and returns success response.
+
+    Requires todo_list_id as parameter.
+    """
+
+    todo_list = TodoList.objects.get(id=todo_list_id)
+    if todo_list:
+        if todo_list.owner != request.user:
+            todo_list.owner = request.user
+            todo_list.save()
+            print(todo_list.owner)
+            return JsonResponse({'response':'success'})
+            
+    return JsonResponse({'response':'error'})
         
 
 @login_required
@@ -342,7 +364,7 @@ def settings(request):
     if request.method == 'POST':
         user_options = UserOptions.objects.get(user=request.user)
         user_options.theme = request.POST.get('theme')
-        user_options.email_notifications = bool(int(request.POST.get('email_notifications')))
+        #user_options.email_notifications = bool(int(request.POST.get('email_notifications')))
         
         user_options.dark_mode = bool(int(request.POST.get('theme')))
         user_options.save()
