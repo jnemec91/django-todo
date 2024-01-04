@@ -25,7 +25,7 @@ def index(request):
             {
                 'id':i.id,
                 'name':i.name,
-                'owner':i.owner,
+                'owner':[a for a in i.owner.all()],
                 'fields':[a for a in i.fields.all()],
                 'hash':i.hash,
             } 
@@ -49,7 +49,7 @@ def list_details(request, todo_list_hash: str):
             {
                 'id':i.id,
                 'name':i.name,
-                'owner':i.owner,
+                'owner':[a for a in i.owner.all()],
                 'fields':[a for a in i.fields.all()],
                 'hash':i.hash,
                 'access_granted':i.access_granted,
@@ -165,7 +165,8 @@ def create_todo_list(request):
         new_deadlines = request.POST.getlist('deadlines_new')
         shared = request.POST.get('is-shared')
         new_deadlines = [i if i != '' else None for i in new_deadlines]
-        todo_list = TodoList.objects.create(name=name, owner=request.user, access_granted=bool(int(shared)))
+        todo_list = TodoList.objects.create(name=name, access_granted=bool(int(shared)))
+        todo_list.owner.add(request.user)
         todo_list.hash = todo_list._create_hash()
         todo_list.save()
         if new_fields:
@@ -192,7 +193,7 @@ def delete_todo_list(request, todo_list_id: int):
     if request.method == 'POST':
         todo_list = TodoList.objects.get(id=todo_list_id)
         if todo_list:
-            if todo_list.owner == request.user:
+            if request.user in todo_list.owner.all():
                 fields = todo_list.fields.all()
                 fields.delete()
                 todo_list.delete()
@@ -215,7 +216,7 @@ def edit_todo_list(request,todo_list_id: int):
     if request.method == 'POST':
         todo_list = TodoList.objects.get(id=todo_list_id)
         if todo_list:
-            if todo_list.owner == request.user:
+            if request.user in todo_list.owner.all():
                 todo_list.name = request.POST.get('name')
                 todo_list.access_granted = bool(int(request.POST.get('is-shared')))
                 new_fields = request.POST.getlist('fields_new')
@@ -258,7 +259,7 @@ def edit_todo_list(request,todo_list_id: int):
     else:
         todo_list = TodoList.objects.get(id=todo_list_id)
         if todo_list:
-            if todo_list.owner == request.user:
+            if request.user in todo_list.owner.all():
                 todo_fields = [
                     {
                         'id': i.id,
@@ -295,7 +296,7 @@ def list_of_todo_lists(request):
         {
             'id':i.id,
             'name':i.name,
-            'owner':i.owner,
+            'owner':[a for a in i.owner.all()],
             'fields':[a for a in i.fields.all()]
         } 
         for i in TodoList.objects.filter(owner=request.user)
@@ -343,10 +344,9 @@ def add_to_my_list(request, todo_list_id: int):
 
     todo_list = TodoList.objects.get(id=todo_list_id)
     if todo_list:
-        if todo_list.owner != request.user:
-            todo_list.owner = request.user
+        if request.user not in todo_list.owner.all():
+            todo_list.owner.add(request.user)
             todo_list.save()
-            print(todo_list.owner)
             return JsonResponse({'response':'success'})
             
     return JsonResponse({'response':'error'})

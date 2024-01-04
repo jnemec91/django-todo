@@ -14,7 +14,6 @@ class UserOptions(models.Model):
     """
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     dark_mode = models.BooleanField(default=False)
-    email_notifications = models.BooleanField(default=False)
 
     def __str__(self) -> str:
         """
@@ -39,7 +38,7 @@ class TodoList(models.Model):
         _create_hash - creates hash of todo list, which is used to access todo list without authorization\n
     """
     name = models.CharField(max_length=255, null=False, blank=False)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False)
+    owner = models.ManyToManyField(User, blank=True,null=True, related_name='todo_lists')
     access_granted = models.BooleanField(default=False)
     fields = models.ManyToManyField('TodoField', blank=True)
     hash = models.CharField(max_length=255)
