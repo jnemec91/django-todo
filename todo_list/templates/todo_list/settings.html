@@ -13,15 +13,15 @@
             {% csrf_token %}
             <label class="sticker-label" for="username">Name:</label>
             <input type="text" name="username" id="username" value="{{ user.username }}">
+
+            <label for="first-name-input">First name</label>
+            <input type="text" name='first_name' value="{{user.first_name}}" required>
+
+            <label for="last-name-input">Last name</label>
+            <input type="text" name='last_name' value="{{user.last_name}}" required>
+
             <label class="sticker-label" for="email">Email:</label>
             <input type="text" name="email" id="email" value="{{ user.email }}">
-            {% comment %} <label class="sticker-label" for="mobile_number">Mobile number:</label>
-            <select name="country_code" id="country_code">
-                {% for code in country_code %}
-                <option value="{{ code.code }}">{{ code.code }}</option>
-                {% endfor %}
-            </select>
-            <input type="text" name="mobile_number" id="mobile_number" value="{{ user.useroptions.mobile_number }}"> {% endcomment %}
 
             <label class="sticker-label" for="password">Password:</label>
             <input type="password" name="password" id="password">

@@ -22,7 +22,20 @@
         <div class="slide">
             <div class="sticker" id="sticker_{{todo_list.id}}">
                 <h1 class="sticker-heading">{{todo_list.name}}</h1>
-                {% if user.is_authenticated and todo_list.access_granted %}
+                <div class="creator-name">
+                    <p>Created by:<br>{% if todo_list.created_by == request.user %}Me{% else %}{{ todo_list.created_by.first_name }} {{ todo_list.created_by.last_name }}{% endif %}</p>
+                </div>
+                <div class="share-name">
+                    <p>Shared with:<br>
+                        {% for user in todo_list.owner %}
+                        {% if user != todo_list.created_by %}
+                        {{ user.first_name }} {{user.last_name}}<br>
+                        {% endif %}
+                        {% endfor %}
+                </p>
+                </div>
+
+                {% if user.is_authenticated and todo_list.access_granted and request.user not in todo_list.owner %}
                 <button
                     class="sticker-button"
                     action="action"

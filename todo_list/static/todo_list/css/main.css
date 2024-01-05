@@ -143,15 +143,19 @@ body{
     padding: 50px;
     width: 60%;
     height: auto;
-    margin: auto;
     text-align: center;
     background:  var(--paper-white);
     border-radius: 25px;
     box-shadow: var(--sticker-shadow);
     margin: 5px auto 30px auto;
+    position: relative;
+    text-wrap: wrap;
+    text-overflow: wrap;
+    overflow-wrap: break-word;
 }
 
 .sticker-heading{
+    margin-top: 10%;
     font-size: 3em;
     margin-bottom: 20px;
 }
@@ -345,8 +349,24 @@ select{
     width: 30%!important;
 }
 
+.creator-name{
+    font-size: 1.5em;
+    position: absolute;
+    left: 10px;
+    top: 0;
+}
+
+.share-name{
+    font-size: 1.5em;
+    position: absolute;
+    right: 10px;
+    top: 0;
+}
 
 @media only screen and (max-width: 768px) {
+    .sticker-heading{
+        margin-top: 20%;
+    }
 
     .page-container{
         margin-top: 20%;

@@ -13,22 +13,23 @@
         <form action="{% url 'todo_list_app:signup' %}" id='login-form' method="post">
             {% csrf_token %}
             <label for="email-input">E-mail</label>
-            <input id="email-input" type="email" name="email" required>     
-            {% comment %}
-                <label for="email-input">Mobile Number (optional)</label>
-                <select name="country_code" id="country_code">
-                    {% for code in country_code %}
-                    <option value="{{ code.code }}">{{ code.code }}</option>
-                    {% endfor %}
-                </select>
-                <input id="mobile_number" type="phone" name="mobile_number">
-            {% endcomment %}
+            <input id="email-input" type="email" name="email" required>    
+
             <label for="username-input">Username</label>
             <input id="username-input" type="text" name='username' required>
+
+            <label for="first-name-input">First name</label>
+            <input type="text" name='first_name' required>
+
+            <label for="last-name-input">Last name</label>
+            <input type="text" name='last_name' required>
+
             <label for="password-input">Password</label>
             <input id="password-input" type="password" name="password" required>
+
             <label for="password1-input">Password again</label>
             <input id="password1-input" type="password" name="password2" required><br>
+            
             <button id="login-button" type="submit">Sign up!</button><br>
             <a href="{% url 'todo_list_app:login' %}">Already have an account? Log in here!</a><br>
             <a href="{% url 'todo_list_app:password_reset' %}">Forgot your password?</a>

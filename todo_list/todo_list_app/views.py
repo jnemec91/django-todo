@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 from django.contrib import messages
 from .models import TodoList, TodoField, UserOptions
 from django.contrib.auth.models import User
@@ -25,13 +25,15 @@ def index(request):
             {
                 'id':i.id,
                 'name':i.name,
+                'created_by':i.created_by,
                 'owner':[a for a in i.owner.all()],
                 'fields':[a for a in i.fields.all()],
                 'hash':i.hash,
-            } 
+            }
             for i in TodoList.objects.filter(owner=request.user).order_by('-created_at')
         ]     
-        
+        for i in todo_lists:
+            print(i['created_by'])
         return render(request, 'todo_list/index.html', {'todo_lists':todo_lists})
     
     else:
@@ -49,6 +51,7 @@ def list_details(request, todo_list_hash: str):
             {
                 'id':i.id,
                 'name':i.name,
+                'created_by':i.created_by,
                 'owner':[a for a in i.owner.all()],
                 'fields':[a for a in i.fields.all()],
                 'hash':i.hash,
@@ -101,6 +104,8 @@ def signup(request):
     if request.method == 'POST':
         email = request.POST.get('email')
         username = request.POST.get('username')
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
         password = request.POST.get('password')
         password2 = request.POST.get('password2')    
         if password == password2:
@@ -115,7 +120,7 @@ def signup(request):
                 return redirect('todo_list_app:signup')
             
             else:
-                user = User.objects.create_user(username=username, password=password, email=email)
+                user = User.objects.create_user(username=username, password=password, email=email, first_name=first_name, last_name=last_name)
                 user.save()
                 user_options = UserOptions.objects.create(user=user)
                 user_options.dark_mode = False
@@ -165,7 +170,7 @@ def create_todo_list(request):
         new_deadlines = request.POST.getlist('deadlines_new')
         shared = request.POST.get('is-shared')
         new_deadlines = [i if i != '' else None for i in new_deadlines]
-        todo_list = TodoList.objects.create(name=name, access_granted=bool(int(shared)))
+        todo_list = TodoList.objects.create(name=name, created_by=request.user, access_granted=bool(int(shared)))
         todo_list.owner.add(request.user)
         todo_list.hash = todo_list._create_hash()
         todo_list.save()
@@ -193,10 +198,15 @@ def delete_todo_list(request, todo_list_id: int):
     if request.method == 'POST':
         todo_list = TodoList.objects.get(id=todo_list_id)
         if todo_list:
-            if request.user in todo_list.owner.all():
+            if request.user == todo_list.created_by:
                 fields = todo_list.fields.all()
                 fields.delete()
                 todo_list.delete()
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+            
+            elif request.user in todo_list.owner.all():
+                todo_list.owner.remove(request.user)
+                todo_list.save()
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
             
     return redirect('todo_list_app:index')
@@ -296,6 +306,7 @@ def list_of_todo_lists(request):
         {
             'id':i.id,
             'name':i.name,
+            'created_by':i.created_by,
             'owner':[a for a in i.owner.all()],
             'fields':[a for a in i.fields.all()]
         } 
@@ -331,6 +342,8 @@ def check_task(request, todo_field_id: int):
             field.save()
 
             return JsonResponse({'response':'success'})
+    
+    return HttpResponse(500)
         
 @login_required
 def add_to_my_list(request, todo_list_id: int):
@@ -364,7 +377,6 @@ def settings(request):
     if request.method == 'POST':
         user_options = UserOptions.objects.get(user=request.user)
         user_options.theme = request.POST.get('theme')
-        #user_options.email_notifications = bool(int(request.POST.get('email_notifications')))
         
         user_options.dark_mode = bool(int(request.POST.get('theme')))
         user_options.save()
@@ -396,6 +408,15 @@ def settings(request):
                 messages.add_message(request, messages.ERROR, 'Passwords do not match.')
                 return redirect('todo_list_app:settings')
         
+        if request.POST.get('first_name') != request.user.first_name or request.POST.get('last_name') != request.user.last_name:
+            user = User.objects.get(id=request.user.id)
+            first_name = request.POST.get('first_name')
+            last_name = request.POST.get('last_name')
+
+            user.first_name = first_name
+            user.last_name = last_name
+            user.save()
+
         return redirect('todo_list_app:settings')
     
 
