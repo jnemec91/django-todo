@@ -138,6 +138,21 @@ body{
     text-align: center;
 }
 
+.remove-from-list{
+    color: var(--font-color);
+    text-decoration: none;
+    font-size: 0.6em;
+    border-radius: 20px;
+    border: 2px solid var(--font-color);
+
+}
+
+.remove-from-list:hover{
+    color: var(--color-a);
+    border: 2px solid var(--color-a);
+    cursor: pointer;
+}
+
 .sticker{
     font-family: 'Marck Script', 'cursive';
     padding: 50px;
@@ -212,6 +227,14 @@ body{
     color: var(--color-a);
     /* animation: scale_button 3s ease-in-out infinite; */
     cursor: pointer;
+}
+
+.add-to-list-button{
+    position: absolute;
+    top: 0;
+    left: 33%;
+    right: 33%;
+    width: 33%;
 }
 
 .top-sticker-button{

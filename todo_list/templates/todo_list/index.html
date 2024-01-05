@@ -56,6 +56,9 @@
                         <p>Shared with:<br>
                             {% for user in todo_list.owner %}
                             {% if user != todo_list.created_by %}
+                            {% if request.user == todo_list.created_by %}
+                            <button class="remove-from-list" onclick="send_req('{% url 'todo_list_app:remove_from_shared_list' todo_list_id=todo_list.id user_id=user.id %}');">X</button>
+                            {% endif %}
                             {{ user.first_name }} {{user.last_name}}<br>
                             {% endif %}
                             {% endfor %}
@@ -67,7 +70,7 @@
                         
                         <li>
                             <label class="checkbox-label" for="field_{{ field.id }}">
-                                <input type="checkbox" onclick="check_task('{% url 'todo_list_app:check_task' todo_field_id=field.id %}')" name="field_{{ field.id }}" id="field_{{ field.id }}" {% if field.checked %}checked{% endif %} hidden>
+                                <input type="checkbox" onclick="send_req('{% url 'todo_list_app:check_task' todo_field_id=field.id %}');" name="field_{{ field.id }}" id="field_{{ field.id }}" {% if field.checked %}checked{% endif %} hidden>
                                 <span class="mark"></span>
                             </label>
                             <h3>{{field.name}}</h3>
@@ -85,7 +88,7 @@
                         <button class="sticker-button" type="submit">Delete</button>
                     </form>
 
-                    <button class="sticker-button" type="submit" onclick="showShareModal('modal_{{todo_list.id}}')">Share</button>
+                    <button class="sticker-button" type="submit" onclick="showShareModal('modal_{{todo_list.id}}');">Share</button>
 
                 </div>
             </div>
@@ -93,7 +96,7 @@
 
         <script type="text/javascript" src="{% static 'todo_list/js/share.js' %}"></script>
         <script type="text/javascript" src="{% static 'todo_list/js/slide.js' %}"></script>
-        <script type="text/javascript" src="{% static 'todo_list/js/check.js' %}"></script>
+        <script type="text/javascript" src="{% static 'todo_list/js/send_req.js' %}"></script>
         
         </div>
     </div>

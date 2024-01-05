@@ -5,6 +5,7 @@
 {% block title %}<title>ToDo list App</title>{% endblock %}
 
 {%  block page_content %}
+{% csrf_token %}
 
 <div class="page-container">
 
@@ -29,6 +30,9 @@
                     <p>Shared with:<br>
                         {% for user in todo_list.owner %}
                         {% if user != todo_list.created_by %}
+                        {% if request.user == todo_list.created_by %}
+                        <button class="remove-from-list" onclick="send_req('{% url 'todo_list_app:remove_from_shared_list' todo_list_id=todo_list.id user_id=user.id %}');">X</button>
+                        {% endif %}
                         {{ user.first_name }} {{user.last_name}}<br>
                         {% endif %}
                         {% endfor %}
@@ -37,9 +41,9 @@
 
                 {% if user.is_authenticated and todo_list.access_granted and request.user not in todo_list.owner %}
                 <button
-                    class="sticker-button"
+                    class="sticker-button add-to-list-button"
                     action="action"
-                    onclick="check_task('{% url 'todo_list_app:add_to_my_list' todo_list_id=todo_list.id %}')"
+                    onclick="send_req('{% url 'todo_list_app:add_to_my_list' todo_list_id=todo_list.id %}')"
                     type="submit"
                 >Add to my lists</button>
                 {% endif %}
@@ -54,7 +58,7 @@
                             {% endif %}
                             <input type="checkbox" 
                                 {% if todo_list.access_granted and user.is_authenticated %}
-                                    onclick="check_task('{% url 'todo_list_app:check_task' todo_field_id=field.id %}')"
+                                    onclick="send_req('{% url 'todo_list_app:check_task' todo_field_id=field.id %}')"
                                 {% endif %}
                                 id="field_{{ field.id }}"
                                 {% if field.checked %}
@@ -85,7 +89,6 @@
     </div>
 </div>
 
-<script type="text/javascript" src="{% static 'todo_list/js/check.js' %}"></script>
-<script type="text/javascript" src="{% static 'todo_list/js/addtolist.js' %}"></script>
+<script type="text/javascript" src="{% static 'todo_list/js/send_req.js' %}"></script>
 
 {% endblock %}

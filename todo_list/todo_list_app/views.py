@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, HttpResponse
 from django.contrib import messages
 from .models import TodoList, TodoField, UserOptions
 from django.contrib.auth.models import User
@@ -32,8 +32,7 @@ def index(request):
             }
             for i in TodoList.objects.filter(owner=request.user).order_by('-created_at')
         ]     
-        for i in todo_lists:
-            print(i['created_by'])
+
         return render(request, 'todo_list/index.html', {'todo_lists':todo_lists})
     
     else:
@@ -341,9 +340,9 @@ def check_task(request, todo_field_id: int):
                 field.checked = False
             field.save()
 
-            return JsonResponse({'response':'success'})
+            return HttpResponse('success')
     
-    return HttpResponse(500)
+    return HttpResponse('error')
         
 @login_required
 def add_to_my_list(request, todo_list_id: int):
@@ -354,16 +353,36 @@ def add_to_my_list(request, todo_list_id: int):
 
     Requires todo_list_id as parameter.
     """
-
-    todo_list = TodoList.objects.get(id=todo_list_id)
-    if todo_list:
-        if request.user not in todo_list.owner.all():
-            todo_list.owner.add(request.user)
-            todo_list.save()
-            return JsonResponse({'response':'success'})
+    if request.method == 'POST':
+        todo_list = TodoList.objects.get(id=todo_list_id)
+        if todo_list:
+            if request.user not in todo_list.owner.all():
+                todo_list.owner.add(request.user)
+                todo_list.save()
+                return HttpResponse('reload')
             
-    return JsonResponse({'response':'error'})
-        
+    return HttpResponse('error')
+
+@login_required
+def remove_from_shared_list(request, todo_list_id: int, user_id: int):
+    """
+    Remove from shared list function.
+
+    Removes user from todo list and returns success response.
+
+    Requires todo_list_id and user_id as parameters.
+    """
+    if request.method == 'POST':
+        todo_list = TodoList.objects.get(id=todo_list_id)
+        user = User.objects.get(id=user_id)
+
+        if todo_list:
+            if request.user == todo_list.created_by:
+                todo_list.owner.remove(user_id)
+                todo_list.save()
+                return HttpResponse('reload')
+            
+    return HttpResponse('error')
 
 @login_required
 def settings(request):
