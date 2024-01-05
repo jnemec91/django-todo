@@ -27,6 +27,7 @@
                     <p>Created by:<br>{% if todo_list.created_by == request.user %}Me{% else %}{{ todo_list.created_by.first_name }} {{ todo_list.created_by.last_name }}{% endif %}</p>
                 </div>
                 <div class="share-name">
+                    {% if todo_list.owner|get_length_or_empty > 1 %}
                     <p>Shared with:<br>
                         {% for user in todo_list.owner %}
                         {% if user != todo_list.created_by %}
@@ -36,7 +37,8 @@
                         {{ user.first_name }} {{user.last_name}}<br>
                         {% endif %}
                         {% endfor %}
-                </p>
+                    </p>
+                    {% endif %}
                 </div>
 
                 {% if user.is_authenticated and todo_list.access_granted and request.user not in todo_list.owner %}

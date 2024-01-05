@@ -1,6 +1,7 @@
 table{
     font-size: 1.5em;   
     border-collapse: collapse;
+
 }
 
 thead{
@@ -26,6 +27,24 @@ th:nth-of-type(4){
     width: 5%;
 }
 
+td{
+    text-wrap: wrap;
+    overflow-wrap: break-word;
+    max-width: 30vw;
+}
+
+
 .row-bb{
     border-bottom: var(--font-color) solid 2px;
+
+}
+
+.shared-span{
+    display: inline-block;
+    color: var(--font-color);
+    text-decoration: none;
+    font-size: 0.6em;
+    border-radius: 20px;
+    border: 2px solid var(--font-color);
+    padding: 5px;
 }
