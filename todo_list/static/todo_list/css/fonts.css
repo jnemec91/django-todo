@@ -1,0 +1,24 @@
+@font-face {
+    font-family: 'Marcellus';
+    src: url('/static/todo_list/fonts/Marcellus/Marcellus-Regular.ttf') format('woff');
+}
+
+@font-face {
+    font-family: 'Roboto Slab';
+    src: url('/static/todo_list/fonts/Roboto_Slab/RobotoSlab-VariableFont_wght.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Dancing Script';
+    src: url('/static/todo_list/fonts/Dancing_Script/DancingScript-VariableFont_wght.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Marck Script';
+    src: url('/static/todo_list/fonts/Marck_Script/MarckScript-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Oswald';
+    src: url('/static/todo_list/fonts/Oswald/static/Oswald-Medium.ttf') format('woff2');
+}

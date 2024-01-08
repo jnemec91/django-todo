@@ -5,10 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link type="text/css" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Marck+Script&display=swap" rel="stylesheet">
-
+    {% if user.useroptions.font_style == '1' %}
+        <link rel="stylesheet" href="{% static 'todo_list/css/marck_script.css' %}">
+    {% elif user.useroptions.font_style == '2' %}
+        <link rel="stylesheet" href="{% static 'todo_list/css/dancing_script.css' %}">
+    {% elif user.useroptions.font_style == '3' %}
+        <link rel="stylesheet" href="{% static 'todo_list/css/marcellus.css' %}">
+    {% elif user.useroptions.font_style == '4' %}
+        <link rel="stylesheet" href="{% static 'todo_list/css/robotoslab.css' %}">
+    {% elif user.useroptions.font_style == '5' %}
+        <link rel="stylesheet" href="{% static 'todo_list/css/oswald.css' %}">
+    {% endif %}
 
     {% if user.useroptions.dark_mode == True %}
         <link rel="stylesheet" href="{% static 'todo_list/css/dark.css' %}" type="text/css">
@@ -22,7 +29,8 @@
     <link rel="stylesheet" type="text/css" href="{% static 'todo_list/css/table.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'todo_list/css/share-modal.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'todo_list/css/footer.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'todo_list/css/checkbox.css' %}">   
+    <link rel="stylesheet" type="text/css" href="{% static 'todo_list/css/checkbox.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'todo_list/css/fonts.css' %}">
     <script type="text/javascript" src="{% static 'todo_list/js/navbar.js' %}"></script>
     <script src="https://kit.fontawesome.com/178cd86837.js" crossorigin="anonymous"></script>
  

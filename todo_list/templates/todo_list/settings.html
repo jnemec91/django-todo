@@ -38,6 +38,20 @@
                     <option class='select-option'  value="1">Dark</option>
                 {% endif %}
             </select>
+            
+            <label class="sticker-label" for="font_style">Font style:</label>
+            <select name="font_style" id="font_style">
+                {% for key,value in font_styles %}
+                    {% if key == user_options.font_style %}
+                    <option class='select-option' value="{{key}}">{{value}}</option>
+                    {% endif %}
+                {% endfor %}
+                {% for key,value in font_styles %}
+                {% if key != user_options.font_style %}
+                    <option class='select-option' value="{{key}}">{{value}}</option>
+                {% endif %}
+            {% endfor %}
+            </select>
             <br>
 
             <button class="sticker-button">Save</button>

@@ -15,6 +15,17 @@ class UserOptions(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     dark_mode = models.BooleanField(default=False)
 
+    font_style_choices = [
+        ('1', 'Marck Script'),
+        ('2', 'Dancing Script'),
+        ('3', 'Marcellus'),
+        ('4', 'Roboto Slab'),
+        ('5', 'Oswald'),
+    ]
+
+    font_style = models.CharField(max_length=255, choices=font_style_choices, default='1')
+
+
     def __str__(self) -> str:
         """
         returns string representation of UserOptions object

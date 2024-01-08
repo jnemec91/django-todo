@@ -398,6 +398,9 @@ def settings(request):
         user_options.theme = request.POST.get('theme')
         
         user_options.dark_mode = bool(int(request.POST.get('theme')))
+        
+        user_options.font_style = request.POST.get('font_style')
+
         user_options.save()
 
         if request.POST.get('username') != request.user.username:
@@ -442,7 +445,9 @@ def settings(request):
     user = User.objects.get(id=request.user.id)
     user_options = UserOptions.objects.get(user=user)
 
-    return render(request, 'todo_list/settings.html', {'user_options':user_options})
+    print()
+    print(user_options.font_style)
+    return render(request, 'todo_list/settings.html', {'user_options':user_options, 'font_styles':UserOptions.font_style_choices})
 
 
 class ToDoAppPasswordResetView(PasswordResetView):

@@ -21,7 +21,7 @@
 }
 
 .navbar ul li a{
-    font-family: 'Marck Script', 'cursive';
+    font-family: inherit;
     text-decoration: none;
     color: var(--color-a);
     font-size: 2.5em;
@@ -33,7 +33,7 @@
 }
 
 .navbar ul li h1{
-    font-family: 'Marck Script', 'cursive';
+    font-family: inherit;
     text-decoration: none;
     color: var(--color-a);
     font-size: 2.5em;
@@ -43,11 +43,13 @@
     margin: 0;
 }
 
-.navbar ul li a:hover{
-    background-color: var(--color-a);
-    color: var(--navbar-hover);
-    text-shadow: var(--text-shadow);
-    transition: all 0.4s ease-in;
+@media (hover: hover) {
+    .navbar ul li a:hover{
+        background-color: var(--color-a);
+        color: var(--navbar-hover);
+        text-shadow: var(--text-shadow);
+        transition: all 0.4s ease-in;
+    }
 }
 
 .nav-right{
@@ -129,11 +131,13 @@
     color: var(--font-color);
     padding: 10px;
     font-size: 1.2em;
-}    
+}
 
-#nav-enabler:hover{
-    background: var(--color-a);
-    color: var(--font-color);
+@media (hover: hover) {
+    #nav-enabler:hover{
+        background: var(--color-a);
+        color: var(--font-color);
+    }
 }
 
  .navbar ul{

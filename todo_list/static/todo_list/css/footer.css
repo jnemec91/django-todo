@@ -18,3 +18,15 @@
     background: var(--background);
     height:80px;
 }
+
+#footer-anchor{
+    color: var(--font-color);
+    text-decoration: none;
+    font-size: 1em;
+}
+
+@media (hover: hover) {
+    #footer-anchor:hover{
+        color: var(--color-a);
+    }
+}

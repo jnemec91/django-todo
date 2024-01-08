@@ -6,7 +6,6 @@ body{
     background: var(--background);
     /* -ms-overflow-style: none;
     scrollbar-width: none;  Firefox */
-    font-family: 'Marck Script', 'cursive';
     overflow-x: hidden;
     color: var(--font-color);
 }
@@ -80,7 +79,7 @@ body{
 }
 
 .login-container #login-button{
-    font-family: 'Marck Script', 'cursive';
+    font-family: inherit;
 
 }
 
@@ -91,11 +90,13 @@ body{
     font-family: 'Times', sans-serif;  
 }
 
-.login-container a:hover{
-    color: var(--font-color);;
-    text-decoration: underline;
-    color: var(--color-a);
-    cursor: pointer;
+@media (hover: hover) {
+    .login-container a:hover{
+        color: var(--font-color);;
+        text-decoration: underline;
+        color: var(--color-a);
+        cursor: pointer;
+    }
 }
 
 #login-button{
@@ -122,13 +123,15 @@ body{
         transform: scale(1.0);
     }
 }
-    
-#login-button:hover{
-    background: transparent;
-    color: var(--color-a);
-    border: 2px solid var(--color-a);
-    animation: scale_button 3s ease-in-out infinite;
-    cursor: pointer;
+
+@media (hover: hover) {
+    #login-button:hover{
+        background: transparent;
+        color: var(--color-a);
+        border: 2px solid var(--color-a);
+        animation: scale_button 3s ease-in-out infinite;
+        cursor: pointer;
+    }
 }
 
 .login-alert{
@@ -147,15 +150,16 @@ body{
     border: 2px solid var(--font-color);
 
 }
-
-.remove-from-list:hover{
-    color: var(--color-a);
-    border: 2px solid var(--color-a);
-    cursor: pointer;
+@media (hover: hover) {
+    .remove-from-list:hover{
+        color: var(--color-a);
+        border: 2px solid var(--color-a);
+        cursor: pointer;
+    }
 }
 
 .sticker{
-    font-family: 'Marck Script', 'cursive';
+    font-family: inherit;
     padding: 50px;
     width: 60vw;
     height: auto;
@@ -180,9 +184,11 @@ body{
     color: var(--font-color);
 }
 
-.sticker-anchor:hover{
-    color: var(--color-a);
-    cursor: pointer;
+@media (hover: hover) {
+    .sticker-anchor:hover{
+        color: var(--color-a);
+        cursor: pointer;
+    }
 }
 
 .sticker ul{
@@ -200,7 +206,7 @@ body{
 }
 
 .sticker input{
-    font-family: 'Marck Script', 'cursive';
+    font-family: inherit;
     font-size: 1.5em;
     background: var(--paper-white);
     color: var(--font-color);
@@ -213,7 +219,7 @@ body{
 }
 
 .sticker-button{
-    font-family: 'Marck Script', 'cursive';
+    font-family: inherit;
     margin-top: 5%;
     background: transparent;
     color: var(--font-color);
@@ -221,13 +227,14 @@ body{
     font-size: 1.5em;
     border-radius: 10px;
 }
-
-.sticker-button:hover{
-    background: var(--paper-white);
-    border: solid 2px var(--color-a);
-    color: var(--color-a);
-    /* animation: scale_button 3s ease-in-out infinite; */
-    cursor: pointer;
+@media (hover: hover) {
+    .sticker-button:hover{
+        background: var(--paper-white);
+        border: solid 2px var(--color-a);
+        color: var(--color-a);
+        /* animation: scale_button 3s ease-in-out infinite; */
+        cursor: pointer;
+    }
 }
 
 .add-to-list-button{
@@ -247,12 +254,12 @@ body{
     padding: 0;
 
 }
-
-.top-sticker-button:hover{
-    color: var(--color-a);
-    border: none;
+@media (hover: hover) {
+    .top-sticker-button:hover{
+        color: var(--color-a);
+        border: none;
+    }
 }
-
 
 .field-hidden{
     display: none;
@@ -263,7 +270,7 @@ body{
 }
 
 textarea{
-    font-family: 'Marck Script', 'cursive';
+    font-family: inherit;
     text-align: center;
     width: 60%;
     height: 100px;
@@ -310,13 +317,14 @@ textarea{
     z-index: 8;
 }
 
-
-#next:hover, #back:hover{
-    color: var(--arrow-color);
-    text-shadow: var(--arrow-color) 0px 3px 15px;
-    background-color: rgba(0,0,0,0.4);
-    border-radius: 10px;
-    cursor: pointer;
+@media (hover: hover) {
+    #next:hover, #back:hover{
+        color: var(--arrow-color);
+        text-shadow: var(--arrow-color) 0px 3px 15px;
+        background-color: rgba(0,0,0,0.4);
+        border-radius: 10px;
+        cursor: pointer;
+    }
 }
 
 .slide{
@@ -475,14 +483,4 @@ select{
 
 .reset-help ul li::before{
     content: "- ";
-}
-
-#footer-anchor{
-    color: var(--font-color);
-    text-decoration: none;
-    font-size: 1em;
-}
-
-#footer-anchor:hover{
-    color: var(--color-a);
 }
