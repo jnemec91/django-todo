@@ -1,10 +1,10 @@
 function showShareModal(id) {
-    document.getElementById('share-modal-wrap').classList.add("wrap-active");
+    document.getElementById('modal-wrap').classList.add("wrap-active");
     document.getElementById(id).classList.add("active");
 }
 
 function hideShareModal(id) {
-    document.getElementById('share-modal-wrap').classList.remove("wrap-active");
+    document.getElementById('modal-wrap').classList.remove("wrap-active");
     document.getElementById(id).classList.remove("active");
 }
 

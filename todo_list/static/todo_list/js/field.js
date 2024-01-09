@@ -10,6 +10,20 @@ function add_field() {
     task_field.setAttribute("id", "task_"+field_count);
    
     const new_field = `
+    <div id="modal-wrap"></div>
+
+    <div class="share-modal" id="remove_field_modal_${field_count}">
+    <div class="modal-header">
+        <h2>Delete field</h2>
+    </div>
+    <div class="modal-body">
+        <p>Are you sure you want to delete this field?</p>
+
+        <button type="button" class="sticker-button" onclick="hideShareModal('remove_field_modal_${field_count}');setTimeout(remove_field('form_field_new_${field_count}'),1000);">Delete</button>
+        <button class="sticker-button" onclick="hideShareModal('remove_field_modal_${field_count}');">Close</button>
+    </div>
+</div>
+
     <div id="form_field_new_${field_count}" class="sticker long task-field">
     <h1>New task</h1><label class="sticker-label" for="name-field_${field_count}">Task name</label>
     <input id="name-field_${field_count}" type="text" name="fields_new" required="true">
@@ -17,7 +31,7 @@ function add_field() {
     <textarea id="text-field_${field_count}" type="text" name="descriptions_new"></textarea>
     <label class="sticker-label" for="deadline_${field_count}">Deadline</label>
     <input id="deadline_${field_count}" type="date" name="deadlines_new"><hr>
-    <button type="button" class="sticker-button top-sticker-button" onclick="remove_field('form_field_new_${field_count}')"><i class="fa-solid fa-xmark"></i></button>
+    <button type="button" class="sticker-button top-sticker-button" onclick="showShareModal('remove_field_modal_${field_count}')"><i class="fa-solid fa-xmark"></i></button>
     <button type="button" class="sticker-button" onclick="toggle_fields('${field_count}');">Add</button>
     </div>
     `;
@@ -41,7 +55,6 @@ function add_field() {
 
     // scrolling to the newly created field
     let this_field = document.getElementById("task_"+field_count);
-    console.log(this_field);
     window.scrollTo({ top: this_field.offsetTop-50, behavior: 'smooth'});
 
     
@@ -59,6 +72,7 @@ function add_field() {
 function remove_field(id) {
     let field = document.getElementById(id);
     field.parentNode.removeChild(field);
+    
     toggle_add_button();
 };
 // end of remove_field function

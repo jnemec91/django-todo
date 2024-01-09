@@ -9,6 +9,7 @@
         <div class="sticker">
             <hr>
             {% if todo_lists|get_length_or_empty > 0 %}
+            <div id="modal-wrap"></div>
             <table>
                 <thead>
                     <th>Name</th>
@@ -18,6 +19,21 @@
                 </thead>
                 <tbody>
                     {% for todo_list in todo_lists %}
+
+                    <div class="share-modal" id="delete_modal_{{todo_list.id}}">
+                        <div class="modal-header">
+                            <h2>Delete list</h2>
+                        </div>
+                        <div class="modal-body">
+                            <p>Are you sure you want to delete this list?</p>
+                            <form action="{% url 'todo_list_app:delete_todo_list' todo_list_id=todo_list.id %}" method="post" class="sticker-form">
+                                {% csrf_token %}
+                                <button class="sticker-button" type="submit">Delete</button>
+                            </form>
+                            <button class="sticker-button" onclick="hideShareModal('delete_modal_{{todo_list.id}}')">Close</button>
+                        </div>
+                    
+
                     <tr class='row-bb'>
                         <td>{% if todo_list.created_by != request.user %}<span class='shared-span'>Shared</span>{% endif %} {{ todo_list.name }}</td>
                         <td>{% for field in todo_list.fields %}{% if field.checked == False %}<p>{{field.name}},</p> {% endif %}{% endfor %}</td>
@@ -28,10 +44,7 @@
                         </td>
                         
                         <td>
-                            <form action="{% url 'todo_list_app:delete_todo_list' todo_list_id=todo_list.id  %}" method="post">
-                                {% csrf_token %}
-                                <button class="sticker-button small" type="submit">Delete</button>
-                            </form>
+                            <button class="sticker-button small" onclick="showShareModal('delete_modal_{{todo_list.id}}');">Delete</button>
                         </td>
                     </tr>
                     
