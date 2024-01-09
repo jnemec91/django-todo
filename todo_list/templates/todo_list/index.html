@@ -18,9 +18,9 @@
             <button id="back"> &laquo </button>
         </div>       
         {% endif %}
-        <div id="share-modal-wrap">
+        <div id="modal-wrap">
             {% for todo_list in todo_lists %}
-            <div class="share-modal" id="modal_{{todo_list.id}}">
+            <div class="share-modal" id="share_modal_{{todo_list.id}}">
                 <div class="modal-header">
                     <h2>Share list</h2>
                 </div>
@@ -28,11 +28,47 @@
                     <p>Share this list with your friends:</p>
                     <input type="text" value="{{request.scheme}}://{{request.get_host}}{% url 'todo_list_app:list_details' todo_list_hash=todo_list.hash %}" id="share-link_{{todo_list.id}}" readonly>
                     <button class="sticker-button" onclick="copyToClipboard('share-link_{{todo_list.id}}')">Copy</button><br>
-                    <button class="sticker-button" onclick="hideShareModal('modal_{{todo_list.id}}')">Close</button>
+                    <button class="sticker-button" onclick="hideShareModal('share_modal_{{todo_list.id}}')">Close</button>
                 </div>
             </div>
+
+            <div class="share-modal" id="delete_modal_{{todo_list.id}}">
+                <div class="modal-header">
+                    <h2>Delete list</h2>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this list?</p>
+                    <form action="{% url 'todo_list_app:delete_todo_list' todo_list_id=todo_list.id %}" method="post" class="sticker-form">
+                        {% csrf_token %}
+                        <button class="sticker-button" type="submit">Delete</button>
+                    </form>
+                    <button class="sticker-button" onclick="hideShareModal('delete_modal_{{todo_list.id}}')">Close</button>
+                </div>
+            </div>
+
+
+            {% if todo_list.owner|get_length_or_empty > 1 %}
+            {% for user in todo_list.owner %}
+            {% if user != todo_list.created_by %}
+            {% if request.user == todo_list.created_by %}
+            <div class="share-modal" id="remove_user_modal_{{user.id}}">
+                <div class="modal-header">
+                    <h2>Stop sharing</h2>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to stop sharing with {{ user.first_name }} {{user.last_name}}?</p>
+                    {% csrf_token %}
+                    <button class="sticker-button" onclick="send_req('{% url 'todo_list_app:remove_from_shared_list' todo_list_id=todo_list.id user_id=user.id %}');">Remove</button>
+                    <button class="sticker-button" onclick="hideShareModal('remove_user_modal_{{user.id}}')">Close</button>
+                </div>
+            </div>
+            {% endif %}
+            {% endif %}
             {% endfor %}
-            </div> 
+            {% endif %}
+            {% endfor %}
+        </div>
+
         <div id="carousel-wrap">
             {% if todo_lists|get_length_or_empty == False %}
             <div class="slide">
@@ -58,9 +94,10 @@
                             {% for user in todo_list.owner %}
                             {% if user != todo_list.created_by %}
                             {% if request.user == todo_list.created_by %}
-                            <button class="remove-from-list" onclick="send_req('{% url 'todo_list_app:remove_from_shared_list' todo_list_id=todo_list.id user_id=user.id %}');">X</button>
+
+                            <p class="share-users"></p><button class="remove-from-list" onclick="showShareModal('remove_user_modal_{{user.id}}');"><i class="fa-solid fa-xmark"></i></button>
                             {% endif %}
-                            {{ user.first_name }} {{user.last_name}}<br>
+                            {{ user.first_name }} {{user.last_name}}</p>
                             {% endif %}
                             {% endfor %}
                         </p>
@@ -85,23 +122,32 @@
                     <form action="{% url 'todo_list_app:edit_todo_list' todo_list_id=todo_list.id  %}" method="get" class="sticker-form">
                         <button class="sticker-button" type="submit">Edit</button>
                     </form>
-                    <form action="{% url 'todo_list_app:delete_todo_list' todo_list_id=todo_list.id %}" method="post" class="sticker-form">
-                        {% csrf_token %}
-                        <button class="sticker-button" type="submit">Delete</button>
-                    </form>
 
-                    <button class="sticker-button" type="submit" onclick="showShareModal('modal_{{todo_list.id}}');">Share</button>
+                    <button class="sticker-button" onclick="showShareModal('delete_modal_{{todo_list.id}}');">Delete</button>
+
+                    <button class="sticker-button" type="submit" onclick="showShareModal('share_modal_{{todo_list.id}}');">Share</button>
 
                 </div>
             </div>
             {% endfor %}
-
-        <script type="text/javascript" src="{% static 'todo_list/js/share.js' %}"></script>
-        <script type="text/javascript" src="{% static 'todo_list/js/slide.js' %}"></script>
-        <script type="text/javascript" src="{% static 'todo_list/js/send_req.js' %}"></script>
         
         </div>
+        <div class="top-button-box">
+            {% for list in todo_lists %}
+    
+                {% if forloop.counter0 == 0 %}
+                <button id="rb_{{ forloop.counter0 }}" value="{{ forloop.counter0 }}" class="round-button rb-active" onclick="quickRotate({{ forloop.counter0 }})">{{ forloop.counter }}</button>
+                {% elif forloop.counter < 6 %}
+                <button id="rb_{{ forloop.counter0 }}" value="{{ forloop.counter0 }}" class="round-button" onclick="quickRotate({{ forloop.counter0 }})">{{ forloop.counter }}</button>
+                {% else %}
+                <button id="rb_{{ forloop.counter0 }}" value="{{ forloop.counter0 }}" class="round-button inisible_rb" onclick="quickRotate({{ forloop.counter0 }})">{{ forloop.counter }}</button>
+                {% endif %}
+            
+            {% endfor %}
+        </div>
     </div>
-    {% endif %}
 
+    {% endif %}
+    
+    <script type="text/javascript" src="{% static 'todo_list/js/slide.js' %}"></script>
 {% endblock %}
