@@ -5,9 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    {% if user.useroptions.font_style == '1' %}
-        <link rel="stylesheet" href="{% static 'todo_list/css/marck_script.css' %}">
-    {% elif user.useroptions.font_style == '2' %}
+    {% if user.useroptions.font_style == '2' %}
         <link rel="stylesheet" href="{% static 'todo_list/css/dancing_script.css' %}">
     {% elif user.useroptions.font_style == '3' %}
         <link rel="stylesheet" href="{% static 'todo_list/css/marcellus.css' %}">
@@ -15,6 +13,8 @@
         <link rel="stylesheet" href="{% static 'todo_list/css/robotoslab.css' %}">
     {% elif user.useroptions.font_style == '5' %}
         <link rel="stylesheet" href="{% static 'todo_list/css/oswald.css' %}">
+    {% else %}
+        <link rel="stylesheet" href="{% static 'todo_list/css/marck_script.css' %}">
     {% endif %}
 
     {% if user.useroptions.dark_mode == True %}
