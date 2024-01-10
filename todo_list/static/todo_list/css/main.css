@@ -482,11 +482,10 @@ select{
         height: auto;
     }
     .sticker{
-        top: 10%;
+        margin-top: 15%;
         width: 95%;
         padding: 5px;
         min-height: 50px;
-        margin: auto;
     }
 
     textarea{
@@ -510,9 +509,9 @@ select{
     }
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 767px) {
     .sticker{
-        top: 15%;
+        margin-top: 20%;
     }
 
     .sticker-heading{
