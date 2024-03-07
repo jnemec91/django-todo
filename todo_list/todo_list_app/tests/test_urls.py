@@ -1,9 +1,11 @@
 from django.test import SimpleTestCase
 from django.urls import reverse, resolve
 from todo_list_app.views import *
-from django.contrib.auth import views as auth_views
 
 class TestUrls(SimpleTestCase):
+    """
+    This class tests if urls are resolved to correct views.
+    """
 
     def test_url_index_resolves(self):
         url = reverse('todo_list_app:index')
@@ -56,22 +58,20 @@ class TestUrls(SimpleTestCase):
     def test_url_remove_from_shared_list_resolves(self):
         url = reverse('todo_list_app:remove_from_shared_list', args=[1, 1])
         self.assertEquals(resolve(url).func, remove_from_shared_list)
-
-    #TODO: Fix this tests
     
-    # def test_url_password_reset_resolves(self):
-    #     url = reverse('todo_list_app:password_reset')
-    #     self.assertEquals(resolve(url).func.view_class, auth_views.PasswordResetView)
+    def test_url_password_reset_resolves(self):
+        url = reverse('todo_list_app:password_reset')
+        self.assertEquals(resolve(url).func.view_class, ToDoAppPasswordResetView)
     
-    # def test_url_password_reset_done_resolves(self):
-    #     url = reverse('todo_list_app:password_reset_done')
-    #     self.assertEquals(resolve(url).func.view_class, auth_views.PasswordResetDoneView)
+    def test_url_password_reset_done_resolves(self):
+        url = reverse('todo_list_app:password_reset_done')
+        self.assertEquals(resolve(url).func.view_class, ToDoAppPasswordResetDoneView)
     
-    # def test_url_password_reset_confirm_resolves(self):
-    #     url = reverse('todo_list_app:password_reset_confirm', args=['uidb64', 'token'])
-    #     self.assertEquals(resolve(url).func.view_class, auth_views.PasswordResetConfirmView)
+    def test_url_password_reset_confirm_resolves(self):
+        url = reverse('todo_list_app:password_reset_confirm', args=['uidb64', 'token'])
+        self.assertEquals(resolve(url).func.view_class, ToDoAppPasswordResetConfirmView)
     
-    # def test_url_password_reset_complete_resolves(self):
-    #     url = reverse('todo_list_app:password_reset_complete')
-    #     self.assertEquals(resolve(url).func.view_class, auth_views.PasswordResetCompleteView)
+    def test_url_password_reset_complete_resolves(self):
+        url = reverse('todo_list_app:password_reset_complete')
+        self.assertEquals(resolve(url).func.view_class, ToDoAppPasswordResetCompleteView)
     
