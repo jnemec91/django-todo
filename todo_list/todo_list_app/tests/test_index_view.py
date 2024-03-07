@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from todo_list_app.models import UserOptions, TodoList, TodoField
 from .setup import TestSetup
 
-class TestViews(TestCase):
+class TestIndexView(TestCase):
     """
     Class for testing views.
     """
