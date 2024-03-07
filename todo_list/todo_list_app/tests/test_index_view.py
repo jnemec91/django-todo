@@ -24,7 +24,6 @@ class TestIndexView(TestCase):
                                             access_granted=False)
         todo_list.owner.add(self.another_user)
         todo_list.hash = todo_list._create_hash()
-        list_hash = todo_list.hash
         todo_list.save()
     
     def test_index_GET_wo_user(self):
