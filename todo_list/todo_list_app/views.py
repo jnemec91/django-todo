@@ -20,23 +20,27 @@ def index(request):
 
     If user isnt authenticated redirects to login page.
     """
-    if request.user.is_authenticated:
-        todo_lists = [
-            {
-                'id':i.id,
-                'name':i.name,
-                'created_by':i.created_by,
-                'owner':[a for a in i.owner.all()],
-                'fields':[a for a in i.fields.all()],
-                'hash':i.hash,
-            }
-            for i in TodoList.objects.filter(owner=request.user).order_by('-created_at')
-        ]     
+    if request.method == 'GET':
+        if request.user.is_authenticated:
+            todo_lists = [
+                {
+                    'id':i.id,
+                    'name':i.name,
+                    'created_by':i.created_by,
+                    'owner':[a for a in i.owner.all()],
+                    'fields':[a for a in i.fields.all()],
+                    'hash':i.hash,
+                }
+                for i in TodoList.objects.filter(owner=request.user).order_by('-created_at')
+            ]     
 
-        return render(request, 'todo_list/index.html', {'todo_lists':todo_lists})
-    
+            return render(request, 'todo_list/index.html', {'todo_lists':todo_lists})
+        
+        else:
+            return redirect('todo_list_app:login')
     else:
-        return redirect('todo_list_app:login')
+        # return status code 405 if method is not GET
+        return HttpResponse(status=405)
 
 def list_details(request, todo_list_hash: str):
         """
