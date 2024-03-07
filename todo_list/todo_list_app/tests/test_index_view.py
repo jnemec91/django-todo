@@ -18,6 +18,14 @@ class TestIndexView(TestCase):
         self.user = self.setup.user
         self.another_user = self.setup.another_user
 
+        # create another users todo list
+        todo_list = TodoList.objects.create(name='another_list',
+                                            created_by=self.another_user,
+                                            access_granted=False)
+        todo_list.owner.add(self.another_user)
+        todo_list.hash = todo_list._create_hash()
+        list_hash = todo_list.hash
+        todo_list.save()
     
     def test_index_GET_wo_user(self):
         """
@@ -118,13 +126,6 @@ class TestIndexView(TestCase):
         list_hash = todo_list.hash
         todo_list.save()
 
-        # create todo list
-        todo_list = TodoList.objects.create(name='another_test_list', created_by=self.another_user, access_granted=False)
-        todo_list.owner.add(self.another_user)
-        todo_list.hash = todo_list._create_hash()
-        list_hash = todo_list.hash
-        todo_list.save()
-
         response = self.client.get(reverse('todo_list_app:index'))
         self.assertEquals(response.status_code, 200)
 
@@ -136,7 +137,7 @@ class TestIndexView(TestCase):
             self.assertTemplateUsed(response, template)
 
         self.assertIn('todo_lists', response.context)
-        self.assertEquals(response.context['todo_lists'], [{'id':1,
+        self.assertEquals(response.context['todo_lists'], [{'id':2,
                                                              'name': 'test_list',
                                                              'created_by': self.user,
                                                              'owner': [self.user],
