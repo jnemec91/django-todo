@@ -16,6 +16,7 @@ class TestIndexView(TestCase):
         self.setup = TestSetup()
         self.client = self.setup.client
         self.user = self.setup.user
+        self.another_user = self.setup.another_user
 
     
     def test_index_GET_wo_user(self):
@@ -113,6 +114,13 @@ class TestIndexView(TestCase):
         # create todo list
         todo_list = TodoList.objects.create(name='test_list', created_by=self.user, access_granted=False)
         todo_list.owner.add(self.user)
+        todo_list.hash = todo_list._create_hash()
+        list_hash = todo_list.hash
+        todo_list.save()
+
+        # create todo list
+        todo_list = TodoList.objects.create(name='another_test_list', created_by=self.another_user, access_granted=False)
+        todo_list.owner.add(self.another_user)
         todo_list.hash = todo_list._create_hash()
         list_hash = todo_list.hash
         todo_list.save()

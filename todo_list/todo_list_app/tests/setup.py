@@ -36,7 +36,7 @@ class TestSetup:
             )
         
         self.user_options = UserOptions.objects.create(
-            user=self.user,
+            user=self.another_user,
             dark_mode=False,
             font_style='1',
             )
