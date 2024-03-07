@@ -6,7 +6,7 @@ from .setup import TestSetup
 
 class TestIndexView(TestCase):
     """
-    Class for testing views.
+    Class for testing index view of todo list application.
     """
     
     def setUp(self) -> None:
@@ -48,7 +48,7 @@ class TestIndexView(TestCase):
     def test_index_POST_wo_user(self):
         """
         Test index view with POST request without user logged in and without data.
-        Should redirect to login page.
+        Should redirect return error 405.
         """
         response = self.client.post(reverse('todo_list_app:index'))
         self.assertEquals(response.status_code, 405)
@@ -57,7 +57,7 @@ class TestIndexView(TestCase):
     def test_index_POST_w_user(self):
         """
         Test index view with POST request with user logged in and without data.
-        Should return index page with user's todo lists as list of dictionaries in context.
+        Should redirect return error 405.
         """
         self.client.login(username='testuser', password='12345')
         response = self.client.post(reverse('todo_list_app:index'))
@@ -67,7 +67,7 @@ class TestIndexView(TestCase):
     def test_index_PUT_wo_user(self):
         """
         Test index view with PUT request without user logged in and without data.
-        Should redirect to login page.
+        Should redirect return error 405.
         """
         response = self.client.put(reverse('todo_list_app:index'))
         self.assertEquals(response.status_code, 405)
@@ -76,7 +76,7 @@ class TestIndexView(TestCase):
     def test_index_PUT_w_user(self):
         """
         Test index view with PUT request with user logged in and without data.
-        Should return index page with user's todo lists as list of dictionaries in context.
+        Should redirect return error 405.
         """
         self.client.login(username='testuser', password='12345')
         response = self.client.put(reverse('todo_list_app:index'))
@@ -87,7 +87,7 @@ class TestIndexView(TestCase):
     def test_index_DELETE_wo_user(self):
         """
         Test index view with DELETE request without user logged in and without data.
-        Should redirect to login page.
+        Should redirect return error 405.
         """
         response = self.client.delete(reverse('todo_list_app:index'))
         self.assertEquals(response.status_code, 405)
@@ -96,7 +96,7 @@ class TestIndexView(TestCase):
     def test_index_DELETE_w_user(self):
         """
         Test index view with DELETE request with user logged in and without data.
-        Should return index page with user's todo lists as list of dictionaries in context.
+        Should redirect return error 405.
         """
         self.client.login(username='testuser', password='12345')
         response = self.client.delete(reverse('todo_list_app:index'))
@@ -106,7 +106,7 @@ class TestIndexView(TestCase):
     def test_index_GET_w_user_w_data(self):
         """
         Test index view with user logged in and with data using GET method.
-        Should return index page with user's todo lists as list of dictionaries in context.
+        Should return index page with todo list as dictionary in context.
         """
         self.client.login(username='testuser', password='12345')
 
@@ -140,7 +140,7 @@ class TestIndexView(TestCase):
     def test_index_POST_w_user_w_data(self):
         """
         Test index view with user logged in and with data using POST method.
-        Should return index page with user's todo lists as list of dictionaries in context.
+        Should redirect return error 405.
         """
         self.client.login(username='testuser', password='12345')
 
@@ -158,7 +158,7 @@ class TestIndexView(TestCase):
     def test_index_PUT_w_user_w_data(self):
         """
         Test index view with user logged in and with data using PUT method.
-        Should return index page with user's todo lists as list of dictionaries in context.
+        Should redirect return error 405.
         """
         self.client.login(username='testuser', password='12345')
 
@@ -176,7 +176,7 @@ class TestIndexView(TestCase):
     def test_index_DELETE_w_user_w_data(self):
         """
         Test index view with user logged in and with data using DELETE method.
-        Should return index page with user's todo lists as list of dictionaries in context.
+        Should redirect return error 405.
         """
         self.client.login(username='testuser', password='12345')
 

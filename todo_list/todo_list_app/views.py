@@ -50,20 +50,24 @@ def list_details(request, todo_list_hash: str):
         
         Todo list hash is used to get todo list and is required parameter.
         """
-        todo_lists = [
-            {
-                'id':i.id,
-                'name':i.name,
-                'created_by':i.created_by,
-                'owner':[a for a in i.owner.all()],
-                'fields':[a for a in i.fields.all()],
-                'hash':i.hash,
-                'access_granted':i.access_granted,
-            } 
-            for i in TodoList.objects.filter(hash=todo_list_hash)
-        ]
-        
-        return render(request, 'todo_list/detail.html', {'todo_lists':todo_lists})
+        if request.method == 'GET':
+            todo_lists = [
+                {
+                    'id':i.id,
+                    'name':i.name,
+                    'created_by':i.created_by,
+                    'owner':[a for a in i.owner.all()],
+                    'fields':[a for a in i.fields.all()],
+                    'hash':i.hash,
+                    'access_granted':i.access_granted,
+                } 
+                for i in TodoList.objects.filter(hash=todo_list_hash)
+            ]
+            
+            return render(request, 'todo_list/detail.html', {'todo_lists':todo_lists})
+        else:
+            # return status code 405 if method is not GET
+            return HttpResponse(status=405)
 
 
 
