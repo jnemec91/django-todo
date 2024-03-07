@@ -23,6 +23,8 @@ class TestListDetailsView(TestCase):
         self.list_hash = self.todo_list.hash
         self.todo_list.save()
     
+
+
     def test_list_details_GET_wo_user(self):
         """
         Test list details view without user logged in and with data using GET method.
@@ -47,6 +49,7 @@ class TestListDetailsView(TestCase):
                                                              'hash': self.list_hash,
                                                              'access_granted': False,
                                                              }])
+
 
 
     def test_list_details_GET_w_user(self):
@@ -75,6 +78,8 @@ class TestListDetailsView(TestCase):
                                                          'access_granted': False,
                                                          }])
     
+
+
     def test_list_details_POST_wo_user(self):
         """
         Test list details view without user logged in and with data using POST method.
@@ -82,6 +87,8 @@ class TestListDetailsView(TestCase):
         """
         response = self.client.post(reverse('todo_list_app:list_details', kwargs={'todo_list_hash': self.list_hash}))
         self.assertEquals(response.status_code, 405)
+
+
 
     def test_list_details_POST_w_user(self):
         """
@@ -92,6 +99,8 @@ class TestListDetailsView(TestCase):
         response = self.client.post(reverse('todo_list_app:list_details', kwargs={'todo_list_hash': self.list_hash}))
         self.assertEquals(response.status_code, 405)
 
+
+
     def test_list_details_PUT_wo_user(self):
         """
         Test list details view without user logged in and with data using PUT method.
@@ -100,6 +109,8 @@ class TestListDetailsView(TestCase):
         response = self.client.put(reverse('todo_list_app:list_details', kwargs={'todo_list_hash': self.list_hash}))
         self.assertEquals(response.status_code, 405)
     
+
+
     def test_list_details_PUT_w_user(self):
         """
         Test list details view with user logged in and with data using PUT method.
@@ -109,6 +120,8 @@ class TestListDetailsView(TestCase):
         response = self.client.put(reverse('todo_list_app:list_details', kwargs={'todo_list_hash': self.list_hash}))
         self.assertEquals(response.status_code, 405)
     
+
+
     def test_list_details_DELETE_wo_user(self):
         """
         Test list details view without user logged in and with data using DELETE method.
@@ -116,6 +129,8 @@ class TestListDetailsView(TestCase):
         """
         response = self.client.delete(reverse('todo_list_app:list_details', kwargs={'todo_list_hash': self.list_hash}))
         self.assertEquals(response.status_code, 405)
+
+
 
     def test_list_details_DELETE_w_user(self):
         """

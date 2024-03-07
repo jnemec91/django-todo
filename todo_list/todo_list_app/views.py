@@ -80,24 +80,27 @@ def user_login(request):
     If user is not authenticated, returns login page.
     """
     if request.method =='POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)
+        if request.user.is_authenticated == False:
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+            user = authenticate(request, username=username, password=password)
 
-        if user is not None:
-            login(request, user)
+            if user is not None:
+                login(request, user)
 
+                return redirect('todo_list_app:index')
+            else:
+                messages.add_message(request, messages.ERROR, 'You`ve entered a wrong username or password.')
+
+                return redirect('todo_list_app:login')
+        
+    elif request.method == 'GET':
+        if request.user.is_authenticated:
             return redirect('todo_list_app:index')
         else:
-            messages.add_message(request, messages.ERROR, 'You`ve entered a wrong username or password.')
-
-            return redirect('todo_list_app:login')
-        
-
-    elif request.user.is_authenticated:
-        return redirect('todo_list_app:index')
+            return render(request, 'todo_list/login.html')
     
-    return render(request, 'todo_list/login.html')
+    return HttpResponse(status=405)
 
 
 def signup(request):

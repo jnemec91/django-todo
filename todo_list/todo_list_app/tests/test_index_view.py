@@ -26,6 +26,8 @@ class TestIndexView(TestCase):
         todo_list.hash = todo_list._create_hash()
         todo_list.save()
     
+
+
     def test_index_GET_wo_user(self):
         """
         Test index view without user logged in and without data using GET method.
@@ -35,6 +37,7 @@ class TestIndexView(TestCase):
         self.assertRedirects(response, reverse('todo_list_app:login'), status_code=302)
 
     
+
     def test_index_GET_w_user(self):
         """
         Test index view with user logged in and without data using GET method.
@@ -53,6 +56,7 @@ class TestIndexView(TestCase):
         self.assertEquals(response.context['todo_lists'], [])
 
 
+
     def test_index_POST_wo_user(self):
         """
         Test index view with POST request without user logged in and without data.
@@ -60,6 +64,7 @@ class TestIndexView(TestCase):
         """
         response = self.client.post(reverse('todo_list_app:index'))
         self.assertEquals(response.status_code, 405)
+
 
 
     def test_index_POST_w_user(self):
@@ -72,6 +77,7 @@ class TestIndexView(TestCase):
         self.assertEquals(response.status_code, 405)
 
 
+
     def test_index_PUT_wo_user(self):
         """
         Test index view with PUT request without user logged in and without data.
@@ -79,6 +85,7 @@ class TestIndexView(TestCase):
         """
         response = self.client.put(reverse('todo_list_app:index'))
         self.assertEquals(response.status_code, 405)
+
 
 
     def test_index_PUT_w_user(self):
@@ -101,6 +108,7 @@ class TestIndexView(TestCase):
         self.assertEquals(response.status_code, 405)
     
 
+
     def test_index_DELETE_w_user(self):
         """
         Test index view with DELETE request with user logged in and without data.
@@ -110,7 +118,8 @@ class TestIndexView(TestCase):
         response = self.client.delete(reverse('todo_list_app:index'))
         self.assertEquals(response.status_code, 405)
 
-    # test index view with user logged in and with data using GET method
+
+
     def test_index_GET_w_user_w_data(self):
         """
         Test index view with user logged in and with data using GET method.
@@ -144,7 +153,8 @@ class TestIndexView(TestCase):
                                                              'hash': list_hash,
                                                              }])
 
-    # test index view with user logged in and with data using POST method
+
+
     def test_index_POST_w_user_w_data(self):
         """
         Test index view with user logged in and with data using POST method.
@@ -162,7 +172,8 @@ class TestIndexView(TestCase):
         response = self.client.post(reverse('todo_list_app:index'))
         self.assertEquals(response.status_code, 405)
     
-    # test index view with user logged in and with data using PUT method
+
+
     def test_index_PUT_w_user_w_data(self):
         """
         Test index view with user logged in and with data using PUT method.
@@ -180,7 +191,8 @@ class TestIndexView(TestCase):
         response = self.client.put(reverse('todo_list_app:index'))
         self.assertEquals(response.status_code, 405)
     
-    # test index view with user logged in and with data using DELETE method
+
+
     def test_index_DELETE_w_user_w_data(self):
         """
         Test index view with user logged in and with data using DELETE method.
