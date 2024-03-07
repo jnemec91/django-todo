@@ -112,44 +112,49 @@ def signup(request):
     If user is not authenticated, returns signup page.
     """
     if request.method == 'POST':
-        email = request.POST.get('email')
-        username = request.POST.get('username')
-        first_name = request.POST.get('first_name')
-        last_name = request.POST.get('last_name')
-        password = request.POST.get('password')
-        password2 = request.POST.get('password2')    
-        if password == password2:
-            if User.objects.filter(username=username).exists():
-                messages.add_message(request, messages.ERROR, 'This username already exists.')
+        if request.user.is_authenticated == False:
+            email = request.POST.get('email')
+            username = request.POST.get('username')
+            first_name = request.POST.get('first_name')
+            last_name = request.POST.get('last_name')
+            password = request.POST.get('password')
+            password2 = request.POST.get('password2')    
+            if password == password2:
+                if User.objects.filter(username=username).exists():
+                    messages.add_message(request, messages.ERROR, 'This username already exists.')
+                    
+                    return redirect('todo_list_app:signup')
                 
-                return redirect('todo_list_app:signup')
-            
-            elif User.objects.filter(email=email).exists():
-                messages.add_message(request, messages.ERROR, 'Account with this email already exists.')
+                elif User.objects.filter(email=email).exists():
+                    messages.add_message(request, messages.ERROR, 'Account with this email already exists.')
 
-                return redirect('todo_list_app:signup')
-            
+                    return redirect('todo_list_app:signup')
+                
+                else:
+                    user = User.objects.create_user(username=username, password=password, email=email, first_name=first_name, last_name=last_name)
+                    user.save()
+                    user_options = UserOptions.objects.create(user=user)
+                    user_options.dark_mode = False
+                    user_options.email_notifications = False
+                    user_options.save()
+
+                    return redirect('todo_list_app:login')
+                    
             else:
-                user = User.objects.create_user(username=username, password=password, email=email, first_name=first_name, last_name=last_name)
-                user.save()
-                user_options = UserOptions.objects.create(user=user)
-                user_options.dark_mode = False
-                user_options.email_notifications = False
-                user_options.save()
+                messages.add_message(request, messages.ERROR, 'Passwords do not match.')
 
-                return redirect('todo_list_app:login')
-                
+                return redirect('todo_list_app:signup')
+            
         else:
-            messages.add_message(request, messages.ERROR, 'Passwords do not match.')
-
-            return redirect('todo_list_app:signup')
-
-    elif request.user.is_authenticated:
-
-        return redirect('todo_list_app:index')
+            return HttpResponse(status=405)
+        
+    elif request.method == 'GET':
+        if request.user.is_authenticated:
+            return redirect('todo_list_app:index')
+        else:
+            return render(request, 'todo_list/signup.html')
     
-    
-    return render(request, 'todo_list/signup.html')
+    return HttpResponse(status=405)
 
 
 @login_required
