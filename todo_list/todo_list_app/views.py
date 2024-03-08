@@ -132,14 +132,22 @@ def signup(request):
                     return redirect('todo_list_app:signup')
                 
                 else:
+                    # validate email
                     if re.match(r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$', email) is not None:
-                        user = User.objects.create_user(username=username, password=password, email=email, first_name=first_name, last_name=last_name)
-                        user.save()
-                        user_options = UserOptions.objects.create(user=user)
-                        user_options.dark_mode = False
-                        user_options.save()
+                        # validate username
+                        if re.match(r'^[a-zA-Z0-9_]+$', username) is not None:
+                            user = User.objects.create_user(username=username, password=password, email=email, first_name=first_name, last_name=last_name)
+                            user.save()
+                            user_options = UserOptions.objects.create(user=user)
+                            user_options.dark_mode = False
+                            user_options.save()
 
-                        return redirect('todo_list_app:login')
+                            return redirect('todo_list_app:login')
+                        else:
+                            messages.add_message(request, messages.ERROR, 'Invalid username. Username can only contain letters, numbers and underscores.')
+
+                            return redirect('todo_list_app:signup')
+                    
                     else:
                         messages.add_message(request, messages.ERROR, 'Invalid email.')
 

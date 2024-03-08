@@ -175,6 +175,30 @@ class TestSignUpView(TestCase):
         for message in messages:
             self.assertIn('error', message.tags)
             self.assertIn( 'Invalid email.', message.message)
+
+
+
+    def test_signup_POST_wo_user_invalid_username(self):
+        """
+        Test signup view without user logged in using POST method with invalid data.
+        Should redirect to signup page with error message.
+        """
+        response = self.client.post(reverse('todo_list_app:signup'),
+                                    {'username': 'new user',
+                                     'first_name': 'new',
+                                     'last_name': 'user',
+                                     'email': 'newuser@test.com',
+                                     'password': 'newpassword',
+                                     'password2': 'newpassword'
+                                    },
+                                    follow=True)
+        
+        self.assertRedirects(response, reverse('todo_list_app:signup'), status_code=302)
+
+        messages = list(response.context.get('messages'))
+        for message in messages:
+            self.assertIn('error', message.tags)
+            self.assertIn('Invalid username. Username can only contain letters, numbers and underscores.', message.message)
         
 
 
