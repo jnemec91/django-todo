@@ -39,7 +39,7 @@ class TestSignUpView(TestCase):
     def test_signup_GET_w_user(self):
         """
         Test signup view with user logged in using GET method.
-        Should return index page.
+        Should redirect to index page.
         """
         self.client.login(username='testuser', password='12345')
         response = self.client.get(reverse('todo_list_app:signup'))
@@ -50,7 +50,7 @@ class TestSignUpView(TestCase):
     def test_signup_POST_wo_user(self):
         """
         Test signup view without user logged in using POST method.
-        Should create new user and redirect to index page.
+        Should create new user and redirect to login page.
         """
         response = self.client.post(reverse('todo_list_app:signup'),
                                     {'username': 'newuser',
@@ -67,7 +67,7 @@ class TestSignUpView(TestCase):
     def test_signup_POST_w_user(self):
         """
         Test signup view with user logged in using POST method.
-        Should redirect to index page.
+        Should return method not allowed.
         """
         self.client.login(username='testuser', password='12345')
         response = self.client.post(reverse('todo_list_app:signup'),
@@ -85,7 +85,7 @@ class TestSignUpView(TestCase):
     def test_signup_POST_wo_user_bad_password(self):
         """
         Test signup view without user logged in using POST method with bad password.
-        Should return signup page with error message.
+        Should redirect to signup page with error message.
         """
         response = self.client.post(reverse('todo_list_app:signup'),
                                     {'username': 'newuser',
@@ -109,7 +109,7 @@ class TestSignUpView(TestCase):
     def test_signup_POST_wo_user_existing_username(self):
         """
         Test signup view without user logged in using POST method with existing username.
-        Should return signup page with error message.
+        Should redirect to signup page with error message.
         """
         response = self.client.post(reverse('todo_list_app:signup'),
                                     {'username': 'testuser',
@@ -157,7 +157,7 @@ class TestSignUpView(TestCase):
     def test_signup_POST_wo_user_invalid_email(self):
         """
         Test signup view without user logged in using POST method with invalid data.
-        Should return signup page with error message.
+        Should redirect to signup page with error message.
         """
         response = self.client.post(reverse('todo_list_app:signup'),
                                     {'username': 'newuser',
@@ -174,7 +174,7 @@ class TestSignUpView(TestCase):
         messages = list(response.context.get('messages'))
         for message in messages:
             self.assertIn('error', message.tags)
-            self.assertIn( 'An error occured while creating account.', message.message)
+            self.assertIn( 'Invalid email.', message.message)
         
 
 
