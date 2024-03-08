@@ -15,7 +15,6 @@ class TestSignUpView(TestCase):
         """
         self.setup = TestSetup()
         self.client = self.setup.client
-        self.user = self.setup.user
 
 
 
