@@ -15,7 +15,6 @@ class TestUserLoginView(TestCase):
         """
         self.setup = TestSetup()
         self.client = self.setup.client
-        self.user = self.setup.user
         self.another_user = self.setup.another_user
     
 
