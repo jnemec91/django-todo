@@ -474,8 +474,8 @@ def settings(request):
     user = User.objects.get(id=request.user.id)
     user_options = UserOptions.objects.get(user=user)
 
-    print()
-    print(user_options.font_style)
+    # print()
+    # print(user_options.font_style)
     return render(request, 'todo_list/settings.html', {'user_options':user_options, 'font_styles':UserOptions.font_style_choices})
 
 
