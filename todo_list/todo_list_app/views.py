@@ -210,8 +210,11 @@ def create_todo_list(request):
                 todo_list.save()
                 
         return redirect('todo_list_app:index')
-        
-    return render(request, 'todo_list/create_todo_list.html', {'new':True})
+    elif request.method == 'GET':
+        return render(request, 'todo_list/create_todo_list.html', {'new':True})
+    
+    else:
+        return HttpResponse(status=405)
 
 
 @login_required
