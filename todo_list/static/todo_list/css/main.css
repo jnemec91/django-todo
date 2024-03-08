@@ -25,9 +25,10 @@ body{
 .login-container{
     width: 50%;
     height: auto;
-    position: absolute;
-    left: 25%;
-    margin-bottom: 10%;
+    /* position: absolute; */
+    /* left: 25%; */
+    /* margin-bottom: 10%; */
+    margin: auto auto 10% auto;
     /* background: linear-gradient(45deg,rgba(0,0,0,0.6), rgba(0,0,0,0.8)); */
     background: var(--paper-white);
     border-radius: 25px;
@@ -499,7 +500,7 @@ select{
     }
 
     .login-container{
-        left: 5%;
+        /* left: 5%; */
         width: 90%;
     }
     
