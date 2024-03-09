@@ -63,8 +63,8 @@ class TestDeleteView(TestCase):
         Test delete view without user logged in and with data using POST method.
         Should redirect to login page.
         """
-        response = self.client.post(reverse('todo_list_app:delete_todo_list', args=[self.user_todo_list.id]))
-        self.assertRedirects(response, f"{ reverse('todo_list_app:login') }?next={ reverse('todo_list_app:delete_todo_list', args=[self.user_todo_list.id]) }", status_code=302)
+        self.response = self.client.post(reverse('todo_list_app:delete_todo_list', args=[self.user_todo_list.id]))
+        self.assertRedirects(self.response, f"{ reverse('todo_list_app:login') }?next={ reverse('todo_list_app:delete_todo_list', args=[self.user_todo_list.id]) }", status_code=302)
 
 
 
@@ -75,10 +75,10 @@ class TestDeleteView(TestCase):
         """
         self.assertEqual(TodoList.objects.filter(owner=self.user).count(), 2)
         self.client.login(username='testuser', password='12345')
-        response = self.client.post(reverse('todo_list_app:delete_todo_list', args=[self.user_todo_list.id]),HTTP_REFERER=reverse('todo_list_app:index'))
+        self.response = self.client.post(reverse('todo_list_app:delete_todo_list', args=[self.user_todo_list.id]),HTTP_REFERER=reverse('todo_list_app:index'))
         self.assertEqual(TodoList.objects.count(), 1)
         self.assertEqual(TodoList.objects.filter(id=self.user_todo_list.id).exists(), False)
-        self.assertRedirects(response, reverse('todo_list_app:index'), status_code=302)        
+        self.assertRedirects(self.response, reverse('todo_list_app:index'), status_code=302)        
 
 
     def test_delete_POST_w_user_another_user(self):
@@ -102,8 +102,8 @@ class TestDeleteView(TestCase):
         Should return redirect to index page.
         """
         self.client.login(username='testuser', password='12345')
-        response = self.client.post(reverse('todo_list_app:delete_todo_list', args=[100]),HTTP_REFERER=reverse('todo_list_app:index'))
-        self.assertRedirects(response, reverse('todo_list_app:index'), status_code=302)
+        self.response = self.client.post(reverse('todo_list_app:delete_todo_list', args=[100]),HTTP_REFERER=reverse('todo_list_app:index'))
+        self.assertEqual(self.response.status_code, 404)
 
     
 
@@ -133,8 +133,8 @@ class TestDeleteView(TestCase):
         Test delete view without user logged in and with data using DELETE method.
         Should redirect to login page.
         """
-        response = self.client.delete(reverse('todo_list_app:delete_todo_list', args=[self.user_todo_list.id]))
-        self.assertRedirects(response, f"{ reverse('todo_list_app:login') }?next={ reverse('todo_list_app:delete_todo_list', args=[self.user_todo_list.id]) }", status_code=302)
+        self.response = self.client.delete(reverse('todo_list_app:delete_todo_list', args=[self.user_todo_list.id]))
+        self.assertRedirects(self.response, f"{ reverse('todo_list_app:login') }?next={ reverse('todo_list_app:delete_todo_list', args=[self.user_todo_list.id]) }", status_code=302)
 
 
     
