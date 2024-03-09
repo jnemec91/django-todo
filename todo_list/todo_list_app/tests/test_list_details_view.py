@@ -31,7 +31,7 @@ class TestListDetailsView(TestCase):
         Should return list details page with todo list as dictionary in context.
         """
         response = self.client.get(reverse('todo_list_app:list_details', kwargs={'todo_list_hash': self.list_hash}))
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
         for template in ('todo_list/detail.html',
                          'todo_list/base.html',
@@ -41,7 +41,7 @@ class TestListDetailsView(TestCase):
             self.assertTemplateUsed(response, template)
 
         self.assertIn('todo_lists', response.context)
-        self.assertEquals(response.context['todo_lists'], [{'id':1,
+        self.assertEqual(response.context['todo_lists'], [{'id':1,
                                                              'name': 'test_list',
                                                              'created_by': self.user,
                                                              'owner': [self.user],
@@ -59,7 +59,7 @@ class TestListDetailsView(TestCase):
         """
         self.client.login(username='testuser', password='12345')
         response = self.client.get(reverse('todo_list_app:list_details', kwargs={'todo_list_hash': self.list_hash}))
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
         for template in ('todo_list/detail.html',
                          'todo_list/base.html',
@@ -69,7 +69,7 @@ class TestListDetailsView(TestCase):
             self.assertTemplateUsed(response, template)
 
         self.assertIn('todo_lists', response.context)
-        self.assertEquals(response.context['todo_lists'], [{'id':1,
+        self.assertEqual(response.context['todo_lists'], [{'id':1,
                                                          'name': 'test_list',
                                                          'created_by': self.user,
                                                          'owner': [self.user],
@@ -86,7 +86,7 @@ class TestListDetailsView(TestCase):
         Should redirect return error 405.
         """
         response = self.client.post(reverse('todo_list_app:list_details', kwargs={'todo_list_hash': self.list_hash}))
-        self.assertEquals(response.status_code, 405)
+        self.assertEqual(response.status_code, 405)
 
 
 
@@ -97,7 +97,7 @@ class TestListDetailsView(TestCase):
         """
         self.client.login(username='testuser', password='12345')
         response = self.client.post(reverse('todo_list_app:list_details', kwargs={'todo_list_hash': self.list_hash}))
-        self.assertEquals(response.status_code, 405)
+        self.assertEqual(response.status_code, 405)
 
 
 
@@ -107,7 +107,7 @@ class TestListDetailsView(TestCase):
         Should redirect return error 405.
         """
         response = self.client.put(reverse('todo_list_app:list_details', kwargs={'todo_list_hash': self.list_hash}))
-        self.assertEquals(response.status_code, 405)
+        self.assertEqual(response.status_code, 405)
     
 
 
@@ -118,7 +118,7 @@ class TestListDetailsView(TestCase):
         """
         self.client.login(username='testuser', password='12345')
         response = self.client.put(reverse('todo_list_app:list_details', kwargs={'todo_list_hash': self.list_hash}))
-        self.assertEquals(response.status_code, 405)
+        self.assertEqual(response.status_code, 405)
     
 
 
@@ -128,7 +128,7 @@ class TestListDetailsView(TestCase):
         Should redirect return error 405.
         """
         response = self.client.delete(reverse('todo_list_app:list_details', kwargs={'todo_list_hash': self.list_hash}))
-        self.assertEquals(response.status_code, 405)
+        self.assertEqual(response.status_code, 405)
 
 
 
@@ -139,5 +139,5 @@ class TestListDetailsView(TestCase):
         """
         self.client.login(username='testuser', password='12345')
         response = self.client.delete(reverse('todo_list_app:list_details', kwargs={'todo_list_hash': self.list_hash}))
-        self.assertEquals(response.status_code, 405)
+        self.assertEqual(response.status_code, 405)
     

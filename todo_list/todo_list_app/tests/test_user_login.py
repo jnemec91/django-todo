@@ -25,7 +25,7 @@ class TestUserLoginView(TestCase):
         Should return login page.
         """
         response = self.client.get(reverse('todo_list_app:login'))
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         for template in ('todo_list/login.html',
                          'todo_list/base.html',
                          'todo_list/navbar.html',
@@ -95,7 +95,7 @@ class TestUserLoginView(TestCase):
         """
         self.client.login(username='testuser', password='12345')
         response = self.client.post(reverse('todo_list_app:login'), {'username': 'testuser', 'password': '12345'})
-        self.assertEquals(response.status_code, 405)
+        self.assertEqual(response.status_code, 405)
 
 
 
@@ -105,7 +105,7 @@ class TestUserLoginView(TestCase):
         Should return error 405.
         """
         response = self.client.put(reverse('todo_list_app:login'), {'username': 'wrong', 'password': 'wrong'})
-        self.assertEquals(response.status_code, 405)
+        self.assertEqual(response.status_code, 405)
 
 
 
@@ -116,7 +116,7 @@ class TestUserLoginView(TestCase):
         """
         self.client.login(username='testuser', password='12345')
         response = self.client.put(reverse('todo_list_app:login'), {'username': 'wrong', 'password': 'wrong'})
-        self.assertEquals(response.status_code, 405)
+        self.assertEqual(response.status_code, 405)
 
 
 
@@ -126,7 +126,7 @@ class TestUserLoginView(TestCase):
         Should return error 405.
         """
         response = self.client.delete(reverse('todo_list_app:login'), {'username': 'wrong', 'password': 'wrong'})
-        self.assertEquals(response.status_code, 405)
+        self.assertEqual(response.status_code, 405)
     
     
     
@@ -137,4 +137,4 @@ class TestUserLoginView(TestCase):
         """
         self.client.login(username='testuser', password='12345')
         response = self.client.delete(reverse('todo_list_app:login'), {'username': 'wrong', 'password': 'wrong'})
-        self.assertEquals(response.status_code, 405)
+        self.assertEqual(response.status_code, 405)

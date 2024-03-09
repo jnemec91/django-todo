@@ -45,7 +45,7 @@ class TestIndexView(TestCase):
         """
         self.client.login(username='testuser', password='12345')
         response = self.client.get(reverse('todo_list_app:index'))
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         for template in ('todo_list/index.html',
                          'todo_list/base.html',
                          'todo_list/navbar.html',
@@ -53,7 +53,7 @@ class TestIndexView(TestCase):
                          ):
             self.assertTemplateUsed(response, template)
         self.assertIn('todo_lists', response.context)
-        self.assertEquals(response.context['todo_lists'], [])
+        self.assertEqual(response.context['todo_lists'], [])
 
 
 
@@ -63,7 +63,7 @@ class TestIndexView(TestCase):
         Should redirect return error 405.
         """
         response = self.client.post(reverse('todo_list_app:index'))
-        self.assertEquals(response.status_code, 405)
+        self.assertEqual(response.status_code, 405)
 
 
 
@@ -74,7 +74,7 @@ class TestIndexView(TestCase):
         """
         self.client.login(username='testuser', password='12345')
         response = self.client.post(reverse('todo_list_app:index'))
-        self.assertEquals(response.status_code, 405)
+        self.assertEqual(response.status_code, 405)
 
 
 
@@ -84,7 +84,7 @@ class TestIndexView(TestCase):
         Should redirect return error 405.
         """
         response = self.client.put(reverse('todo_list_app:index'))
-        self.assertEquals(response.status_code, 405)
+        self.assertEqual(response.status_code, 405)
 
 
 
@@ -95,7 +95,7 @@ class TestIndexView(TestCase):
         """
         self.client.login(username='testuser', password='12345')
         response = self.client.put(reverse('todo_list_app:index'))
-        self.assertEquals(response.status_code, 405)
+        self.assertEqual(response.status_code, 405)
 
 
 
@@ -105,7 +105,7 @@ class TestIndexView(TestCase):
         Should redirect return error 405.
         """
         response = self.client.delete(reverse('todo_list_app:index'))
-        self.assertEquals(response.status_code, 405)
+        self.assertEqual(response.status_code, 405)
     
 
 
@@ -116,7 +116,7 @@ class TestIndexView(TestCase):
         """
         self.client.login(username='testuser', password='12345')
         response = self.client.delete(reverse('todo_list_app:index'))
-        self.assertEquals(response.status_code, 405)
+        self.assertEqual(response.status_code, 405)
 
 
 
@@ -135,7 +135,7 @@ class TestIndexView(TestCase):
         todo_list.save()
 
         response = self.client.get(reverse('todo_list_app:index'))
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
         for template in ('todo_list/index.html',
                          'todo_list/base.html',
@@ -145,7 +145,7 @@ class TestIndexView(TestCase):
             self.assertTemplateUsed(response, template)
 
         self.assertIn('todo_lists', response.context)
-        self.assertEquals(response.context['todo_lists'], [{'id':2,
+        self.assertEqual(response.context['todo_lists'], [{'id':2,
                                                              'name': 'test_list',
                                                              'created_by': self.user,
                                                              'owner': [self.user],
@@ -170,7 +170,7 @@ class TestIndexView(TestCase):
         todo_list.save()
 
         response = self.client.post(reverse('todo_list_app:index'))
-        self.assertEquals(response.status_code, 405)
+        self.assertEqual(response.status_code, 405)
     
 
 
@@ -189,7 +189,7 @@ class TestIndexView(TestCase):
         todo_list.save()
 
         response = self.client.put(reverse('todo_list_app:index'))
-        self.assertEquals(response.status_code, 405)
+        self.assertEqual(response.status_code, 405)
     
 
 
@@ -208,4 +208,4 @@ class TestIndexView(TestCase):
         todo_list.save()
 
         response = self.client.delete(reverse('todo_list_app:index'))
-        self.assertEquals(response.status_code, 405)
+        self.assertEqual(response.status_code, 405)

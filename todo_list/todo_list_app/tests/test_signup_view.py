@@ -24,7 +24,7 @@ class TestSignUpView(TestCase):
         Should return signup page.
         """
         response = self.client.get(reverse('todo_list_app:signup'))
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
         for template in ('todo_list/signup.html',
                          'todo_list/base.html',
@@ -77,7 +77,7 @@ class TestSignUpView(TestCase):
                                      'password': 'newpassword',
                                      'password2': 'newpassword'
                                     })
-        self.assertEquals(response.status_code, 405)
+        self.assertEqual(response.status_code, 405)
 
 
 
@@ -207,7 +207,7 @@ class TestSignUpView(TestCase):
         Should return method not allowed.
         """
         response = self.client.put(reverse('todo_list_app:signup'))
-        self.assertEquals(response.status_code, 405)
+        self.assertEqual(response.status_code, 405)
 
 
 
@@ -218,7 +218,7 @@ class TestSignUpView(TestCase):
         """
         self.client.login(username='testuser', password='12345')
         response = self.client.put(reverse('todo_list_app:signup'))
-        self.assertEquals(response.status_code, 405)
+        self.assertEqual(response.status_code, 405)
 
 
 
@@ -228,7 +228,7 @@ class TestSignUpView(TestCase):
         Should return method not allowed.
         """
         response = self.client.delete(reverse('todo_list_app:signup'))
-        self.assertEquals(response.status_code, 405)
+        self.assertEqual(response.status_code, 405)
 
 
 
@@ -239,4 +239,4 @@ class TestSignUpView(TestCase):
         """
         self.client.login(username='testuser', password='12345')
         response = self.client.delete(reverse('todo_list_app:signup'))
-        self.assertEquals(response.status_code, 405)
+        self.assertEqual(response.status_code, 405)

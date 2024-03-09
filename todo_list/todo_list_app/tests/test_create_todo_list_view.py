@@ -39,7 +39,7 @@ class TestIndexView(TestCase):
 
         self.client.login(username='testuser', password='12345')
         response = self.client.get(reverse('todo_list_app:create_todo_list'))
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         for template in ('todo_list/create_todo_list.html',
                          'todo_list/base.html',
                          'todo_list/navbar.html',
@@ -47,7 +47,7 @@ class TestIndexView(TestCase):
                          ):
             self.assertTemplateUsed(response, template)
         self.assertIn('new', response.context)
-        self.assertEquals(response.context['new'], True)
+        self.assertEqual(response.context['new'], True)
 
     
 
@@ -87,20 +87,20 @@ class TestIndexView(TestCase):
 
         todo_list = TodoList.objects.get(name='Test title')
 
-        self.assertEquals(todo_list.created_by, self.user)
-        self.assertEquals(todo_list.owner.count(), 1)
-        self.assertEquals(todo_list.owner.first(), self.user)
-        self.assertEquals(todo_list.access_granted, True)
-        self.assertEquals(todo_list.hash, todo_list._create_hash())
-        self.assertEquals(todo_list.created_at.date(), date.today())
+        self.assertEqual(todo_list.created_by, self.user)
+        self.assertEqual(todo_list.owner.count(), 1)
+        self.assertEqual(todo_list.owner.first(), self.user)
+        self.assertEqual(todo_list.access_granted, True)
+        self.assertEqual(todo_list.hash, todo_list._create_hash())
+        self.assertEqual(todo_list.created_at.date(), date.today())
 
-        self.assertEquals(todo_list.fields.count(), 1)
-        self.assertEquals(todo_list.fields.first().name, 'Test field')
-        self.assertEquals(todo_list.fields.first().text, 'Test description')
-        self.assertEquals(todo_list.fields.first().checked, False)
-        self.assertEquals(todo_list.fields.first().links_list, False) #this field is not used anywhere, it was added in preparation for future features
-        self.assertEquals(todo_list.fields.first().list_link, None) #this field is not used anywhere, it was added in preparation for future features
-        self.assertEquals(todo_list.fields.first().deadline_at, date(2021,12,31))
+        self.assertEqual(todo_list.fields.count(), 1)
+        self.assertEqual(todo_list.fields.first().name, 'Test field')
+        self.assertEqual(todo_list.fields.first().text, 'Test description')
+        self.assertEqual(todo_list.fields.first().checked, False)
+        self.assertEqual(todo_list.fields.first().links_list, False) #this field is not used anywhere, it was added in preparation for future features
+        self.assertEqual(todo_list.fields.first().list_link, None) #this field is not used anywhere, it was added in preparation for future features
+        self.assertEqual(todo_list.fields.first().deadline_at, date(2021,12,31))
         
 
 
