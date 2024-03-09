@@ -227,7 +227,10 @@ def delete_todo_list(request, todo_list_id: int):
     Requires todo_list_id as parameter.
     """
     if request.method == 'POST':
-        todo_list = TodoList.objects.get(id=todo_list_id)
+        try:
+            todo_list = TodoList.objects.get(id=todo_list_id)
+        except TodoList.DoesNotExist:
+            todo_list = None
         if todo_list:
             if request.user == todo_list.created_by:
                 fields = todo_list.fields.all()
