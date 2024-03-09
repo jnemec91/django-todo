@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -227,10 +227,8 @@ def delete_todo_list(request, todo_list_id: int):
     Requires todo_list_id as parameter.
     """
     if request.method == 'POST':
-        try:
-            todo_list = TodoList.objects.get(id=todo_list_id)
-        except TodoList.DoesNotExist:
-            todo_list = None
+        todo_list = get_object_or_404(TodoList,id=todo_list_id)
+
         if todo_list:
             if request.user == todo_list.created_by:
                 fields = todo_list.fields.all()
