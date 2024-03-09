@@ -240,7 +240,10 @@ def delete_todo_list(request, todo_list_id: int):
                 todo_list.save()
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
             
-    return redirect('todo_list_app:index')
+        return redirect('todo_list_app:index')
+    
+    else:
+        return HttpResponse(status=405)
 
 
 @login_required
