@@ -301,7 +301,7 @@ def edit_todo_list(request,todo_list_id: int):
                 return redirect('todo_list_app:index')
             
 
-    else:
+    elif request.method == 'GET':
         todo_list = TodoList.objects.get(id=todo_list_id)
         if todo_list:
             if request.user in todo_list.owner.all():
@@ -326,8 +326,8 @@ def edit_todo_list(request,todo_list_id: int):
                 ]
 
                 return render(request, 'todo_list/create_todo_list.html', {'todo_list':todo_list, 'todo_fields':todo_fields})
-            
-    return redirect('todo_list_app:index')
+    else:
+        return HttpResponse(status=405)
 
 
 @login_required
