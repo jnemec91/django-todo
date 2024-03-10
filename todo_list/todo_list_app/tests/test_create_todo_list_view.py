@@ -5,9 +5,9 @@ from todo_list_app.models import UserOptions, TodoList, TodoField
 from .setup import TestSetup
 from datetime import date
 
-class TestIndexView(TestCase):
+class TestCreateTodoListView(TestCase):
     """
-    Class for testing index view of todo list application.
+    Class for testing create todo list view of todo list application.
     """
     
     def setUp(self) -> None:
