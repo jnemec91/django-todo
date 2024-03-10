@@ -6,7 +6,7 @@ from .setup import TestSetup
 
 class TestUserLoginView(TestCase):
     """
-    Class for testing of detail view of todo list application.
+    Class for testing of user login view of todo list application.
     """
     
     def setUp(self) -> None:
