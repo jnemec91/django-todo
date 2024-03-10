@@ -210,6 +210,7 @@ def create_todo_list(request):
                 todo_list.save()
                 
         return redirect('todo_list_app:index')
+    
     elif request.method == 'GET':
         return render(request, 'todo_list/create_todo_list.html', {'new':True})
     
@@ -259,7 +260,7 @@ def edit_todo_list(request,todo_list_id: int):
     Requires todo_list_id as parameter.
     """
     if request.method == 'POST':
-        todo_list = TodoList.objects.get(id=todo_list_id)
+        todo_list = get_object_or_404(TodoList,id=todo_list_id)
         if todo_list:
             if request.user in todo_list.owner.all():
                 todo_list.name = request.POST.get('name')
@@ -299,10 +300,9 @@ def edit_todo_list(request,todo_list_id: int):
                         todo_list.save()
 
                 return redirect('todo_list_app:index')
-            
 
     elif request.method == 'GET':
-        todo_list = TodoList.objects.get(id=todo_list_id)
+        todo_list = get_object_or_404(TodoList,id=todo_list_id)
         if todo_list:
             if request.user in todo_list.owner.all():
                 todo_fields = [
