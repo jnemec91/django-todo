@@ -7,7 +7,7 @@ from datetime import date
 
 class TestDeleteView(TestCase):
     """
-    Class for testing index view of todo list application.
+    Class for testing delete todo list view of todo list application.
     """
     
     def setUp(self) -> None:
