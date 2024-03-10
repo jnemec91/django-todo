@@ -139,7 +139,7 @@ class TestCheckTaskView(TestCase):
         Should return status 405.
         """
         response = self.client.put(reverse('todo_list_app:check_task', args=[1]))
-        self.assertEqual(response.status_code, 405)
+        self.assertRedirects(response, f"{ reverse('todo_list_app:login') }?next={ reverse('todo_list_app:check_task', args=[1]) }", status_code=302)
 
 
 
@@ -160,7 +160,7 @@ class TestCheckTaskView(TestCase):
         Should return status 405.
         """
         response = self.client.delete(reverse('todo_list_app:check_task', args=[1]))
-        self.assertEqual(response.status_code, 405)
+        self.assertRedirects(response, f"{ reverse('todo_list_app:login') }?next={ reverse('todo_list_app:check_task', args=[1]) }", status_code=302)
 
 
 

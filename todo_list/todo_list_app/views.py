@@ -229,19 +229,17 @@ def delete_todo_list(request, todo_list_id: int):
     """
     if request.method == 'POST':
         todo_list = get_object_or_404(TodoList,id=todo_list_id)
-
-        if todo_list:
-            if request.user == todo_list.created_by:
-                fields = todo_list.fields.all()
-                fields.delete()
-                todo_list.delete()
-                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-            
-            elif request.user in todo_list.owner.all():
-                todo_list.owner.remove(request.user)
-                todo_list.save()
-                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-            
+        if request.user == todo_list.created_by:
+            fields = todo_list.fields.all()
+            fields.delete()
+            todo_list.delete()
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        
+        elif request.user in todo_list.owner.all():
+            todo_list.owner.remove(request.user)
+            todo_list.save()
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        
         return redirect('todo_list_app:index')
     
     else:
@@ -261,71 +259,69 @@ def edit_todo_list(request,todo_list_id: int):
     """
     if request.method == 'POST':
         todo_list = get_object_or_404(TodoList,id=todo_list_id)
-        if todo_list:
-            if request.user in todo_list.owner.all():
-                todo_list.name = request.POST.get('name')
-                todo_list.access_granted = bool(int(request.POST.get('is-shared')))
-                new_fields = request.POST.getlist('fields_new')
-                new_descriptions = request.POST.getlist('descriptions_new')
-                new_deadlines = request.POST.getlist('deadlines_new')
-                new_deadlines = [i if i != '' else None for i in new_deadlines]
-                fields = [int(i) for i in request.POST.getlist('fields')]
-                names = request.POST.getlist('names')
-                descriptions = request.POST.getlist('descriptions')
-                deadlines = request.POST.getlist('deadlines')  
-                deadlines = [i if i != '' else None for i in deadlines]         
-                todo_list.save()
+        if request.user in todo_list.owner.all():
+            todo_list.name = request.POST.get('name')
+            todo_list.access_granted = bool(int(request.POST.get('is-shared')))
+            new_fields = request.POST.getlist('fields_new')
+            new_descriptions = request.POST.getlist('descriptions_new')
+            new_deadlines = request.POST.getlist('deadlines_new')
+            new_deadlines = [i if i != '' else None for i in new_deadlines]
+            fields = [int(i) for i in request.POST.getlist('fields')]
+            names = request.POST.getlist('names')
+            descriptions = request.POST.getlist('descriptions')
+            deadlines = request.POST.getlist('deadlines')  
+            deadlines = [i if i != '' else None for i in deadlines]         
+            todo_list.save()
 
-                todo_list_fields = todo_list.fields.all()
+            todo_list_fields = todo_list.fields.all()
 
-                for i in todo_list_fields:
-                    if i.id not in fields:
-                        i.delete()
+            for i in todo_list_fields:
+                if i.id not in fields:
+                    i.delete()
 
-                if fields:
-                    for c,field in enumerate(fields):
+            if fields:
+                for c,field in enumerate(fields):
 
-                        field = TodoField.objects.get(id=field)
-                        if field:
-                            field.name = names[c]
-                            field.text = descriptions[c]
-                            field.deadline_at = deadlines[c]
-                            field.save()
-
-                if new_fields:
-                    for c,i in enumerate(new_fields):
-                        field = TodoField.objects.create(name=i, text=new_descriptions[c], checked=False, deadline_at=new_deadlines[c])
+                    field = TodoField.objects.get(id=field)
+                    if field:
+                        field.name = names[c]
+                        field.text = descriptions[c]
+                        field.deadline_at = deadlines[c]
                         field.save()
-                        todo_list.fields.add(field)
-                        todo_list.save()
 
-                return redirect('todo_list_app:index')
+            if new_fields:
+                for c,i in enumerate(new_fields):
+                    field = TodoField.objects.create(name=i, text=new_descriptions[c], checked=False, deadline_at=new_deadlines[c])
+                    field.save()
+                    todo_list.fields.add(field)
+                    todo_list.save()
+
+            return redirect('todo_list_app:index')
 
     elif request.method == 'GET':
         todo_list = get_object_or_404(TodoList,id=todo_list_id)
-        if todo_list:
-            if request.user in todo_list.owner.all():
-                todo_fields = [
-                    {
-                        'id': i.id,
-                        'name': i.name,
-                        'text': i.text,
-                        'checked': i.checked,
-                        'deadline': datetime.date.strftime(i.deadline_at, '%Y-%m-%d')
-                    }
-                    if i.deadline_at is not None
-                    else
-                    {
-                        'id': i.id,
-                        'name': i.name,
-                        'text': i.text,
-                        'checked': i.checked,
-                        'deadline': i.deadline_at
-                    }
-                    for i in todo_list.fields.all()
-                ]
+        if request.user in todo_list.owner.all():
+            todo_fields = [
+                {
+                    'id': i.id,
+                    'name': i.name,
+                    'text': i.text,
+                    'checked': i.checked,
+                    'deadline': datetime.date.strftime(i.deadline_at, '%Y-%m-%d')
+                }
+                if i.deadline_at is not None
+                else
+                {
+                    'id': i.id,
+                    'name': i.name,
+                    'text': i.text,
+                    'checked': i.checked,
+                    'deadline': i.deadline_at
+                }
+                for i in todo_list.fields.all()
+            ]
 
-                return render(request, 'todo_list/create_todo_list.html', {'todo_list':todo_list, 'todo_fields':todo_fields})
+            return render(request, 'todo_list/create_todo_list.html', {'todo_list':todo_list, 'todo_fields':todo_fields})
     else:
         return HttpResponse(status=405)
 
@@ -398,14 +394,14 @@ def add_to_my_list(request, todo_list_id: int):
     Requires todo_list_id as parameter.
     """
     if request.method == 'POST':
-        todo_list = TodoList.objects.get(id=todo_list_id)
-        if todo_list:
-            if request.user not in todo_list.owner.all():
-                todo_list.owner.add(request.user)
-                todo_list.save()
-                return HttpResponse('reload')
+        todo_list = get_object_or_404(TodoList, id=todo_list_id)
+        if request.user not in todo_list.owner.all():
+            todo_list.owner.add(request.user)
+            todo_list.save()
+            return HttpResponse('reload', status=200)
             
-    return HttpResponse('error')
+    else:
+        return HttpResponse(status=405)
 
 @login_required
 def remove_from_shared_list(request, todo_list_id: int, user_id: int):
@@ -417,14 +413,12 @@ def remove_from_shared_list(request, todo_list_id: int, user_id: int):
     Requires todo_list_id and user_id as parameters.
     """
     if request.method == 'POST':
-        todo_list = TodoList.objects.get(id=todo_list_id)
-        user = User.objects.get(id=user_id)
-
-        if todo_list:
-            if request.user == todo_list.created_by:
-                todo_list.owner.remove(user_id)
-                todo_list.save()
-                return HttpResponse('reload')
+        todo_list = get_object_or_404(TodoList,id=todo_list_id)
+        user = get_object_or_404(User, id=user_id)
+        if request.user == todo_list.created_by:
+            todo_list.owner.remove(user_id)
+            todo_list.save()
+            return HttpResponse('reload')
             
     return HttpResponse('error')
 
@@ -440,11 +434,8 @@ def settings(request):
     if request.method == 'POST':
         user_options = UserOptions.objects.get(user=request.user)
         user_options.theme = request.POST.get('theme')
-        
         user_options.dark_mode = bool(int(request.POST.get('theme')))
-        
         user_options.font_style = request.POST.get('font_style')
-
         user_options.save()
 
         if request.POST.get('username') != request.user.username:
