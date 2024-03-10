@@ -364,25 +364,29 @@ def check_task(request, todo_field_id: int):
 
     Requires todo_field_id as parameter.
     """
-    field = TodoField.objects.get(id=todo_field_id)
+    if request.method == 'POST':
+        field = get_object_or_404(TodoField,id=todo_field_id)
 
-    user_fields = []
-    user_list = TodoList.objects.filter(Q(owner=request.user)|Q(access_granted=True))
+        user_fields = []
+        user_list = TodoList.objects.filter(Q(owner=request.user)|Q(access_granted=True))
 
-    for i in user_list:
-        for f in i.fields.all():
-            user_fields.append(f)
+        for i in user_list:
+            for f in i.fields.all():
+                user_fields.append(f)
 
-        if field in user_fields:
-            if field.checked == False:
-                field.checked = True
-            else:
-                field.checked = False
-            field.save()
+            if field in user_fields:
+                if field.checked == False:
+                    field.checked = True
+                else:
+                    field.checked = False
+                field.save()
 
-            return HttpResponse('success')
-    
-    return HttpResponse('error')
+                return HttpResponse('success')
+        
+        return HttpResponse(status=403)
+
+    else:
+        return HttpResponse(status=405)
         
 @login_required
 def add_to_my_list(request, todo_list_id: int):
