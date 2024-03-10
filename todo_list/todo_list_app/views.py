@@ -337,18 +337,22 @@ def list_of_todo_lists(request):
     
     Returns list all of todo lists wich owner is the user that sent the request.
     """
-    todo_lists = [
-        {
-            'id':i.id,
-            'name':i.name,
-            'created_by':i.created_by,
-            'owner':[a for a in i.owner.all()],
-            'fields':[a for a in i.fields.all()]
-        } 
-        for i in TodoList.objects.filter(owner=request.user)
-    ]     
+    if request.method == 'GET':
+        todo_lists = [
+            {
+                'id':i.id,
+                'name':i.name,
+                'created_by':i.created_by,
+                'owner':[a for a in i.owner.all()],
+                'fields':[a for a in i.fields.all()]
+            } 
+            for i in TodoList.objects.filter(owner=request.user)
+        ]     
 
-    return render(request, 'todo_list/list_of_todo_lists.html', {'todo_lists':todo_lists})
+        return render(request, 'todo_list/list_of_todo_lists.html', {'todo_lists':todo_lists})
+
+    else:
+        return HttpResponse(status=405)
 
 
 @login_required
