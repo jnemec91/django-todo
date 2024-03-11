@@ -19,7 +19,7 @@ class TestCheckTaskView(TestCase):
         self.user = self.setup.user
         self.another_user = self.setup.another_user
         
-        # create another users todo list
+        # create users todo list
         self.user_todo_list = TodoList.objects.create(name='todo list',
                                             created_by=self.user,
                                             access_granted=False)

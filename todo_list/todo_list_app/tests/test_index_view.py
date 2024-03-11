@@ -18,7 +18,7 @@ class TestIndexView(TestCase):
         self.user = self.setup.user
         self.another_user = self.setup.another_user
 
-        # create another users todo list
+        # create users todo list
         todo_list = TodoList.objects.create(name='another_list',
                                             created_by=self.another_user,
                                             access_granted=False)
