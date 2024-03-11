@@ -398,7 +398,7 @@ def add_to_my_list(request, todo_list_id: int):
         if request.user not in todo_list.owner.all():
             todo_list.owner.add(request.user)
             todo_list.save()
-            return HttpResponse('reload', status=200)
+        return HttpResponse('reload', status=200)
             
     else:
         return HttpResponse(status=405)
