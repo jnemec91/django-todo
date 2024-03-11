@@ -416,11 +416,13 @@ def remove_from_shared_list(request, todo_list_id: int, user_id: int):
         todo_list = get_object_or_404(TodoList,id=todo_list_id)
         user = get_object_or_404(User, id=user_id)
         if request.user == todo_list.created_by:
-            todo_list.owner.remove(user_id)
-            todo_list.save()
-            return HttpResponse('reload')
+            if user != request.user:
+                todo_list.owner.remove(user_id)
+                todo_list.save()
+        return HttpResponse('reload')
             
-    return HttpResponse('error')
+    else:
+        return HttpResponse(status=405)
 
 @login_required
 def settings(request):
