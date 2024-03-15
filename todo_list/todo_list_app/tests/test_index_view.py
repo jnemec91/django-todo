@@ -132,6 +132,7 @@ class TestIndexView(TestCase):
         todo_list.owner.add(self.user)
         todo_list.hash = todo_list._create_hash()
         list_hash = todo_list.hash
+        todo_list.access_granted = True
         todo_list.save()
 
         response = self.client.get(reverse('todo_list_app:index'))
@@ -148,6 +149,7 @@ class TestIndexView(TestCase):
         self.assertEqual(response.context['todo_lists'], [{'id':2,
                                                              'name': 'test_list',
                                                              'created_by': self.user,
+                                                             'access_granted': True,
                                                              'owner': [self.user],
                                                              'fields': [],
                                                              'hash': list_hash,

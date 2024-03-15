@@ -110,16 +110,29 @@ class TestCheckTaskView(TestCase):
 
 
 
-    def test_check_task_POST_w_user_another_user(self):
+    def test_check_task_POST_w_user_another_user_not_shared(self):
         """
-        Test check task view with user logged in using POST method.
-        Should return http response 'success'.
+        Test check task view with user logged in using POST method but access not allowed.
+        Should return status 403'
         """
         self.client.login(username='testuser', password='12345')
         self.response = self.client.post(reverse('todo_list_app:check_task', args=[2]))
-        self.assertEqual(TodoField.objects.get(id=2).checked, True)
-        self.assertEqual(self.response.content, b'success')        
+        self.assertEqual(TodoField.objects.get(id=2).checked, False)
+        self.assertEqual(self.response.status_code, 403)        
 
+    def test_check_task_POST_w_user_another_user_shared(self):
+        """
+        Test check task view with user logged in using POST method with allowed access.
+        Should return http response 'success'.
+        """
+        todo_list = TodoList.objects.get(created_by=self.user)
+        todo_list.access_granted = True
+        todo_list.save()
+
+        self.client.login(username='testuser', password='12345')
+        self.response = self.client.post(reverse('todo_list_app:check_task', args=[2]))
+        self.assertEqual(TodoField.objects.get(id=2).checked, False)
+        self.assertEqual(self.response.status_code, 403)        
 
 
     def test_check_task_POST_w_another_user_user(self):

@@ -31,6 +31,7 @@ def index(request):
                     'owner':[a for a in i.owner.all()],
                     'fields':[a for a in i.fields.all()],
                     'hash':i.hash,
+                    'access_granted':i.access_granted,
                 }
                 for i in TodoList.objects.filter(owner=request.user).order_by('-created_at')
             ]     
@@ -365,7 +366,7 @@ def check_task(request, todo_field_id: int):
         field = get_object_or_404(TodoField,id=todo_field_id)
 
         user_fields = []
-        user_list = TodoList.objects.filter(Q(owner=request.user)|Q(access_granted=True))
+        user_list = TodoList.objects.filter(Q(created_by=request.user)|Q(access_granted=True))
 
         for i in user_list:
             for f in i.fields.all():

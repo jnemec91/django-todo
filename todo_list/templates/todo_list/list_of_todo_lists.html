@@ -38,9 +38,11 @@
                         <td>{% if todo_list.created_by != request.user %}<span class='shared-span'>Shared</span>{% endif %} {{ todo_list.name }}</td>
                         <td>{% for field in todo_list.fields %}{% if field.checked == False %}<p>{{field.name}},</p> {% endif %}{% endfor %}</td>
                         <td>
+                            {% if todo_list.access_granted == True or todo_list.created_by == request.user %}
                             <form action="{% url 'todo_list_app:edit_todo_list' todo_list_hash=todo_list.hash  %}" method="get">
                                 <button class="sticker-button small" type="submit">Edit</button>
                             </form>
+                            {% endif %}
                         </td>
                         
                         <td>

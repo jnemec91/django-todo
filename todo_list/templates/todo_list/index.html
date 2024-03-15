@@ -106,26 +106,49 @@
                     <hr>
                     <ul>
                         {% for field in todo_list.fields %}
-                        
-                        <li>
-                            <label class="checkbox-label" for="field_{{ field.id }}">
-                                <input type="checkbox" onclick="send_req('{% url 'todo_list_app:check_task' todo_field_id=field.id %}');" name="field_{{ field.id }}" id="field_{{ field.id }}" {% if field.checked %}checked{% endif %} hidden>
-                                <span class="mark"></span>
-                            </label>
-                            <h3>{{field.name}}</h3>
-                        </li>
+                            {% if todo_list.access_granted == True or todo_list.created_by == request.user %}
+                                <li>
+                                    <label class="checkbox-label" for="field_{{ field.id }}">
+                                        <input
+                                            type="checkbox"
+                                            onclick="send_req('{% url 'todo_list_app:check_task' todo_field_id=field.id %}');"
+                                            name="field_{{ field.id }}"
+                                            id="field_{{ field.id }}"
+                                            {% if field.checked %} checked {% endif %}
+                                            hidden
+                                        >
+                                        <span class="mark"></span>
+                                    </label>
+                                    <h3>{{field.name}}</h3>
+                                </li>
+                            {% else %}
+                                <li>
+                                    <label class="checkbox-label" for="field_{{ field.id }}">
+                                        <input
+                                            type="checkbox"
+                                            name="field_{{ field.id }}"
+                                            id="field_{{ field.id }}"
+                                            {% if field.checked %} checked {% endif %}
+                                            disabled
+                                            hidden
+                                        >
+                                        <span class="mark"></span>
+                                    </label>
+                                    <h3>{{field.name}}</h3>
+                                </li>
+                            {% endif %}
                     <p style="font-size:1.3em;">{{ field.text }}</p>
                         <p>Deadline at: {{ field.deadline_at|is_null_or_false }}</p>
                         <hr>
                         {% endfor %}
                     </ul>
                     <form action="{% url 'todo_list_app:edit_todo_list' todo_list_hash=todo_list.hash  %}" method="get" class="sticker-form">
-                        <button class="sticker-button" type="submit">Edit</button>
+                        {% if todo_list.access_granted == True or todo_list.created_by == request.user %}<button class="sticker-button" type="submit">Edit</button>{% endif %}
                     </form>
 
                     <button class="sticker-button" onclick="showShareModal('delete_modal_{{todo_list.id}}');">Delete</button>
 
-                    <button class="sticker-button" type="submit" onclick="showShareModal('share_modal_{{todo_list.id}}');">Share</button>
+                    {% if todo_list.access_granted == True or todo_list.created_by == request.user %}<button class="sticker-button" type="submit" onclick="showShareModal('share_modal_{{todo_list.id}}');">Share</button>{% endif %}
 
                 </div>
             </div>
