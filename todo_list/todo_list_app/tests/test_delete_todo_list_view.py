@@ -42,8 +42,8 @@ class TestDeleteView(TestCase):
         Test delete view without user logged in and with data using GET method.
         Should redirect to login page.
         """
-        response = self.client.get(reverse('todo_list_app:delete_todo_list', args=[self.user_todo_list.id]))
-        self.assertRedirects(response, f"{ reverse('todo_list_app:login') }?next={ reverse('todo_list_app:delete_todo_list', args=[self.user_todo_list.id]) }", status_code=302)
+        response = self.client.get(reverse('todo_list_app:delete_todo_list', args=[self.user_todo_list.hash]))
+        self.assertRedirects(response, f"{ reverse('todo_list_app:login') }?next={ reverse('todo_list_app:delete_todo_list', args=[self.user_todo_list.hash]) }", status_code=302)
     
 
 
@@ -53,7 +53,7 @@ class TestDeleteView(TestCase):
         Should return status 405.
         """
         self.client.login(username='testuser', password='12345')
-        self.response = self.client.get(reverse('todo_list_app:delete_todo_list', args=[self.user_todo_list.id]))
+        self.response = self.client.get(reverse('todo_list_app:delete_todo_list', args=[self.user_todo_list.hash]))
         self.assertEqual(self.response.status_code, 405)
 
 
@@ -63,8 +63,8 @@ class TestDeleteView(TestCase):
         Test delete view without user logged in and with data using POST method.
         Should redirect to login page.
         """
-        self.response = self.client.post(reverse('todo_list_app:delete_todo_list', args=[self.user_todo_list.id]))
-        self.assertRedirects(self.response, f"{ reverse('todo_list_app:login') }?next={ reverse('todo_list_app:delete_todo_list', args=[self.user_todo_list.id]) }", status_code=302)
+        self.response = self.client.post(reverse('todo_list_app:delete_todo_list', args=[self.user_todo_list.hash]))
+        self.assertRedirects(self.response, f"{ reverse('todo_list_app:login') }?next={ reverse('todo_list_app:delete_todo_list', args=[self.user_todo_list.hash]) }", status_code=302)
 
 
 
@@ -75,9 +75,9 @@ class TestDeleteView(TestCase):
         """
         self.assertEqual(TodoList.objects.filter(owner=self.user).count(), 2)
         self.client.login(username='testuser', password='12345')
-        self.response = self.client.post(reverse('todo_list_app:delete_todo_list', args=[self.user_todo_list.id]),HTTP_REFERER=reverse('todo_list_app:index'))
+        self.response = self.client.post(reverse('todo_list_app:delete_todo_list', args=[self.user_todo_list.hash]),HTTP_REFERER=reverse('todo_list_app:index'))
         self.assertEqual(TodoList.objects.count(), 1)
-        self.assertEqual(TodoList.objects.filter(id=self.user_todo_list.id).exists(), False)
+        self.assertEqual(TodoList.objects.filter(hash=self.user_todo_list.hash).exists(), False)
         self.assertRedirects(self.response, reverse('todo_list_app:index'), status_code=302)        
 
 
@@ -88,7 +88,7 @@ class TestDeleteView(TestCase):
         """
         self.assertEqual(TodoList.objects.filter(owner=self.user).count(), 2)
         self.client.login(username='testuser', password='12345')
-        response = self.client.post(reverse('todo_list_app:delete_todo_list', args=[self.another_todo_list.id]),HTTP_REFERER=reverse('todo_list_app:index'))
+        response = self.client.post(reverse('todo_list_app:delete_todo_list', args=[self.another_todo_list.hash]),HTTP_REFERER=reverse('todo_list_app:index'))
         self.assertEqual(TodoList.objects.count(), 2)
         self.assertEqual(TodoList.objects.filter(owner=self.user).count(), 1)
         self.assertEqual(TodoList.objects.filter(created_by=self.another_user).count(), 1)
@@ -112,8 +112,8 @@ class TestDeleteView(TestCase):
         Test delete view without user logged in and with data using PUT method.
         Should redirect to login page.
         """
-        response = self.client.put(reverse('todo_list_app:delete_todo_list', args=[self.user_todo_list.id]))
-        self.assertRedirects(response, f"{ reverse('todo_list_app:login') }?next={ reverse('todo_list_app:delete_todo_list', args=[self.user_todo_list.id]) }", status_code=302)
+        response = self.client.put(reverse('todo_list_app:delete_todo_list', args=[self.user_todo_list.hash]))
+        self.assertRedirects(response, f"{ reverse('todo_list_app:login') }?next={ reverse('todo_list_app:delete_todo_list', args=[self.user_todo_list.hash]) }", status_code=302)
 
 
 
@@ -123,7 +123,7 @@ class TestDeleteView(TestCase):
         Should return status 405.
         """
         self.client.login(username='testuser', password='12345')
-        self.response = self.client.put(reverse('todo_list_app:delete_todo_list', args=[self.user_todo_list.id]))
+        self.response = self.client.put(reverse('todo_list_app:delete_todo_list', args=[self.user_todo_list.hash]))
         self.assertEqual(self.response.status_code, 405)
 
 
@@ -133,8 +133,8 @@ class TestDeleteView(TestCase):
         Test delete view without user logged in and with data using DELETE method.
         Should redirect to login page.
         """
-        self.response = self.client.delete(reverse('todo_list_app:delete_todo_list', args=[self.user_todo_list.id]))
-        self.assertRedirects(self.response, f"{ reverse('todo_list_app:login') }?next={ reverse('todo_list_app:delete_todo_list', args=[self.user_todo_list.id]) }", status_code=302)
+        self.response = self.client.delete(reverse('todo_list_app:delete_todo_list', args=[self.user_todo_list.hash]))
+        self.assertRedirects(self.response, f"{ reverse('todo_list_app:login') }?next={ reverse('todo_list_app:delete_todo_list', args=[self.user_todo_list.hash]) }", status_code=302)
 
 
     
@@ -144,5 +144,5 @@ class TestDeleteView(TestCase):
         Should return status 405.
         """
         self.client.login(username='testuser', password='12345')
-        self.response = self.client.put(reverse('todo_list_app:delete_todo_list', args=[self.user_todo_list.id]))
+        self.response = self.client.put(reverse('todo_list_app:delete_todo_list', args=[self.user_todo_list.hash]))
         self.assertEqual(self.response.status_code, 405)

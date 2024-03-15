@@ -28,11 +28,11 @@ class TestUrls(SimpleTestCase):
         self.assertEqual(resolve(url).func, create_todo_list)
     
     def test_url_edit_todo_list_resolves(self):
-        url = reverse('todo_list_app:edit_todo_list', args=[1])
+        url = reverse('todo_list_app:edit_todo_list', args=['hash'])
         self.assertEqual(resolve(url).func, edit_todo_list)
     
     def test_url_delete_todo_list_resolves(self):
-        url = reverse('todo_list_app:delete_todo_list', args=[1])
+        url = reverse('todo_list_app:delete_todo_list', args=['hash'])
         self.assertEqual(resolve(url).func, delete_todo_list)
     
     def test_url_list_of_todo_lists_resolves(self):

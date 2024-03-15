@@ -219,7 +219,7 @@ def create_todo_list(request):
 
 
 @login_required
-def delete_todo_list(request, todo_list_id: int):
+def delete_todo_list(request, todo_list_hash: str):
     """
     Delete todo list function. 
     
@@ -228,7 +228,7 @@ def delete_todo_list(request, todo_list_id: int):
     Requires todo_list_id as parameter.
     """
     if request.method == 'POST':
-        todo_list = get_object_or_404(TodoList,id=todo_list_id)
+        todo_list = get_object_or_404(TodoList,hash=todo_list_hash)
         if request.user == todo_list.created_by:
             fields = todo_list.fields.all()
             fields.delete()

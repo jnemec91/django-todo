@@ -26,7 +26,7 @@
                         </div>
                         <div class="modal-body">
                             <p>Are you sure you want to delete this list?</p>
-                            <form action="{% url 'todo_list_app:delete_todo_list' todo_list_id=todo_list.id %}" method="post" class="sticker-form">
+                            <form action="{% url 'todo_list_app:delete_todo_list' todo_list_hash=todo_list.hash %}" method="post" class="sticker-form">
                                 {% csrf_token %}
                                 <button class="sticker-button" type="submit">Delete</button>
                             </form>
