@@ -62,7 +62,7 @@ class TestListOfTodoListsView(TestCase):
                          'todo_list/footer.html'
                          ):
             self.assertTemplateUsed(self.response, template)
-        self.assertIn('todo_lists', self.response.context)
+        self.assertIn('todo_lists',self.response.context,)
         self.assertEqual(len(self.response.context['todo_lists']), 2)
 
 
