@@ -8,21 +8,11 @@ function add_field() {
 
     let task_field = document.createElement("div");
     task_field.setAttribute("id", "task_"+field_count);
+
+    let modal_box =  document.createElement("div");
+    modal_box.setAttribute("id", "modal_"+field_count+"_wrapper")
    
     const new_field = `
-
-    <div class="share-modal" id="remove_field_modal_${field_count}">
-    <div class="modal-header">
-        <h2>Delete field</h2>
-    </div>
-    <div class="modal-body">
-        <p>Are you sure you want to delete this field?</p>
-
-        <button type="button" class="sticker-button" onclick="hideShareModal('remove_field_modal_${field_count}');setTimeout(remove_field('form_field_new_${field_count}'),1000);">Delete</button>
-        <button class="sticker-button" onclick="hideShareModal('remove_field_modal_${field_count}');">Close</button>
-    </div>
-</div>
-
     <div id="form_field_new_${field_count}" class="sticker long task-field">
     <h1>New task</h1><label class="sticker-label" for="name-field_${field_count}">Task name</label>
     <input id="name-field_${field_count}" type="text" name="fields_new" required="true">
@@ -35,6 +25,19 @@ function add_field() {
     </div>
     `;
 
+    const delete_modal = `
+    <div class="share-modal" id="remove_field_modal_${field_count}">
+        <div class="modal-header">
+            <h2>Delete field</h2>
+        </div>
+        <div class="modal-body">
+            <p>Are you sure you want to delete this field?</p>
+
+            <button type="button" class="sticker-button" onclick="hideShareModal('remove_field_modal_${field_count}');setTimeout(remove_field('form_field_new_${field_count}'),1000);">Delete</button>
+            <button class="sticker-button" onclick="hideShareModal('remove_field_modal_${field_count}');">Close</button>
+        </div>
+    </div>
+    `;
 
 
     const small_field_description = `
@@ -48,9 +51,15 @@ function add_field() {
 
 
     let task =  document.getElementById("task");
+    let pagecont = document.getElementById("pagecont")
     task.appendChild(task_field);
+    pagecont.appendChild(modal_box);
+
     task_field = document.getElementById("task_"+field_count);
     task_field.innerHTML = new_field + small_field_description;
+
+    modals_box= document.getElementById("modal_"+field_count+"_wrapper")
+    modals_box.innerHTML = delete_modal
 
     // scrolling to the newly created field
     let this_field = document.getElementById("task_"+field_count);
