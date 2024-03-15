@@ -10,7 +10,6 @@ function add_field() {
     task_field.setAttribute("id", "task_"+field_count);
    
     const new_field = `
-    <div id="modal-wrap"></div>
 
     <div class="share-modal" id="remove_field_modal_${field_count}">
     <div class="modal-header">
