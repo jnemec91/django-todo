@@ -17,7 +17,7 @@ urlpatterns = [
     path('todo_list/<str:todo_list_hash>/', views.list_details, name='list_details'),
     path('check/<int:todo_field_id>',views.check_task, name='check_task'),
     path('settings/', views.settings, name='settings'),
-    path('add_to_my_list/<int:todo_list_id>/', views.add_to_my_list, name='add_to_my_list'),
+    path('add_to_my_list/<str:todo_list_hash>/', views.add_to_my_list, name='add_to_my_list'),
     path('remove_from_shared_list/<int:todo_list_id>/<int:user_id>/', views.remove_from_shared_list, name='remove_from_shared_list'),
 
 

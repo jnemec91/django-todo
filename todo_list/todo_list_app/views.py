@@ -386,7 +386,7 @@ def check_task(request, todo_field_id: int):
         return HttpResponse(status=405)
         
 @login_required
-def add_to_my_list(request, todo_list_id: int):
+def add_to_my_list(request, todo_list_hash: str):
     """
     Add to my list function.
 
@@ -395,7 +395,7 @@ def add_to_my_list(request, todo_list_id: int):
     Requires todo_list_id as parameter.
     """
     if request.method == 'POST':
-        todo_list = get_object_or_404(TodoList, id=todo_list_id)
+        todo_list = get_object_or_404(TodoList, hash=todo_list_hash)
         if request.user not in todo_list.owner.all():
             todo_list.owner.add(request.user)
             todo_list.save()

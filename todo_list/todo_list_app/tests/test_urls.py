@@ -52,7 +52,7 @@ class TestUrls(SimpleTestCase):
         self.assertEqual(resolve(url).func, settings)
     
     def test_url_add_to_my_list_resolves(self):
-        url = reverse('todo_list_app:add_to_my_list', args=[1])
+        url = reverse('todo_list_app:add_to_my_list', args=['hash'])
         self.assertEqual(resolve(url).func, add_to_my_list)
     
     def test_url_remove_from_shared_list_resolves(self):

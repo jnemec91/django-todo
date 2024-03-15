@@ -62,10 +62,10 @@ class TestAddToMyListkView(TestCase):
         """
 
         self.response = self.client.get(
-            reverse('todo_list_app:add_to_my_list', args=[self.user_todo_list.id]))
+            reverse('todo_list_app:add_to_my_list', args=[self.user_todo_list.hash]))
         self.assertRedirects(
             self.response,
-            f"{ reverse('todo_list_app:login') }?next={ reverse('todo_list_app:add_to_my_list',args=[self.user_todo_list.id]) }", status_code=302)
+            f"{ reverse('todo_list_app:login') }?next={ reverse('todo_list_app:add_to_my_list',args=[self.user_todo_list.hash]) }", status_code=302)
 
     def test_add_to_my_list_get_w_user(self):
         """
@@ -75,7 +75,7 @@ class TestAddToMyListkView(TestCase):
 
         self.client.login(username='testuser', password='12345')
         self.response = self.client.get(
-            reverse('todo_list_app:add_to_my_list', args=[self.user_todo_list.id]))
+            reverse('todo_list_app:add_to_my_list', args=[self.user_todo_list.hash]))
         self.assertEqual(self.response.status_code, 405)
 
     def test_add_to_my_list_post_wo_user(self):
@@ -85,10 +85,10 @@ class TestAddToMyListkView(TestCase):
         """
 
         self.response = self.client.post(
-            reverse('todo_list_app:add_to_my_list', args=[self.user_todo_list.id]))
+            reverse('todo_list_app:add_to_my_list', args=[self.user_todo_list.hash]))
         self.assertRedirects(
             self.response,
-            f"{ reverse('todo_list_app:login') }?next={ reverse('todo_list_app:add_to_my_list', args=[self.user_todo_list.id]) }", status_code=302)
+            f"{ reverse('todo_list_app:login') }?next={ reverse('todo_list_app:add_to_my_list', args=[self.user_todo_list.hash]) }", status_code=302)
 
     def test_add_to_my_list_post_w_user(self):
         """
@@ -98,9 +98,9 @@ class TestAddToMyListkView(TestCase):
 
         self.client.login(username='testuser', password='12345')
         self.response = self.client.post(
-            reverse('todo_list_app:add_to_my_list', args=[self.another_todo_list.id]))
+            reverse('todo_list_app:add_to_my_list', args=[self.another_todo_list.hash]))
         self.assertTrue(TodoList.objects.filter(
-            id=self.another_todo_list.id).filter(owner=self.user.id).exists())
+            hash=self.another_todo_list.hash).filter(owner=self.user.id).exists())
         self.assertEqual(self.response.status_code, 200)
         self.assertEqual(self.response.content, b'reload')
 
@@ -112,9 +112,9 @@ class TestAddToMyListkView(TestCase):
 
         self.client.login(username='testuser', password='12345')
         self.response = self.client.post(
-            reverse('todo_list_app:add_to_my_list', args=[self.user_todo_list.id]))
+            reverse('todo_list_app:add_to_my_list', args=[self.user_todo_list.hash]))
         self.assertTrue(TodoList.objects.filter(
-            id=self.user_todo_list.id).filter(owner=self.user.id).exists())
+            hash=self.user_todo_list.hash).filter(owner=self.user.id).exists())
         self.assertEqual(self.response.status_code, 200)
         self.assertEqual(self.response.content, b'reload')
 
@@ -136,10 +136,10 @@ class TestAddToMyListkView(TestCase):
         """
 
         self.response = self.client.put(
-            reverse('todo_list_app:add_to_my_list', args=[self.user_todo_list.id]))
+            reverse('todo_list_app:add_to_my_list', args=[self.user_todo_list.hash]))
         self.assertRedirects(
             self.response,
-            f"{ reverse('todo_list_app:login') }?next={ reverse('todo_list_app:add_to_my_list', args=[self.user_todo_list.id]) }", status_code=302)
+            f"{ reverse('todo_list_app:login') }?next={ reverse('todo_list_app:add_to_my_list', args=[self.user_todo_list.hash]) }", status_code=302)
 
     def test_add_to_my_list_put_w_user(self):
         """
@@ -149,7 +149,7 @@ class TestAddToMyListkView(TestCase):
 
         self.client.login(username='testuser', password='12345')
         self.response = self.client.put(
-            reverse('todo_list_app:add_to_my_list', args=[self.user_todo_list.id]))
+            reverse('todo_list_app:add_to_my_list', args=[self.user_todo_list.hash]))
         self.assertEqual(self.response.status_code, 405)
 
     def test_add_to_my_list_delete_wo_user(self):
@@ -159,10 +159,10 @@ class TestAddToMyListkView(TestCase):
         """
 
         self.response = self.client.delete(
-            reverse('todo_list_app:add_to_my_list', args=[self.user_todo_list.id]))
+            reverse('todo_list_app:add_to_my_list', args=[self.user_todo_list.hash]))
         self.assertRedirects(
             self.response,
-            f"{ reverse('todo_list_app:login') }?next={ reverse('todo_list_app:add_to_my_list', args=[self.user_todo_list.id]) }", status_code=302)
+            f"{ reverse('todo_list_app:login') }?next={ reverse('todo_list_app:add_to_my_list', args=[self.user_todo_list.hash]) }", status_code=302)
 
     def test_add_to_my_list_delete_w_user(self):
         """
@@ -172,5 +172,5 @@ class TestAddToMyListkView(TestCase):
 
         self.client.login(username='testuser', password='12345')
         self.response = self.client.delete(
-            reverse('todo_list_app:add_to_my_list', args=[self.user_todo_list.id]))
+            reverse('todo_list_app:add_to_my_list', args=[self.user_todo_list.hash]))
         self.assertEqual(self.response.status_code, 405)

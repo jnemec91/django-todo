@@ -45,7 +45,7 @@
                 <button
                     class="sticker-button add-to-list-button"
                     action="action"
-                    onclick="send_req('{% url 'todo_list_app:add_to_my_list' todo_list_id=todo_list.id %}')"
+                    onclick="send_req('{% url 'todo_list_app:add_to_my_list' todo_list_hash=todo_list.hash %}')"
                     type="submit"
                 >Add to my lists</button>
                 {% endif %}
