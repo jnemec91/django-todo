@@ -43,8 +43,8 @@ class TestEditTodoListView(TestCase):
         Test edit view without user logged in and with data using GET method.
         Should redirect to login page.
         """
-        response = self.client.get(reverse('todo_list_app:edit_todo_list', args=[self.user_todo_list.id]))
-        self.assertRedirects(response, f"{ reverse('todo_list_app:login') }?next={ reverse('todo_list_app:edit_todo_list', args=[self.user_todo_list.id]) }", status_code=302)
+        response = self.client.get(reverse('todo_list_app:edit_todo_list', args=[self.user_todo_list.hash]))
+        self.assertRedirects(response, f"{ reverse('todo_list_app:login') }?next={ reverse('todo_list_app:edit_todo_list', args=[self.user_todo_list.hash]) }", status_code=302)
     
     
 
@@ -54,7 +54,7 @@ class TestEditTodoListView(TestCase):
         Should return status 405.
         """
         self.client.login(username='testuser', password='12345')
-        self.response = self.client.get(reverse('todo_list_app:edit_todo_list', args=[self.user_todo_list.id]))
+        self.response = self.client.get(reverse('todo_list_app:edit_todo_list', args=[self.user_todo_list.hash]))
         self.assertEqual(self.response.status_code, 200)
         for template in ('todo_list/create_todo_list.html',
                          'todo_list/base.html',
@@ -82,8 +82,8 @@ class TestEditTodoListView(TestCase):
         Test edit view without user logged in and with data using POST method.
         Should redirect to login page.
         """
-        self.response = self.client.post(reverse('todo_list_app:edit_todo_list', args=[self.user_todo_list.id]))
-        self.assertRedirects(self.response, f"{ reverse('todo_list_app:login') }?next={ reverse('todo_list_app:edit_todo_list', args=[self.user_todo_list.id]) }", status_code=302)
+        self.response = self.client.post(reverse('todo_list_app:edit_todo_list', args=[self.user_todo_list.hash]))
+        self.assertRedirects(self.response, f"{ reverse('todo_list_app:login') }?next={ reverse('todo_list_app:edit_todo_list', args=[self.user_todo_list.hash]) }", status_code=302)
 
     
 
@@ -94,7 +94,7 @@ class TestEditTodoListView(TestCase):
         """
         self.client.login(username='testuser', password='12345')
         self.response = self.client.post(reverse('todo_list_app:edit_todo_list',
-                                                 args=[self.user_todo_list.id]),
+                                                 args=[self.user_todo_list.hash]),
                                                  data={'name': 'new name',
                                                        'is-shared': '1',
                                                        'fields_new': ['new field'],
@@ -122,7 +122,7 @@ class TestEditTodoListView(TestCase):
         """
         self.client.login(username='testuser', password='12345')
         self.response = self.client.post(reverse('todo_list_app:edit_todo_list',
-                                                 args=[self.another_todo_list.id]),
+                                                 args=[self.another_todo_list.hash]),
                                                  data={'name': 'new name',
                                                        'is-shared': '1',
                                                        'fields_new': ['new field'],
@@ -170,8 +170,8 @@ class TestEditTodoListView(TestCase):
         Test edit view without user logged in and with data using PUT method.
         Should redirect to login page.
         """
-        response = self.client.put(reverse('todo_list_app:edit_todo_list', args=[self.user_todo_list.id]))
-        self.assertRedirects(response, f"{ reverse('todo_list_app:login') }?next={ reverse('todo_list_app:edit_todo_list', args=[self.user_todo_list.id]) }", status_code=302)
+        response = self.client.put(reverse('todo_list_app:edit_todo_list', args=[self.user_todo_list.hash]))
+        self.assertRedirects(response, f"{ reverse('todo_list_app:login') }?next={ reverse('todo_list_app:edit_todo_list', args=[self.user_todo_list.hash]) }", status_code=302)
 
 
 
@@ -181,7 +181,7 @@ class TestEditTodoListView(TestCase):
         Should return status 405.
         """
         self.client.login(username='testuser', password='12345')
-        self.response = self.client.put(reverse('todo_list_app:edit_todo_list', args=[self.user_todo_list.id]))
+        self.response = self.client.put(reverse('todo_list_app:edit_todo_list', args=[self.user_todo_list.hash]))
         self.assertEqual(self.response.status_code, 405)
 
 
@@ -191,8 +191,8 @@ class TestEditTodoListView(TestCase):
         Test edit view without user logged in and with data using DELETE method.
         Should redirect to login page.
         """
-        response = self.client.delete(reverse('todo_list_app:edit_todo_list', args=[self.user_todo_list.id]))
-        self.assertRedirects(response, f"{ reverse('todo_list_app:login') }?next={ reverse('todo_list_app:edit_todo_list', args=[self.user_todo_list.id]) }", status_code=302)
+        response = self.client.delete(reverse('todo_list_app:edit_todo_list', args=[self.user_todo_list.hash]))
+        self.assertRedirects(response, f"{ reverse('todo_list_app:login') }?next={ reverse('todo_list_app:edit_todo_list', args=[self.user_todo_list.hash]) }", status_code=302)
 
 
 
@@ -202,5 +202,5 @@ class TestEditTodoListView(TestCase):
         Should return status 405.
         """
         self.client.login(username='testuser', password='12345')
-        self.response = self.client.delete(reverse('todo_list_app:edit_todo_list', args=[self.user_todo_list.id]))
+        self.response = self.client.delete(reverse('todo_list_app:edit_todo_list', args=[self.user_todo_list.hash]))
         self.assertEqual(self.response.status_code, 405)

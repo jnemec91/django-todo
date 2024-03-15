@@ -247,7 +247,7 @@ def delete_todo_list(request, todo_list_id: int):
 
 
 @login_required
-def edit_todo_list(request,todo_list_id: int):
+def edit_todo_list(request,todo_list_hash: str):
     """
     Edit todo list page view.
     
@@ -258,7 +258,7 @@ def edit_todo_list(request,todo_list_id: int):
     Requires todo_list_id as parameter.
     """
     if request.method == 'POST':
-        todo_list = get_object_or_404(TodoList,id=todo_list_id)
+        todo_list = get_object_or_404(TodoList,hash=todo_list_hash)
         if request.user in todo_list.owner.all():
             todo_list.name = request.POST.get('name')
             todo_list.access_granted = bool(int(request.POST.get('is-shared')))
@@ -299,7 +299,7 @@ def edit_todo_list(request,todo_list_id: int):
             return redirect('todo_list_app:index')
 
     elif request.method == 'GET':
-        todo_list = get_object_or_404(TodoList,id=todo_list_id)
+        todo_list = get_object_or_404(TodoList,hash=todo_list_hash)
         if request.user in todo_list.owner.all():
             todo_fields = [
                 {
@@ -340,7 +340,8 @@ def list_of_todo_lists(request):
                 'name':i.name,
                 'created_by':i.created_by,
                 'owner':[a for a in i.owner.all()],
-                'fields':[a for a in i.fields.all()]
+                'fields':[a for a in i.fields.all()],
+                'hash':i.hash,
             } 
             for i in TodoList.objects.filter(owner=request.user)
         ]     
