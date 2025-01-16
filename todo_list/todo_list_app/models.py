@@ -50,7 +50,7 @@ class TodoList(models.Model):
     """
     name = models.CharField(max_length=255, null=False, blank=False)
     created_by = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
-    owner = models.ManyToManyField(User, blank=True,null=True, related_name='todo_lists')
+    owner = models.ManyToManyField(User, blank=True, related_name='todo_lists')
     access_granted = models.BooleanField(default=False)
     fields = models.ManyToManyField('TodoField', blank=True)
     hash = models.CharField(max_length=255)
