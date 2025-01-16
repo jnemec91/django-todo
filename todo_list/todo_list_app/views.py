@@ -308,7 +308,7 @@ def edit_todo_list(request,todo_list_hash: str):
                     'name': i.name,
                     'text': i.text,
                     'checked': i.checked,
-                    'deadline': datetime.date.strftime(i.deadline_at, '%Y-%m-%d')
+                    'deadline_at': datetime.date.strftime(i.deadline_at, '%Y-%m-%d')
                 }
                 if i.deadline_at is not None
                 else
@@ -317,7 +317,7 @@ def edit_todo_list(request,todo_list_hash: str):
                     'name': i.name,
                     'text': i.text,
                     'checked': i.checked,
-                    'deadline': i.deadline_at
+                    'deadline_at': i.deadline_at
                 }
                 for i in todo_list.fields.all()
             ]

@@ -1,4 +1,5 @@
 {% extends 'todo_list/base.html' %}
+{% load todo_list_tags %}
 {% load static %}
 
 
@@ -66,14 +67,14 @@
                         <label class="sticker-label" for="text-field_{{field.id}}">Task description</label>
                         <textarea id="text-field_{{field.id}}" type="text" name="descriptions" class="">{{field.text}}</textarea>
                         <label class="sticker-label" for="deadline_{{field.id}}">Deadline</label>
-                        <input id="deadline_{{field.id}}" type="date" name="deadlines" value="{{field.deadline}}"><hr>
+                        <input id="deadline_{{field.id}}" type="date" name="deadlines" value="{{field.deadline_at}}"><hr>
                         <button type="button" class="sticker-button top-sticker-button" onclick="showShareModal('remove_form_field_modal_{{field.id}}')"><i class="fa-solid fa-xmark"></i></button>
                         <button type="button" class="sticker-button" onclick="toggle_fields('{{field.id}}');">Save</button>
                     </div>
                     <div id="small_field_description_{{field.id}}" class="sticker long">
                         <h1>{{field.name}}</h1>
-                        <p id="description_text">{{field.description}}</p>
-                        <p id="description_deadline">{{field.deadline}}</p>
+                        <p id="description_text">{{field.text}}</p>
+                        <p id="description_deadline">{% if field.deadline_at %}{{field.deadline_at}}{% endif %}</p>
                         <button type="button" class="sticker-button top-sticker-button" onclick="toggle_fields('{{field.id}}');"><i class="fa-regular fa-window-maximize"></i></button>
 
                     </div>
