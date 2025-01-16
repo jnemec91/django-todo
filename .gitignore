@@ -2,3 +2,4 @@ __pycache__
 keyring.py
 sent_emails
 *.sqlite3
+venv
