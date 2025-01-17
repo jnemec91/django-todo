@@ -437,8 +437,7 @@ def settings(request):
     """
     if request.method == 'POST':
         user_options = UserOptions.objects.get(user=request.user)
-        user_options.theme = request.POST.get('theme')
-        user_options.dark_mode = bool(int(request.POST.get('theme')))
+        user_options.mode = request.POST.get('theme')
         user_options.font_style = request.POST.get('font_style')
         user_options.save()
 
@@ -486,8 +485,22 @@ def settings(request):
 
     # print()
     # print(user_options.font_style)
-    return render(request, 'todo_list/settings.html', {'user_options':user_options, 'font_styles':UserOptions.font_style_choices})
+    return render(request, 'todo_list/settings.html', {'user_options':user_options, 'font_styles':UserOptions.font_style_choices, 'modes': UserOptions.mode_choices})
 
+
+def account_delete(request):
+    """
+    Delete account function.
+
+    Deletes user account and redirects to login page.
+    """
+    if request.method == 'POST':
+        user = User.objects.get(id=request.user.id)
+        user.delete()
+        return redirect('todo_list_app:login')
+    
+    else:
+        return HttpResponse(status=405)
 
 class ToDoAppPasswordResetView(PasswordResetView):
     """

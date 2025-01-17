@@ -28,7 +28,7 @@
                     <p>Share this list with your friends:</p>
                     <input type="text" value="{{request.scheme}}://{{request.get_host}}{% url 'todo_list_app:list_details' todo_list_hash=todo_list.hash %}" id="share-link_{{todo_list.id}}" readonly>
                     <button class="sticker-button" onclick="copyToClipboard('share-link_{{todo_list.id}}')">Copy</button><br>
-                    <button class="sticker-button" onclick="hideShareModal('share_modal_{{todo_list.id}}')">Close</button>
+                    <button class="sticker-button" onclick="hideModal('share_modal_{{todo_list.id}}')">Close</button>
                 </div>
             </div>
 
@@ -42,7 +42,7 @@
                         {% csrf_token %}
                         <button class="sticker-button" type="submit">Delete</button>
                     </form>
-                    <button class="sticker-button" onclick="hideShareModal('delete_modal_{{todo_list.id}}')">Close</button>
+                    <button class="sticker-button" onclick="hideModal('delete_modal_{{todo_list.id}}')">Close</button>
                 </div>
             </div>
 
@@ -59,7 +59,7 @@
                     <p>Are you sure you want to stop sharing with {{ user.first_name }} {{user.last_name}}?</p>
                     {% csrf_token %}
                     <button class="sticker-button" onclick="send_req('{% url 'todo_list_app:remove_from_shared_list' todo_list_id=todo_list.id user_id=user.id %}');">Remove</button>
-                    <button class="sticker-button" onclick="hideShareModal('remove_user_modal_{{user.id}}')">Close</button>
+                    <button class="sticker-button" onclick="hideModal('remove_user_modal_{{user.id}}')">Close</button>
                 </div>
             </div>
             {% endif %}
@@ -95,7 +95,7 @@
                             {% if user != todo_list.created_by %}
                             {% if request.user == todo_list.created_by %}
 
-                            <p class="share-users"></p><button class="remove-from-list" onclick="showShareModal('remove_user_modal_{{user.id}}');"><i class="fa-solid fa-xmark"></i></button>
+                            <p class="share-users"></p><button class="remove-from-list" onclick="showModal('remove_user_modal_{{user.id}}');"><i class="fa-solid fa-xmark"></i></button>
                             {% endif %}
                             {{ user.first_name }} {{user.last_name}}</p>
                             {% endif %}
@@ -146,9 +146,9 @@
                         {% if todo_list.access_granted == True or todo_list.created_by == request.user %}<button class="sticker-button" type="submit">Edit</button>{% endif %}
                     </form>
 
-                    <button class="sticker-button" onclick="showShareModal('delete_modal_{{todo_list.id}}');">Delete</button>
+                    <button class="sticker-button" onclick="showModal('delete_modal_{{todo_list.id}}');">Delete</button>
 
-                    {% if todo_list.access_granted == True or todo_list.created_by == request.user %}<button class="sticker-button" type="submit" onclick="showShareModal('share_modal_{{todo_list.id}}');">Share</button>{% endif %}
+                    {% if todo_list.access_granted == True or todo_list.created_by == request.user %}<button class="sticker-button" type="submit" onclick="showModal('share_modal_{{todo_list.id}}');">Share</button>{% endif %}
 
                 </div>
             </div>

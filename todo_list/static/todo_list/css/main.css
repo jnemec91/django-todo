@@ -206,7 +206,7 @@ body{
     display: inline-block;
 }
 
-.sticker input{
+input{
     font-family: inherit;
     font-size: 1.5em;
     background: var(--paper-white);
@@ -224,10 +224,16 @@ body{
     margin-top: 5%;
     background: transparent;
     color: var(--font-color);
-    border: solid 2px var(--font-color);;
+    border: solid 2px var(--font-color);
     font-size: 1.5em;
     border-radius: 10px;
 }
+
+.danger-button{
+    color: crimson;
+    border: crimson 2px solid;
+}
+
 @media (hover: hover) {
     .sticker-button:hover{
         background: var(--paper-white);
@@ -276,7 +282,7 @@ textarea{
     width: 60%;
     height: 100px;
     resize: none;
-    border: 2px solid var(--font-color);;
+    border: 2px solid var(--font-color);
     border-radius: 10px;    
 }
 
@@ -298,6 +304,7 @@ textarea{
     height: 100%;
     width: 100%;
     transition: all 0.3s ease-in-out;
+    color: var(--font-color);
 }
 
 .back-wrap{
@@ -368,6 +375,11 @@ select{
     background-repeat: no-repeat;
     background-position: right 0.7rem top 50%;
     background-size: 0.65rem auto;
+}
+
+hr{
+    border: 1px solid var(--font-color);
+    margin: 5px;
 }
 
 .select-option{

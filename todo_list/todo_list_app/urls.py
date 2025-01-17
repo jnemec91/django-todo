@@ -20,6 +20,7 @@ urlpatterns = [
     path('add_to_my_list/<str:todo_list_hash>/', views.add_to_my_list, name='add_to_my_list'),
     path('remove_from_shared_list/<int:todo_list_id>/<int:user_id>/', views.remove_from_shared_list, name='remove_from_shared_list'),
 
+    path('account_delete/', views.account_delete, name='account_delete'),
 
     path('password_reset/', views.ToDoAppPasswordResetView.as_view(), name='password_reset'),
     path('password_reset/done/', views.ToDoAppPasswordResetDoneView.as_view(), name='password_reset_done'),

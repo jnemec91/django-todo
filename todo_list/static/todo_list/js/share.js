@@ -1,9 +1,9 @@
-function showShareModal(id) {
+function showModal(id) {
     document.getElementById('modal-wrap').classList.add("wrap-active");
     document.getElementById(id).classList.add("active");
 }
 
-function hideShareModal(id) {
+function hideModal(id) {
     document.getElementById('modal-wrap').classList.remove("wrap-active");
     document.getElementById(id).classList.remove("active");
 }
