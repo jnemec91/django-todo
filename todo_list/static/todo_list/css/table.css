@@ -9,13 +9,15 @@ thead{
 }
 
 th:first-of-type{
-    background-color: rgba(255, 97, 45, 0.7);
+    background-color: var(--table-banner-color);
+    color: var(--table-banner-font-color);
     border-radius: 20px;
     width: 25%;
 }
 
 th:nth-of-type(2){
-    background-color: rgba(255, 97, 45, 0.7);
+    background-color: var(--table-banner-color);
+    color: var(--table-banner-font-color);
     border-radius: 20px;
     width: 55%;
 }

@@ -13,7 +13,15 @@ class UserOptions(models.Model):
         email_notifications - boolean field, which indicates if user wants to receive email notifications\n
     """
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    dark_mode = models.BooleanField(default=False)
+
+    mode_choices = [
+        ('1', 'Light'),
+        ('2', 'Dark'),
+        ('3', 'Modern Code Editor'),
+        ('4', 'Terminal'),
+    ]
+
+    mode = models.CharField(max_length=255, choices=mode_choices, default='1')
 
     font_style_choices = [
         ('1', 'Marck Script'),

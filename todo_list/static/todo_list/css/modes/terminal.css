@@ -1,0 +1,13 @@
+:root{
+    --paper-white: #0D0208;
+    --background: #000010e5;
+    --font-color: #00FF41;
+    --navbar-hover: #008F11;
+    --color-a: #008F11;
+    --color-b: #003B00;
+    --sticker-shadow: 0px 0px 10px 0px rgba(255,255,255,0.2);
+    --text-shadow: #000 0px 0px 3px;
+    --arrow-color: #00FF41;
+    --table-banner-color: #003B00;
+    --table-banner-font-color: #00FF41;    
+   }

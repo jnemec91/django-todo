@@ -4,9 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% if user.useroptions.font_style == '1' %}
-        <link rel="stylesheet" href="{% static 'todo_list/css/fonts/marck_script.css' %}">  
-    {% elif user.useroptions.font_style == '2' %}
+    {% if user.useroptions.font_style == '2' %}
         <link rel="stylesheet" href="{% static 'todo_list/css/fonts/dancing_script.css' %}">
     {% elif user.useroptions.font_style == '3' %}
         <link rel="stylesheet" href="{% static 'todo_list/css/fonts/marcellus.css' %}">
@@ -42,15 +40,22 @@
         <link rel="stylesheet" href="{% static 'todo_list/css/fonts/monaco.css' %}">
     {% elif user.useroptions.font_style == '19' %}
         <link rel="stylesheet" href="{% static 'todo_list/css/fonts/monospace.css' %}">
-    {% endif %}
-
-    {% if user.useroptions.dark_mode == True %}
-        <link rel="stylesheet" href="{% static 'todo_list/css/dark.css' %}" type="text/css">
     {% else %}
-        <link rel="stylesheet" href="{% static 'todo_list/css/light.css' %}" type="text/css">
+        <link rel="stylesheet" href="{% static 'todo_list/css/fonts/marck_script.css' %}">          
     {% endif %}
 
-    <link rel="icon" type="image/x-icon" href="{% static "todo_list/img/favicon.ico" %}">
+
+    {% if user.useroptions.mode == '2' %}
+        <link rel="stylesheet" href="{% static 'todo_list/css/modes/dark.css' %}" type="text/css">
+    {% elif user.useroptions.mode == '3' %}  
+        <link rel="stylesheet" href="{% static 'todo_list/css/modes/modern.css' %}" type="text/css">    
+    {% elif user.useroptions.mode == '4' %}
+        <link rel="stylesheet" href="{% static 'todo_list/css/modes/terminal.css' %}" type="text/css">
+    {% else %}
+        <link rel="stylesheet" href="{% static 'todo_list/css/modes/light.css' %}" type="text/css">
+    {% endif %}
+
+    <link rel="icon" type="image/x-icon" href="{% static 'todo_list/img/favicon.ico' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'todo_list/css/main.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'todo_list/css/navbar.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'todo_list/css/table.css' %}">
