@@ -150,7 +150,8 @@
 
  .navbar ul li a{
     width: 100%;
-    padding: 0px;
+    height: 100%;
+    padding: 20px 0;
     border-bottom: 2px solid var(--color-a);
  }
 
