@@ -4,17 +4,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    {% if user.useroptions.font_style == '2' %}
-        <link rel="stylesheet" href="{% static 'todo_list/css/dancing_script.css' %}">
+    {% if user.useroptions.font_style == '1' %}
+        <link rel="stylesheet" href="{% static 'todo_list/css/fonts/marck_script.css' %}">  
+    {% elif user.useroptions.font_style == '2' %}
+        <link rel="stylesheet" href="{% static 'todo_list/css/fonts/dancing_script.css' %}">
     {% elif user.useroptions.font_style == '3' %}
-        <link rel="stylesheet" href="{% static 'todo_list/css/marcellus.css' %}">
+        <link rel="stylesheet" href="{% static 'todo_list/css/fonts/marcellus.css' %}">
     {% elif user.useroptions.font_style == '4' %}
-        <link rel="stylesheet" href="{% static 'todo_list/css/robotoslab.css' %}">
+        <link rel="stylesheet" href="{% static 'todo_list/css/fonts/robotoslab.css' %}">
     {% elif user.useroptions.font_style == '5' %}
-        <link rel="stylesheet" href="{% static 'todo_list/css/oswald.css' %}">
-    {% else %}
-        <link rel="stylesheet" href="{% static 'todo_list/css/marck_script.css' %}">
+        <link rel="stylesheet" href="{% static 'todo_list/css/fonts/oswald.css' %}">
+    {% elif user.useroptions.font_style == '6' %}
+        <link rel="stylesheet" href="{% static 'todo_list/css/fonts/excelsior.css' %}">
+    {% elif user.useroptions.font_style == '7' %}
+        <link rel="stylesheet" href="{% static 'todo_list/css/fonts/Arial.css' %}">
+    {% elif user.useroptions.font_style == '8' %}
+        <link rel="stylesheet" href="{% static 'todo_list/css/fonts/times_new_roman.css' %}">
+    {% elif user.useroptions.font_style == '9' %}
+        <link rel="stylesheet" href="{% static 'todo_list/css/fonts/courier_new.css' %}">
+    {% elif user.useroptions.font_style == '10' %}
+        <link rel="stylesheet" href="{% static 'todo_list/css/fonts/verdana.css' %}">
+    {% elif user.useroptions.font_style == '11' %}
+        <link rel="stylesheet" href="{% static 'todo_list/css/fonts/georgia.css' %}">
+    {% elif user.useroptions.font_style == '12' %}
+        <link rel="stylesheet" href="{% static 'todo_list/css/fonts/comic_sans.css' %}">
+    {% elif user.useroptions.font_style == '13' %}
+        <link rel="stylesheet" href="{% static 'todo_list/css/fonts/impact.css' %}">
+    {% elif user.useroptions.font_style == '14' %}
+        <link rel="stylesheet" href="{% static 'todo_list/css/fonts/lucida_console.css' %}">
+    {% elif user.useroptions.font_style == '15' %}
+        <link rel="stylesheet" href="{% static 'todo_list/css/fonts/tahoma.css' %}">
+    {% elif user.useroptions.font_style == '16' %}
+        <link rel="stylesheet" href="{% static 'todo_list/css/fonts/trebuchet.css' %}">
+    {% elif user.useroptions.font_style == '17' %}
+        <link rel="stylesheet" href="{% static 'todo_list/css/fonts/consolas.css' %}">
+    {% elif user.useroptions.font_style == '18' %}
+        <link rel="stylesheet" href="{% static 'todo_list/css/fonts/monaco.css' %}">
+    {% elif user.useroptions.font_style == '19' %}
+        <link rel="stylesheet" href="{% static 'todo_list/css/fonts/monospace.css' %}">
     {% endif %}
 
     {% if user.useroptions.dark_mode == True %}
@@ -30,7 +57,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'todo_list/css/share-modal.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'todo_list/css/footer.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'todo_list/css/checkbox.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'todo_list/css/fonts.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'todo_list/css/fonts/fonts.css' %}">
     <script type="text/javascript" src="{% static 'todo_list/js/navbar.js' %}"></script>
     <script src="https://kit.fontawesome.com/178cd86837.js" crossorigin="anonymous"></script>
  

@@ -22,3 +22,8 @@
     font-family: 'Oswald';
     src: url('/static/todo_list/fonts/Oswald/static/Oswald-Medium.ttf') format('woff2');
 }
+
+@font-face {
+    font-family: 'Fixedsys Excelsior 3.01';
+    src: url('/static/todo_list/fonts/Fixedsys_Excelsior_3.01/FSEX300.ttf') format('truetype');
+}

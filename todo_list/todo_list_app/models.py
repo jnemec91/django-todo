@@ -21,6 +21,20 @@ class UserOptions(models.Model):
         ('3', 'Marcellus'),
         ('4', 'Roboto Slab'),
         ('5', 'Oswald'),
+        ('6', 'Fixedsys Excelsior 3.01'),
+        ('7', 'Arial'),
+        ('8', 'Times New Roman'),
+        ('9', 'Courier New'),
+        ('10', 'Verdana'),
+        ('11', 'Georgia'),
+        ('12', 'Comic Sans MS'),
+        ('13', 'Impact'),
+        ('14', 'Lucida Console'),
+        ('15', 'Tahoma'),
+        ('16', 'Trebuchet MS'),
+        ('17', 'Consolas'),
+        ('18', 'Monaco'),
+        ('19', 'Monospace'),
     ]
 
     font_style = models.CharField(max_length=255, choices=font_style_choices, default='1')

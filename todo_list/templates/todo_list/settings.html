@@ -1,4 +1,6 @@
 {% extends 'todo_list/base.html' %}
+{% load static %}
+{% load todo_list_tags %}
 
 {% block title %}<title>Settings</title>{% endblock %}
 
@@ -29,7 +31,7 @@
             <input type="password" name="password2" id="password2" autocomplete="new-password">
 
             <label class="sticker-label" for="theme">Theme:</label>
-            <select name="theme" id="theme">
+            <select name="theme" id="theme" style="font-family: {{font_styles|get_item:user_options.font_style}};">
                 {% if user.useroptions.dark_mode %}
                     <option class='select-option'  value="1">Dark</option>
                     <option class='select-option'  value="0">Light</option>
@@ -38,17 +40,18 @@
                     <option class='select-option'  value="1">Dark</option>
                 {% endif %}
             </select>
-            
+            {{ user_options.font_style.name }}
             <label class="sticker-label" for="font_style">Font style:</label>
-            <select name="font_style" id="font_style">
+            <select name="font_style" id="font_style" style="font-family: {{font_styles|get_item:user_options.font_style}};">
                 {% for key,value in font_styles %}
                     {% if key == user_options.font_style %}
-                    <option class='select-option' value="{{key}}">{{value}}</option>
+                    <option class='select-option' value="{{key}}" style="font-family: {{value}};">{{value}}</option>
                     {% endif %}
                 {% endfor %}
                 {% for key,value in font_styles %}
                 {% if key != user_options.font_style %}
-                    <option class='select-option' value="{{key}}">{{value}}</option>
+}
+                    <option class='select-option' value="{{key}}" style="font-family: {{value}};">{{value}}</option>
                 {% endif %}
             {% endfor %}
             </select>
@@ -58,6 +61,8 @@
         </form>
 
     </div>
+
+    <script type="text/javascript" src="{% static 'todo_list/js/fontChange.js' %}"></script>
 
 </div>
 
