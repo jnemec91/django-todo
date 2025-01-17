@@ -32,7 +32,7 @@
                         {% for user in todo_list.owner %}
                         {% if user != todo_list.created_by %}
                         {% if request.user == todo_list.created_by %}
-                        <button class="remove-from-list" onclick="send_req('{% url 'todo_list_app:remove_from_shared_list' todo_list_id=todo_list.id user_id=user.id %}');">X</button>
+                        <button class="remove-from-list" onclick="send_req('{% url 'todo_list_app:remove_from_shared_list' todo_list_id=todo_list.id user_id=user.id %}', 'POST');">X</button>
                         {% endif %}
                         {{ user.first_name }} {{user.last_name}}<br>
                         {% endif %}
@@ -45,7 +45,7 @@
                 <button
                     class="sticker-button add-to-list-button"
                     action="action"
-                    onclick="send_req('{% url 'todo_list_app:add_to_my_list' todo_list_hash=todo_list.hash %}')"
+                    onclick="send_req('{% url 'todo_list_app:add_to_my_list' todo_list_hash=todo_list.hash %}', 'POST')"
                     type="submit"
                 >Add to my lists</button>
                 {% endif %}
@@ -60,7 +60,7 @@
                             {% endif %}
                             <input type="checkbox" 
                                 {% if todo_list.access_granted and user.is_authenticated %}
-                                    onclick="send_req('{% url 'todo_list_app:check_task' todo_field_id=field.id %}')"
+                                    onclick="send_req('{% url 'todo_list_app:check_task' todo_field_id=field.id %}', 'POST');"
                                 {% endif %}
                                 id="field_{{ field.id }}"
                                 {% if field.checked %}

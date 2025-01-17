@@ -487,7 +487,7 @@ def settings(request):
     # print(user_options.font_style)
     return render(request, 'todo_list/settings.html', {'user_options':user_options, 'font_styles':UserOptions.font_style_choices, 'modes': UserOptions.mode_choices})
 
-
+@login_required
 def account_delete(request):
     """
     Delete account function.
@@ -502,6 +502,19 @@ def account_delete(request):
     else:
         return HttpResponse(status=405)
 
+def accept_cookies(request):
+    """
+    Accept cookies function.
+
+    Sets cookie_message to 0 and returns success response.
+    """
+    if request.method == 'POST':
+        request.session['cookie_message'] = 0
+        return HttpResponse('success')
+    else:
+        return HttpResponse(status=405)
+    
+    
 class ToDoAppPasswordResetView(PasswordResetView):
     """
     Django built-in PasswordResetView with custom template.

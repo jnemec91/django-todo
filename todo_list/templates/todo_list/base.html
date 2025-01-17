@@ -65,7 +65,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'todo_list/css/fonts/fonts.css' %}">
     <script type="text/javascript" src="{% static 'todo_list/js/navbar.js' %}"></script>
     <script src="https://kit.fontawesome.com/178cd86837.js" crossorigin="anonymous"></script>
- 
+    <script type="text/javascript" src="{% static 'todo_list/js/share.js' %}"></script>
 
     {% block title %}
     {% endblock %}
@@ -80,9 +80,34 @@
     {% endblock %}
 
     {% include 'todo_list/footer.html' %}
-    
 
-    <script type="text/javascript" src="{% static 'todo_list/js/share.js' %}"></script>
+    {% if request.session.cookie_message %}
+        <div id="modal-wrap">
+            <div class="share-modal" id="cookies_modal">
+                <div class="modal-header">
+                    <h2>This website uses cookies to function.</h2>
+                </div>
+                <div class="modal-body">
+                    <p>Without them, website will not work normally.</p>
+                    <hr>
+                        <button class="sticker-button" type="button" onclick="acceptCookies();">Accept</button>
+                </div>
+            </div>
+        </div>        
+        <script>
+            console.log('{{request.session.cookie_message}}');
+            if ('{{request.session.cookie_message}}' == '1') {
+                showModal('cookies_modal');
+            }
+
+            function acceptCookies() {
+                send_req('{% url "todo_list_app:accept_cookies" %}', 'POST');
+                hideModal('cookies_modal');
+            }
+        </script>
+    {% endif %}
+
     <script type="text/javascript" src="{% static 'todo_list/js/send_req.js' %}"></script>
+    
 </body>
 </html>

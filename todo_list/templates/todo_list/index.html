@@ -58,7 +58,7 @@
                 <div class="modal-body">
                     <p>Are you sure you want to stop sharing with {{ user.first_name }} {{user.last_name}}?</p>
                     {% csrf_token %}
-                    <button class="sticker-button" onclick="send_req('{% url 'todo_list_app:remove_from_shared_list' todo_list_id=todo_list.id user_id=user.id %}');">Remove</button>
+                    <button class="sticker-button" onclick="send_req('{% url 'todo_list_app:remove_from_shared_list' todo_list_id=todo_list.id user_id=user.id %}', 'POST');">Remove</button>
                     <button class="sticker-button" onclick="hideModal('remove_user_modal_{{user.id}}')">Close</button>
                 </div>
             </div>
@@ -111,7 +111,7 @@
                                     <label class="checkbox-label" for="field_{{ field.id }}">
                                         <input
                                             type="checkbox"
-                                            onclick="send_req('{% url 'todo_list_app:check_task' todo_field_id=field.id %}');"
+                                            onclick="send_req('{% url 'todo_list_app:check_task' todo_field_id=field.id %}', 'POST');"
                                             name="field_{{ field.id }}"
                                             id="field_{{ field.id }}"
                                             {% if field.checked %} checked {% endif %}

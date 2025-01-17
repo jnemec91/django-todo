@@ -29,7 +29,22 @@
 
             <label for="password1-input">Password again</label>
             <input id="password1-input" type="password" name="password2" autocomplete="new-password" required><br>
-            
+
+            <div style="width: 100%;">
+                <label class="checkbox-label" for="gdpr_checkbox">
+                    <input
+                        type="checkbox"
+                        name="gdpr_checkbox"
+                        id="gdpr_checkbox"
+                        hidden
+                        required
+                    >
+                    <span class="mark gdpr-confirm"></span>
+                </label>
+                <p class="gdpr-text">This site will store my email and name for login purposes only and will not use, publish, or sell this data to/for any outside entity. I accept that.</p>
+                    
+            </div>
+
             <button id="login-button" type="submit">Sign up!</button><br>
             <a href="{% url 'todo_list_app:login' %}">Already have an account? Log in here!</a><br>
             <a href="{% url 'todo_list_app:password_reset' %}">Forgot your password?</a>

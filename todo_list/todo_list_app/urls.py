@@ -22,6 +22,8 @@ urlpatterns = [
 
     path('account_delete/', views.account_delete, name='account_delete'),
 
+    path('accept_cookies/', views.accept_cookies, name='accept_cookies'),
+
     path('password_reset/', views.ToDoAppPasswordResetView.as_view(), name='password_reset'),
     path('password_reset/done/', views.ToDoAppPasswordResetDoneView.as_view(), name='password_reset_done'),
     path('reset/<uidb64>/<token>/', views.ToDoAppPasswordResetConfirmView.as_view(), name='password_reset_confirm'),

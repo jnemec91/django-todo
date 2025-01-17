@@ -22,9 +22,16 @@
     display: block;
 }
 
+.gdpr-confirm{
+  transform: translate(0.2em,-0.2em);
+}
+
 @media only screen and (max-width: 1100px) {
   .mark{
     transform: translate(3px,-10px);
+  }
+  .gdpr-confirm{
+    transform: translate(0.4em,0.1em);
   }
 }
 

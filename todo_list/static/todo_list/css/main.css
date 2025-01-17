@@ -454,6 +454,11 @@ hr{
     border: 2px solid var(--color-b);
 }
 
+.gdpr-text{
+    width:60%;
+    display: inline-block;
+}
+
 @media (hover: hover) {
     .round-button:hover{
         background: var(--color-a);
