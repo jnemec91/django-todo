@@ -1,10 +1,10 @@
-function showModal(id) {
-    document.getElementById('modal-wrap').classList.add("wrap-active");
+function showModal(id, wrap) {
+    document.getElementById(wrap).classList.add("wrap-active");
     document.getElementById(id).classList.add("active");
 }
 
-function hideModal(id) {
-    document.getElementById('modal-wrap').classList.remove("wrap-active");
+function hideModal(id, wrap) {
+    document.getElementById(wrap).classList.remove("wrap-active");
     document.getElementById(id).classList.remove("active");
 }
 

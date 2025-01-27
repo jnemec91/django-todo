@@ -82,7 +82,7 @@
     {% include 'todo_list/footer.html' %}
 
     {% if request.session.cookie_message %}
-        <div id="modal-wrap">
+        <div id="modal-wrap-cookies">
             <div class="share-modal" id="cookies_modal">
                 <div class="modal-header">
                     <h2>This website uses cookies to function.</h2>
@@ -95,14 +95,16 @@
             </div>
         </div>        
         <script>
-            console.log('{{request.session.cookie_message}}');
+            window.onload = () => {
+                console.log('{{request.session.cookie_message}}');
             if ('{{request.session.cookie_message}}' == '1') {
-                showModal('cookies_modal');
+                showModal('cookies_modal', 'modal-wrap-cookies');
+            }
             }
 
             function acceptCookies() {
                 send_req('{% url "todo_list_app:accept_cookies" %}', 'POST');
-                hideModal('cookies_modal');
+                hideModal('cookies_modal', 'modal-wrap-cookies');
             }
         </script>
     {% endif %}

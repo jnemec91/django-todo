@@ -30,7 +30,7 @@
                                 {% csrf_token %}
                                 <button class="sticker-button" type="submit">Delete</button>
                             </form>
-                            <button class="sticker-button" onclick="hideModal('delete_modal_{{todo_list.id}}')">Close</button>
+                            <button class="sticker-button" onclick="hideModal('delete_modal_{{todo_list.id}}', 'modal-wrap')">Close</button>
                         </div>
                     
 
@@ -46,7 +46,7 @@
                         </td>
                         
                         <td>
-                            <button class="sticker-button small" onclick="showModal('delete_modal_{{todo_list.id}}');">Delete</button>
+                            <button class="sticker-button small" onclick="showModal('delete_modal_{{todo_list.id}}', 'modal-wrap');">Delete</button>
                         </td>
                     </tr>
                     
